@@ -70,7 +70,7 @@ Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 $coresPath = $retroArchPath + "cores"
 $newCoreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
 $nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
-$n64Core = $requirementsFolder + "\parallel_n64_libretro.zip"
+$n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $newCoreZipFile -Destination $coresPath
 Expand-Archive -Path $nesCore -Destination $coresPath
