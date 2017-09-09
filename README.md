@@ -11,7 +11,7 @@ Automatic Steps
 ------
 1. Ensure chocolatey is installed
 2. Run prepare.ps1 in an admin session of Powershell
-
+3. Download latest version of Emulation Station compiled for Windows (thanks to Github for making this impossible to download)
 
 Manual Steps
 ------
@@ -40,3 +40,4 @@ Special Thanks
 - Nesworld for their open-source NES roms - http://www.nesworld.com/
 - Liberto for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
+- Github for making it impossible to download public release binaries without ripping your eyes out.
