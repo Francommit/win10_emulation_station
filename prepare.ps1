@@ -1,6 +1,6 @@
 Import-Module BitsTransfer
 
-# # 1. Chocolatey installs 
+# 1. Chocolatey installs 
 choco install directx -y
 choco install 7zip -y
 choco install emulationstation.install -y

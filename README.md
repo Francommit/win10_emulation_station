@@ -12,6 +12,7 @@ Automatic Steps
 1. Ensure chocolatey is installed
 2. Run prepare.ps1 in an admin session of Powershell
 3. Download latest version of Emulation Station compiled for Windows (thanks to Github for making this impossible to download)
+4. Enjoy
 
 Manual Steps
 ------
@@ -30,7 +31,6 @@ Manual Steps
 
 TO DO:
 ------
-- Finish automating Steps 1-10 in Powershell
 - Create DSC to validate installation is correct
 
 
