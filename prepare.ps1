@@ -102,7 +102,7 @@ Expand-Archive -Path $nesRom -Destination $nesPath
 
 
 # 9. Hack the es_config file
-$configgy = $env:userprofile+"\.emulationstation\es_systems.cfg"
+$esConfigFile = $env:userprofile+"\.emulationstation\es_systems.cfg"
 $newConfig = "
 <systemList>
     <system>
@@ -117,10 +117,17 @@ $newConfig = "
 </systemList>
 "
 
-Set-Content $configgy -Value $newConfig
+Set-Content $esConfigFile -Value $newConfig
 
-# 10. Run the updated EmulationStation binary manually. You can run it from anywhere.
+# 11. Themes?
+$themesPath = $env:userprofile+"\.emulationstation\themes\"
+New-Item -ItemType Directory -Force -Path $themesPath
+$themesFile = $requirementsFolder + "\es-theme-ComicBook-master.zip"
+Expand-Archive -Path $themesFile -Destination $themesPath
+
+
+# 11. Run the updated EmulationStation binary manually. You can run it from anywhere.
 Write-Host "Manually grab the EmulationStation updated binary as stated in Github."
 
-# 11. Enjoy your retro games!
+# 12. Enjoy your retro games!
 Write-Host "Enjoy!"
