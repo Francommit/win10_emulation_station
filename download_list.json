@@ -4,7 +4,7 @@
 	  {"file": "Cores-v1.0.0.2-64-bit.zip", "url": "http://buildbot.libretro.com/stable/archive/stable/win-x86_64/Cores-v1.0.0.2-64-bit.zip"},
 	  {"file": "assimilate_full.zip", "url": "http://www.nesworld.com/homebrew/assimilate_full.zip"},
 	  {"file": "fceumm_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"},
-	  {"file": "parallel_n64_libretro.dll.zip","url":"hhttp://buildbot.libretro.com/nightly/windows/x86_64/latest/parallel_n64_libretro.dll.zip"},
+	  {"file": "parallel_n64_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/parallel_n64_libretro.dll.zip"},
 	  {"file": "es-theme-ComicBook-master.zip","url":"https://github.com/TMNTturtleguy/es-theme-ComicBook/archive/master.zip"},
 	  {"file": "pom-twin.zip","url":"http://www.nesworld.com/n64/homebrew/pom-twin.zip"}
 	]
