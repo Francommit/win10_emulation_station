@@ -68,11 +68,13 @@ Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 
 # 5. Prepare cores
 $coresPath = $retroArchPath + "cores"
-$coreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
+$newCoreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
 $nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
+$n64Core = $requirementsFolder + "\parallel_n64_libretro.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
-Expand-Archive -Path $coreZipFile -Destination $coresPath
+Expand-Archive -Path $newCoreZipFile -Destination $coresPath
 Expand-Archive -Path $nesCore -Destination $coresPath
+Expand-Archive -Path $n64Core -Destination $coresPath
 
 
 # 6. Start retroarch and generate a config
@@ -98,11 +100,15 @@ $settingToSet = 'video_fullscreen = "true"'
 # 8. Add those roms!
 $romPath =  $env:userprofile+"\.emulationstation\roms"
 $nesPath =  $romPath+"\nes"
+$n64Path =  $romPath+"\n64"
 $nesRom = $requirementsFolder + "\assimilate_full.zip" 
+$n64Rom = $requirementsFolder + "\pom-twin.zip"
 
 New-Item -ItemType Directory -Force -Path $romPath
 New-Item -ItemType Directory -Force -Path $nesPath
+New-Item -ItemType Directory -Force -Path $n64Path
 Expand-Archive -Path $nesRom -Destination $nesPath
+Expand-Archive -Path $n64Rom -Destination $n64Path
 
 
 # 9. Hack the es_config file
@@ -117,6 +123,15 @@ $newConfig = "
         <command>$retroarchExecutable -L $coresPath\fceumm_libretro.dll %ROM%</command>
         <platform>nes</platform>
         <theme>nes</theme>
+    </system>
+    <system>
+        <fullname>Nintendo 64</fullname>
+        <name>n64</name>
+        <path>$n64Path</path>
+        <extension>.z64 .Z64 .n64 .N64 .v64 .V64</extension>
+        <command>$retroarchExecutable -L $coresPath\parallel_n64_libretro.dll %ROM%</command>
+        <platform>n64</platform>
+        <theme>n64</theme>
     </system>
 </systemList>
 "
