@@ -28,11 +28,13 @@ Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | F
 
 }
 
+# 3. Generate es_systems.cfg
+& 'C:\Program Files (x86)\EmulationStation\emulationstation.exe'
+$configPath = $env:userprofile+"\.emulationstation\es_systems.cfg"
 
+while (!(Test-Path $configPath)) { 
+    Write-Host "Checking for config file..."
+    Start-Sleep 2
+}
 
-
-
-
-
-
-
+Stop-Process -Name "emulationstation"
