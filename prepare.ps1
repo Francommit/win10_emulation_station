@@ -1,6 +1,6 @@
 Import-Module BitsTransfer
 
-# 1. Chocolatey installs 
+# # 1. Chocolatey installs 
 choco install directx -y
 choco install 7zip -y
 choco install emulationstation.install -y
@@ -69,3 +69,22 @@ $coreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip" # After all th
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $coreZipFile -Destination $coresPath
 
+
+# 6. Start retroarch and generate a config
+$retroarchExecutable = $retroArchPath + "\retroarch.exe"
+
+& $retroarchExecutable
+
+while (!(Test-Path $retroarchConfigPath)) { 
+    Write-Host "Checking for config file..."
+    Start-Sleep 5
+}
+
+Stop-Process -Name "retroarch"
+
+
+# 7. Let's hack that config!
+$retroarchConfigPath = $retroArchPath + "\retroarch.cfg"
+$settingToFind = 'video_fullscreen = "false"'
+$settingToSet = 'video_fullscreen = "true"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
