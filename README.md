@@ -21,6 +21,8 @@ https://github.com/jrassa/EmulationStation/releases/download/continuous/Emulatio
 6. Create empty roms folders
 
 7. Acquire open-source homebrew roms collection
+NES:
+http://www.nesworld.com/homebrew/assimilate_full.zip
 
 8. Configure emulationstation.cfg
 
