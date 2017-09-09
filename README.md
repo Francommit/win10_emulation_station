@@ -1,4 +1,5 @@
-# Emulation Station configured for Windows 10
+Emulation Station configured for Windows 10
+======
 
 An auto-installer to set up Emulation Station correctly on Windows 10.
 
@@ -6,12 +7,14 @@ As Retropie's increase in popularity, the setup of Emulationstation on the Windo
 I spent several nights trying to figure out how to configure everything correctly for a Windows machine to finally get it just right. Given the pain I went through and how now several of my friends have requested the same setup I decided to throw together a quick little powershell script for others to use.
 
 
-AUTOMATIC STEPS:
+Automatic Steps
+------
 1. Ensure chocolatey is installed
 2. Run prepare.ps1 in an admin session of Powershell
 
 
-MANUAL STEPS:
+Manual Steps
+------
 1. choco install directx -y
 2. choco install emulationstation.install -y
 3. Run emulation station and kill the process
@@ -25,8 +28,15 @@ MANUAL STEPS:
 10. Enjoy an update to date EmulationStation on Windows
 
 
-TO-DO:
+TO DO:
+------
 - Finish automating Steps 1-10 in Powershell
 - Create DSC to validate installation is correct
 
 
+Special Thanks
+------
+- jrassa for his up to date compiled version of Emulation Station - https://github.com/jrassa/EmulationStation
+- Nesworld for their open-source NES roms - http://www.nesworld.com/
+- Liberto for their retroarch version - https://www.libretro.com/
+- dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
