@@ -37,7 +37,7 @@ $configPath = $env:userprofile+"\.emulationstation\es_systems.cfg"
 
 while (!(Test-Path $configPath)) { 
     Write-Host "Checking for config file..."
-    Start-Sleep 2
+    Start-Sleep 5
 }
 
 Stop-Process -Name "emulationstation"
@@ -72,6 +72,7 @@ Expand-Archive -Path $coreZipFile -Destination $coresPath
 
 # 6. Start retroarch and generate a config
 $retroarchExecutable = $retroArchPath + "\retroarch.exe"
+$retroarchConfigPath = $retroArchPath + "\retroarch.cfg"
 
 & $retroarchExecutable
 
@@ -84,7 +85,41 @@ Stop-Process -Name "retroarch"
 
 
 # 7. Let's hack that config!
-$retroarchConfigPath = $retroArchPath + "\retroarch.cfg"
 $settingToFind = 'video_fullscreen = "false"'
 $settingToSet = 'video_fullscreen = "true"'
 (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
+
+# 8. Add those roms!
+$romPath =  $env:userprofile+"\.emulationstation\roms"
+$nesPath =  $romPath+"\nes"
+$nesRom = $requirementsFolder + "\assimilate_full.zip" 
+
+New-Item -ItemType Directory -Force -Path $romPath
+New-Item -ItemType Directory -Force -Path $nesPath
+Expand-Archive -Path $nesRom -Destination $nesPath
+
+
+# 9. Hack the es_config file
+$configgy = $env:userprofile+"\.emulationstation\es_systems.cfg"
+$newConfig = "
+<systemList>
+    <system>
+        <name>nes</name>
+        <fullname>Nintendo Entertainment System</fullname>
+        <path>$nesPath</path>
+        <extension>.nes .NES</extension>
+        <command>$retroarchExecutable -L ~/cores/libretro-fceumm.so %ROM%</command>
+        <platform>nes</platform>
+        <theme>nes</theme>
+    </system>
+</systemList>
+"
+
+Set-Content $configgy -Value $newConfig
+
+# 10. Run the updated EmulationStation binary manually. You can run it from anywhere.
+Write-Host "Manually grab the EmulationStation updated binary as stated in Github."
+
+# 11. Enjoy your retro games!
+Write-Host "Enjoy!"
