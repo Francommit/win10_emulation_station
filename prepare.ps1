@@ -4,6 +4,10 @@ Import-Module BitsTransfer
 choco install directx -y
 choco install 7zip -y
 choco install emulationstation.install -y
+choco install vcredist2008 -y
+choco install vcredist2010 -y
+choco install vcredist2013 -y
+ choco install vcredist2015 -y
 
 
 # 2. Acqurie files 
