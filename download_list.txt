@@ -1,0 +1,4 @@
+https://buildbot.libretro.com/stable/1.6.7/windows/x86_64/RetroArch.7z
+http://buildbot.libretro.com/stable/archive/stable/win-x86_64/Cores-v1.0.0.2-64-bit.zip
+https://github.com/jrassa/EmulationStation/releases/download/continuous/EmulationStation-Win32.zip
+http://www.nesworld.com/homebrew/assimilate_full.zip
