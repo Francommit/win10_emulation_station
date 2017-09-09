@@ -20,7 +20,6 @@ Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | F
 
         Write-Host $file "does not exist...Downloading."
         Start-BitsTransfer -Source $url -Destination $output
-        Write-Host "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
 
     } else {
 
@@ -65,9 +64,11 @@ Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 
 # 5. Prepare cores
 $coresPath = $retroArchPath + "\cores\"
-$coreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip" # After all the messing around with JSON its come to this. Time for a beer.
+$coreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
+$nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $coreZipFile -Destination $coresPath
+Expand-Archive -Path $nesCore -Destination $coresPath
 
 
 # 6. Start retroarch and generate a config
@@ -109,7 +110,7 @@ $newConfig = "
         <fullname>Nintendo Entertainment System</fullname>
         <path>$nesPath</path>
         <extension>.nes .NES</extension>
-        <command>$retroarchExecutable -L ~/cores/libretro-fceumm.so %ROM%</command>
+        <command>$retroarchExecutable -L $coresPath/fceumm_libretro.dll %ROM%</command>
         <platform>nes</platform>
         <theme>nes</theme>
     </system>
