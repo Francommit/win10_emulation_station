@@ -63,7 +63,7 @@ Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 
 
 # 5. Prepare cores
-$coresPath = $retroArchPath + "\cores\"
+$coresPath = $retroArchPath + "cores"
 $coreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
 $nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
@@ -72,7 +72,7 @@ Expand-Archive -Path $nesCore -Destination $coresPath
 
 
 # 6. Start retroarch and generate a config
-$retroarchExecutable = $retroArchPath + "\retroarch.exe"
+$retroarchExecutable = $retroArchPath + "retroarch.exe"
 $retroarchConfigPath = $retroArchPath + "\retroarch.cfg"
 
 & $retroarchExecutable
@@ -110,7 +110,7 @@ $newConfig = "
         <fullname>Nintendo Entertainment System</fullname>
         <path>$nesPath</path>
         <extension>.nes .NES</extension>
-        <command>$retroarchExecutable -L $coresPath/fceumm_libretro.dll %ROM%</command>
+        <command>$retroarchExecutable -L $coresPath\fceumm_libretro.dll %ROM%</command>
         <platform>nes</platform>
         <theme>nes</theme>
     </system>
