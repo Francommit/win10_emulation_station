@@ -124,7 +124,7 @@ New-Item -ItemType Directory -Force -Path $mdPath
 Expand-Archive -Path $nesRom -Destination $nesPath
 Expand-Archive -Path $n64Rom -Destination $n64Path
 Move-Item -Path $gbaRom -Destination $gbaPath
-Move-Item -Path $mdRom -Destination $mdRom
+Move-Item -Path $mdRom -Destination $mdPath
 
 
 # 9. Hack the es_config file
