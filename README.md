@@ -36,3 +36,4 @@ Special Thanks
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
 - Github for making it impossible to download public release binaries without ripping your eyes out.
 - boluge for his minor change to the recalbox theme https://github.com/boluge
+- OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
