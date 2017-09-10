@@ -71,10 +71,12 @@ $coresPath = $retroArchPath + "cores"
 $newCoreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
 $nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
 $n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
+$fbaCore = $requirementsFolder + "\fbalpha2012_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $newCoreZipFile -Destination $coresPath
 Expand-Archive -Path $nesCore -Destination $coresPath
 Expand-Archive -Path $n64Core -Destination $coresPath
+Expand-Archive -Path $fbaCore -Destination $coresPath
 
 
 # 6. Start retroarch and generate a config
@@ -101,12 +103,14 @@ $settingToSet = 'video_fullscreen = "true"'
 $romPath =  $env:userprofile+"\.emulationstation\roms"
 $nesPath =  $romPath+"\nes"
 $n64Path =  $romPath+"\n64"
+$fbaPath =  $romPath+"\fba"
 $nesRom = $requirementsFolder + "\assimilate_full.zip" 
 $n64Rom = $requirementsFolder + "\pom-twin.zip"
 
 New-Item -ItemType Directory -Force -Path $romPath
 New-Item -ItemType Directory -Force -Path $nesPath
 New-Item -ItemType Directory -Force -Path $n64Path
+New-Item -ItemType Directory -Force -Path $fbaPath
 Expand-Archive -Path $nesRom -Destination $nesPath
 Expand-Archive -Path $n64Rom -Destination $n64Path
 
@@ -133,12 +137,21 @@ $newConfig = "
         <platform>n64</platform>
         <theme>n64</theme>
     </system>
+    <system>
+        <fullname>Final Burn Alpha</fullname>
+        <name>fba</name>
+        <path>$fbaPath</path>
+        <extension>.zip .ZIP .fba .FBA</extension>
+        <command>$retroarchExecutable -L $coresPathfbalpha2012_libretro.dll %ROM%</command>
+        <platform>arcade</platform>
+        <theme></theme>
+    </system>
 </systemList>
 "
 
 Set-Content $esConfigFile -Value $newConfig
 
-# 11. Themes?
+# 11. Setup a theme
 $themesPath = $env:userprofile+"\.emulationstation\themes\"
 New-Item -ItemType Directory -Force -Path $themesPath
 $themesFile = $requirementsFolder + "\es-theme-ComicBook-master.zip"
