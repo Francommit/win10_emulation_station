@@ -10,15 +10,16 @@ I spent several nights trying to figure out how to configure everything correctl
 Automatic Steps
 ------
 1. Ensure chocolatey is installed https://chocolatey.org/install
-2. Run prepare.ps1 in an admin session of Powershell
-3. Launch Emulation Station and Enjoy
+2. Ensure Powershell is set to "Set-executionpolicy Bypass" 
+3. Run prepare.ps1 in an admin session of Powershell
+4. Launch Emulation Station and Enjoy
 
 
 Bonus Steps
 ------
 1. Bonus Step. Download latest version of Emulation Station compiled for Windows 
-https://github.com/jrassa/EmulationStation 
-(thanks to Github for making this impossible to download)
+https://github.com/jrassa/EmulationStation/releases/download/continuous/EmulationStation-Win32.zip
+(thanks to Github for making this impossible to download via Powershell)
 
 
 Troubleshooting
