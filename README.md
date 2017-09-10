@@ -11,24 +11,14 @@ Automatic Steps
 ------
 1. Ensure chocolatey is installed https://chocolatey.org/install
 2. Run prepare.ps1 in an admin session of Powershell
-3. Enjoy
+3. Launch Emulation Station and Enjoy
 
-4. Bonus Step. Download latest version of Emulation Station compiled for Windows (thanks to Github for making this impossible to download)
-	https://github.com/jrassa/EmulationStation 
 
-Manual Steps
+Bonus Steps
 ------
-1. choco install directx -y
-2. choco install emulationstation.install -y
-3. Run emulation station and kill the process
-3. Download latest version of Retroarch
-4. Download collection of old cores
-5. Download latest version of Emulation Station compiled for Windows (Credits to jrassa)
-6. Create empty roms folders
-7. Acquire open-source homebrew roms collection
-8. Configure emulationstation.cfg
-9. Launch RetroArch and configure to fullscreen / configure in config
-10. Enjoy an update to date EmulationStation on Windows
+1. Bonus Step. Download latest version of Emulation Station compiled for Windows 
+https://github.com/jrassa/EmulationStation 
+(thanks to Github for making this impossible to download)
 
 
 Special Thanks
