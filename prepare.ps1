@@ -74,6 +74,7 @@ $n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
 $fbaCore = $requirementsFolder + "\fbalpha2012_libretro.dll.zip"
 $gbaCore = $requirementsFolder + "\vba_next_libretro.dll.zip"
 $mdCore = $requirementsFolder + "\genesis_plus_gx_libretro.dll.zip"
+$snesCore = $requirementsFolder + "\snes9x_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $newCoreZipFile -Destination $coresPath
 Expand-Archive -Path $nesCore -Destination $coresPath
@@ -81,6 +82,7 @@ Expand-Archive -Path $n64Core -Destination $coresPath
 Expand-Archive -Path $fbaCore -Destination $coresPath
 Expand-Archive -Path $gbaCore -Destination $coresPath
 Expand-Archive -Path $mdCore -Destination $coresPath
+Expand-Archive -Path $snesCore -Destination $coresPath
 
 
 # 6. Start retroarch and generate a config
@@ -105,26 +107,37 @@ $settingToSet = 'video_fullscreen = "true"'
 
 # 8. Add those roms!
 $romPath =  $env:userprofile+"\.emulationstation\roms"
-$nesPath =  $romPath+"\nes"
-$n64Path =  $romPath+"\n64"
-$fbaPath =  $romPath+"\fba"
-$gbaPath =  $romPath+"\gba"
-$mdPath = $romPath+"\megadrive"
-$nesRom = $requirementsFolder + "\assimilate_full.zip" 
-$n64Rom = $requirementsFolder + "\pom-twin.zip"
-$gbaRom = $requirementsFolder + "\uranus0ev_fix.gba"
-$mdRom =  $requirementsFolder + "\rickdangerous.gen"
-
 New-Item -ItemType Directory -Force -Path $romPath
+
+# Path creation
+$nesPath =  $romPath+"\nes"
 New-Item -ItemType Directory -Force -Path $nesPath
+$n64Path =  $romPath+"\n64"
 New-Item -ItemType Directory -Force -Path $n64Path
+$fbaPath =  $romPath+"\fba"
 New-Item -ItemType Directory -Force -Path $fbaPath
+$gbaPath =  $romPath+"\gba"
 New-Item -ItemType Directory -Force -Path $gbaPath
+$mdPath = $romPath+"\megadrive"
 New-Item -ItemType Directory -Force -Path $mdPath
+$snesPath = $romPath+"\snes"
+New-Item -ItemType Directory -Force -Path $snesPath
+
+# Open-Source / Freeware Rom population
+$nesRom = $requirementsFolder + "\assimilate_full.zip" 
 Expand-Archive -Path $nesRom -Destination $nesPath
+
+$n64Rom = $requirementsFolder + "\pom-twin.zip"
 Expand-Archive -Path $n64Rom -Destination $n64Path
+
+$gbaRom = $requirementsFolder + "\uranus0ev_fix.gba"
 Move-Item -Path $gbaRom -Destination $gbaPath
+
+$mdRom =  $requirementsFolder + "\rickdangerous.gen"
 Move-Item -Path $mdRom -Destination $mdPath
+
+$snesRom = $requirementsFolder + "\N-Warp Daisakusen V1.1.smc"
+Move-Item -Path $snesRom -Destination $snesPath
 
 
 # 9. Hack the es_config file
@@ -175,6 +188,15 @@ $newConfig = "
         <command>$retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
         <platform>genesis,megadrive</platform>
         <theme>megadrive</theme>
+    </system>
+    <system>
+        <fullname>Super Nintendo</fullname>
+        <name>snes</name>
+        <path>$snesPath</path>
+        <extension>.smc .sfc .fig .swc .SMC .SFC .FIG .SWC</extension>
+        <command>$retroarchExecutable -L $coresPath\snes9x_libretro.dll %ROM%</command>
+        <platform>snes</platform>
+        <theme>snes</theme>
     </system>
 </systemList>
 "
