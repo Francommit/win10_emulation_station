@@ -41,4 +41,3 @@ Special Thanks
 - Liberto for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
 - Github for making it impossible to download public release binaries without ripping your eyes out.
-- TMNTturtleguy for his awesome comic theme https://github.com/TMNTturtleguy

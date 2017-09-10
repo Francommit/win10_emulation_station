@@ -5,7 +5,7 @@
 	  {"file": "assimilate_full.zip", "url": "http://www.nesworld.com/homebrew/assimilate_full.zip"},
 	  {"file": "fceumm_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"},
 	  {"file": "parallel_n64_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/parallel_n64_libretro.dll.zip"},
-	  {"file": "es-theme-ComicBook-master.zip","url":"https://github.com/TMNTturtleguy/es-theme-ComicBook/archive/master.zip"},
+	  {"file": "es_theme_recalbox_for_retropie-master.zip","url":"https://github.com/boluge/es_theme_recalbox_for_retropie/archive/master.zip"},
 	  {"file": "pom-twin.zip","url":"http://www.nesworld.com/n64/homebrew/pom-twin.zip"},
 	  {"file": "fbalpha2012_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fbalpha2012_libretro.dll.zip"},
 	  {"file":"uranus0ev_fix.gba", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/GBA/Uranus%20Zero%20EV/uranus0ev_fix.gba"},
