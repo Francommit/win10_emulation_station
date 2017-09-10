@@ -73,12 +73,14 @@ $nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
 $n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
 $fbaCore = $requirementsFolder + "\fbalpha2012_libretro.dll.zip"
 $gbaCore = $requirementsFolder + "\vba_next_libretro.dll.zip"
+$mdCore = $requirementsFolder + "\genesis_plus_gx_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $newCoreZipFile -Destination $coresPath
 Expand-Archive -Path $nesCore -Destination $coresPath
 Expand-Archive -Path $n64Core -Destination $coresPath
 Expand-Archive -Path $fbaCore -Destination $coresPath
 Expand-Archive -Path $gbaCore -Destination $coresPath
+Expand-Archive -Path $mdCore -Destination $coresPath
 
 
 # 6. Start retroarch and generate a config
@@ -107,18 +109,22 @@ $nesPath =  $romPath+"\nes"
 $n64Path =  $romPath+"\n64"
 $fbaPath =  $romPath+"\fba"
 $gbaPath =  $romPath+"\gba"
+$mdPath = $romPath+"\megadrive"
 $nesRom = $requirementsFolder + "\assimilate_full.zip" 
 $n64Rom = $requirementsFolder + "\pom-twin.zip"
 $gbaRom = $requirementsFolder + "\uranus0ev_fix.gba"
+$mdRom =  $requirementsFolder + "\rickdangerous.gen"
 
 New-Item -ItemType Directory -Force -Path $romPath
 New-Item -ItemType Directory -Force -Path $nesPath
 New-Item -ItemType Directory -Force -Path $n64Path
 New-Item -ItemType Directory -Force -Path $fbaPath
 New-Item -ItemType Directory -Force -Path $gbaPath
+New-Item -ItemType Directory -Force -Path $mdPath
 Expand-Archive -Path $nesRom -Destination $nesPath
 Expand-Archive -Path $n64Rom -Destination $n64Path
 Move-Item -Path $gbaRom -Destination $gbaPath
+Move-Item -Path $gbaRom -Destination $mdRom
 
 
 # 9. Hack the es_config file
@@ -160,6 +166,15 @@ $newConfig = "
         <command>$retroarchExecutable -L $coresPath\vba_next_libretro.dll %ROM%</command>
         <platform>gba</platform>
         <theme>gba</theme>
+    </system>
+    <system>
+        <fullname>Sega Mega Drive / Genesis</fullname>
+        <name>megadrive</name>
+        <path>$mdPath</path>
+        <extension>.smd .SMD .bin .BIN .gen .GEN .md .MD .zip .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
+        <platform>genesis,megadrive</platform>
+        <theme>megadrive</theme>
     </system>
 </systemList>
 "

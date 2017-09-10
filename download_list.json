@@ -9,6 +9,8 @@
 	  {"file": "pom-twin.zip","url":"http://www.nesworld.com/n64/homebrew/pom-twin.zip"},
 	  {"file": "fbalpha2012_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fbalpha2012_libretro.dll.zip"},
 	  {"file":"uranus0ev_fix.gba", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/GBA/Uranus%20Zero%20EV/uranus0ev_fix.gba"},
-	  {"file":"vba_next_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/vba_next_libretro.dll.zip"}
+	  {"file":"vba_next_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/vba_next_libretro.dll.zip"},
+	  {"file":"rickdangerous.gen", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SG/Rick%20Dangerous/rickdangerous.gen"},
+	  {"file":"genesis_plus_gx_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/genesis_plus_gx_libretro.dll.zip"}
 	]
 }
