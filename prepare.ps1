@@ -72,11 +72,13 @@ $newCoreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
 $nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
 $n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
 $fbaCore = $requirementsFolder + "\fbalpha2012_libretro.dll.zip"
+$gbaCore = $requirementsFolder + "\vba_next_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $newCoreZipFile -Destination $coresPath
 Expand-Archive -Path $nesCore -Destination $coresPath
 Expand-Archive -Path $n64Core -Destination $coresPath
 Expand-Archive -Path $fbaCore -Destination $coresPath
+Expand-Archive -Path $gbaCore -Destination $coresPath
 
 
 # 6. Start retroarch and generate a config
@@ -104,15 +106,19 @@ $romPath =  $env:userprofile+"\.emulationstation\roms"
 $nesPath =  $romPath+"\nes"
 $n64Path =  $romPath+"\n64"
 $fbaPath =  $romPath+"\fba"
+$gbaPath =  $romPath+"\gba"
 $nesRom = $requirementsFolder + "\assimilate_full.zip" 
 $n64Rom = $requirementsFolder + "\pom-twin.zip"
+$gbaRom = $requirementsFolder + "\uranus0ev_fix.gba"
 
 New-Item -ItemType Directory -Force -Path $romPath
 New-Item -ItemType Directory -Force -Path $nesPath
 New-Item -ItemType Directory -Force -Path $n64Path
 New-Item -ItemType Directory -Force -Path $fbaPath
+New-Item -ItemType Directory -Force -Path $gbaPath
 Expand-Archive -Path $nesRom -Destination $nesPath
 Expand-Archive -Path $n64Rom -Destination $n64Path
+Move-Item -Path $gbaRom -Destination $gbaPath
 
 
 # 9. Hack the es_config file
@@ -142,9 +148,18 @@ $newConfig = "
         <name>fba</name>
         <path>$fbaPath</path>
         <extension>.zip .ZIP .fba .FBA</extension>
-        <command>$retroarchExecutable -L $coresPathfbalpha2012_libretro.dll %ROM%</command>
+        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>
         <platform>arcade</platform>
         <theme></theme>
+    </system>
+    <system>
+        <fullname>Game Boy Advance</fullname>
+        <name>gba</name>
+        <path>$gbaPath</path>
+        <extension>.gba .GBA</extension>
+        <command>$retroarchExecutable -L $coresPath\vba_next_libretro.dll %ROM%</command>
+        <platform>gba</platform>
+        <theme>gba</theme>
     </system>
 </systemList>
 "
