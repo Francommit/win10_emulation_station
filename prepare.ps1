@@ -166,7 +166,7 @@ $newConfig = "
 
 Set-Content $esConfigFile -Value $newConfig
 
-# 11. Setup a theme
+# 11. Setup a nice looking theme.
 $themesPath = $env:userprofile+"\.emulationstation\themes\"
 New-Item -ItemType Directory -Force -Path $themesPath
 $themesFile = $requirementsFolder + "\es_theme_recalbox_for_retropie-master.zip"

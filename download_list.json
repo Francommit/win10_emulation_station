@@ -10,6 +10,5 @@
 	  {"file": "fbalpha2012_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fbalpha2012_libretro.dll.zip"},
 	  {"file":"uranus0ev_fix.gba", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/GBA/Uranus%20Zero%20EV/uranus0ev_fix.gba"},
 	  {"file":"vba_next_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/vba_next_libretro.dll.zip"}
-	  
 	]
 }

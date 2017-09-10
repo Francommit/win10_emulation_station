@@ -9,10 +9,12 @@ I spent several nights trying to figure out how to configure everything correctl
 
 Automatic Steps
 ------
-1. Ensure chocolatey is installed
+1. Ensure chocolatey is installed https://chocolatey.org/install
 2. Run prepare.ps1 in an admin session of Powershell
-3. Download latest version of Emulation Station compiled for Windows (thanks to Github for making this impossible to download)
-4. Enjoy
+3. Enjoy
+
+4. Bonus Step. Download latest version of Emulation Station compiled for Windows (thanks to Github for making this impossible to download)
+	https://github.com/jrassa/EmulationStation 
 
 Manual Steps
 ------
@@ -29,11 +31,6 @@ Manual Steps
 10. Enjoy an update to date EmulationStation on Windows
 
 
-TO DO:
-------
-- Create DSC to validate installation is correct
-
-
 Special Thanks
 ------
 - jrassa for his up to date compiled version of Emulation Station - https://github.com/jrassa/EmulationStation
@@ -41,3 +38,4 @@ Special Thanks
 - Liberto for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
 - Github for making it impossible to download public release binaries without ripping your eyes out.
+- boluge for his minor change to the recalbox theme https://github.com/boluge
