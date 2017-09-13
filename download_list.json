@@ -1,5 +1,7 @@
 {
 	"downloads": [
+	  {"file":"ePSXe205.zip", "url":"http://www.epsxe.com/files/ePSXe205.zip"},
+	  {"file":"EmulationStation-Win32.zip", "url":"https://ci.appveyor.com/api/projects/jrassa/emulationstation/artifacts/EmulationStation-Win32.zip"},
 	  {"file": "RetroArch.7z", "url": "https://buildbot.libretro.com/stable/1.6.7/windows/x86_64/RetroArch.7z"},
 	  {"file": "Cores-v1.0.0.2-64-bit.zip", "url": "http://buildbot.libretro.com/stable/archive/stable/win-x86_64/Cores-v1.0.0.2-64-bit.zip"},
 	  {"file": "assimilate_full.zip", "url": "http://www.nesworld.com/homebrew/assimilate_full.zip"},
@@ -13,6 +15,8 @@
 	  {"file":"rickdangerous.gen", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SG/Rick%20Dangerous/rickdangerous.gen"},
 	  {"file":"genesis_plus_gx_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/genesis_plus_gx_libretro.dll.zip"},
 	  {"file":"snes9x_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/snes9x_libretro.dll.zip"},
-	  {"file":"N-Warp Daisakusen V1.1.smc", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SNES/N-Warp%20Daisakusen/N-Warp%20Daisakusen%20V1.1.smc"}	  
+	  {"file":"N-Warp Daisakusen V1.1.smc", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SNES/N-Warp%20Daisakusen/N-Warp%20Daisakusen%20V1.1.smc"},
+	  {"file":"mednafen_psx_libretro.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/mednafen_psx_libretro.dll.zip"},
+	  {"file":"Marilyn_In_the_Magic_World_(010a).7z","url":"http://psxdev.net/homebrew/files/Marilyn_In_the_Magic_World_(010a).7z"}
 	]
 }

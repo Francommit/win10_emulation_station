@@ -7,7 +7,7 @@ As Retropie's increase in popularity, the setup of Emulationstation on the Windo
 I spent several nights trying to figure out how to configure everything correctly for a Windows machine to finally get it just right. Given the pain I went through and how now several of my friends have requested the same setup I decided to throw together a quick little powershell script for others to use.
 
 
-Automatic Steps
+Steps
 ------
 1. Ensure chocolatey is installed https://chocolatey.org/install
 2. Ensure Powershell is set to "Set-executionpolicy Bypass" 
@@ -24,10 +24,11 @@ https://github.com/jrassa/EmulationStation/releases/download/continuous/Emulatio
 
 Troubleshooting
 ------
+- PSX Homebrew Games won't load unless you acquire the bios's and add them to the bios folder.
 - Emulation Station may crash when you return to it from a external progam, ensure your graphics drivers are up to date.
 - Launching a Retroarch rom may return you to ES, you're probably on a 32-bit verison of Windows and need to acquire seperate cores.
 - Powershell commands may fail, ensure your Powershell session is in Admin mode.
-- If the script fails for whatever reason delete the contents of C:\Users\\{user}\\.emulationstation and try again
+- If the script fails for whatever reason delete the contents of C:\Users\\{user}\\.emulationstation and try again.
 
 Special Thanks
 ------

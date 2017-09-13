@@ -1,6 +1,8 @@
 Import-Module BitsTransfer
 
+# 
 # 1. Chocolatey installs 
+# 
 choco install directx -y
 choco install 7zip -y
 choco install emulationstation.install -y
@@ -9,8 +11,9 @@ choco install vcredist2010 -y
 choco install vcredist2013 -y
 choco install vcredist2015 -y
 
-
+# 
 # 2. Acqurie files 
+# 
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 
@@ -34,7 +37,9 @@ Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | F
 }
 
 
+# 
 # 3. Generate es_systems.cfg
+# 
 & 'C:\Program Files (x86)\EmulationStation\emulationstation.exe'
 $configPath = $env:userprofile+"\.emulationstation\es_systems.cfg"
 
@@ -46,7 +51,9 @@ while (!(Test-Path $configPath)) {
 Stop-Process -Name "emulationstation"
 
 
+# 
 # 4. Prepare retroarch
+# 
 $retroArchPath = $env:userprofile + "\.emulationstation\systems\retroarch\"
 $retroArchBinary = $requirementsFolder + "\RetroArch.7z"
 
@@ -66,26 +73,51 @@ Function Expand-Archive([string]$Path, [string]$Destination) {
 Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 
 
+# 
 # 5. Prepare cores
+# 
 $coresPath = $retroArchPath + "cores"
 $newCoreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
-$nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
-$n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
-$fbaCore = $requirementsFolder + "\fbalpha2012_libretro.dll.zip"
-$gbaCore = $requirementsFolder + "\vba_next_libretro.dll.zip"
-$mdCore = $requirementsFolder + "\genesis_plus_gx_libretro.dll.zip"
-$snesCore = $requirementsFolder + "\snes9x_libretro.dll.zip"
 New-Item -ItemType Directory -Force -Path $coresPath
 Expand-Archive -Path $newCoreZipFile -Destination $coresPath
+
+# NES Setup
+$nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
 Expand-Archive -Path $nesCore -Destination $coresPath
+
+# N64 Setup
+$n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
 Expand-Archive -Path $n64Core -Destination $coresPath
+
+# FBA Setup
+$fbaCore = $requirementsFolder + "\fbalpha2012_libretro.dll.zip"
 Expand-Archive -Path $fbaCore -Destination $coresPath
+
+# GBA Setup
+$gbaCore = $requirementsFolder + "\vba_next_libretro.dll.zip"
 Expand-Archive -Path $gbaCore -Destination $coresPath
-Expand-Archive -Path $mdCore -Destination $coresPath
+
+# SNES Setup
+$snesCore = $requirementsFolder + "\snes9x_libretro.dll.zip"
 Expand-Archive -Path $snesCore -Destination $coresPath
 
+# Genesis GX Setup
+$mdCore = $requirementsFolder + "\genesis_plus_gx_libretro.dll.zip"
+Expand-Archive -Path $mdCore -Destination $coresPath
 
+# PSX Setup
+$psxCore = $requirementsFolder + "\mednafen_psx_libretro.dll.zip"
+$psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
+$psxEmulator = $requirementsFolder + "\ePSXe205.zip"
+$psxBiosPath = $env:userprofile + "\.emulationstation\bios\"
+Expand-Archive -Path $psxCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $psxEmulatorPath
+Expand-Archive -Path $psxEmulatorPath -Destination $psxEmulator
+
+
+# 
 # 6. Start retroarch and generate a config
+# 
 $retroarchExecutable = $retroArchPath + "retroarch.exe"
 $retroarchConfigPath = $retroArchPath + "\retroarch.cfg"
 
@@ -99,48 +131,60 @@ while (!(Test-Path $retroarchConfigPath)) {
 Stop-Process -Name "retroarch"
 
 
+# 
 # 7. Let's hack that config!
+# 
 $settingToFind = 'video_fullscreen = "false"'
 $settingToSet = 'video_fullscreen = "true"'
 (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
 
+# 
 # 8. Add those roms!
+# 
 $romPath =  $env:userprofile+"\.emulationstation\roms"
 New-Item -ItemType Directory -Force -Path $romPath
 
-# Path creation
+# Path creation + Open-Source / Freeware Rom population
 $nesPath =  $romPath+"\nes"
-New-Item -ItemType Directory -Force -Path $nesPath
-$n64Path =  $romPath+"\n64"
-New-Item -ItemType Directory -Force -Path $n64Path
-$fbaPath =  $romPath+"\fba"
-New-Item -ItemType Directory -Force -Path $fbaPath
-$gbaPath =  $romPath+"\gba"
-New-Item -ItemType Directory -Force -Path $gbaPath
-$mdPath = $romPath+"\megadrive"
-New-Item -ItemType Directory -Force -Path $mdPath
-$snesPath = $romPath+"\snes"
-New-Item -ItemType Directory -Force -Path $snesPath
-
-# Open-Source / Freeware Rom population
 $nesRom = $requirementsFolder + "\assimilate_full.zip" 
+New-Item -ItemType Directory -Force -Path $nesPath
 Expand-Archive -Path $nesRom -Destination $nesPath
 
+$n64Path =  $romPath+"\n64"
 $n64Rom = $requirementsFolder + "\pom-twin.zip"
+New-Item -ItemType Directory -Force -Path $n64Path
 Expand-Archive -Path $n64Rom -Destination $n64Path
 
+$gbaPath =  $romPath+"\gba"
 $gbaRom = $requirementsFolder + "\uranus0ev_fix.gba"
+New-Item -ItemType Directory -Force -Path $gbaPath
 Move-Item -Path $gbaRom -Destination $gbaPath
 
+$mdPath = $romPath+"\megadrive"
 $mdRom =  $requirementsFolder + "\rickdangerous.gen"
+New-Item -ItemType Directory -Force -Path $mdPath
 Move-Item -Path $mdRom -Destination $mdPath
 
+$snesPath = $romPath+"\snes"
 $snesRom = $requirementsFolder + "\N-Warp Daisakusen V1.1.smc"
+New-Item -ItemType Directory -Force -Path $snesPath
 Move-Item -Path $snesRom -Destination $snesPath
 
+$psxPath = $romPath+"\psx"
+$psxRom = $requirementsFolder + "\Marilyn_In_the_Magic_World_(010a).7z"
+New-Item -ItemType Directory -Force -Path $psxPath
+Expand-Archive -Path $psxRom -Destination $psxPath
 
+$fbaPath =  $romPath+"\fba"
+New-Item -ItemType Directory -Force -Path $fbaPath
+
+
+
+
+# 
 # 9. Hack the es_config file
+# 
 $esConfigFile = $env:userprofile+"\.emulationstation\es_systems.cfg"
 $newConfig = "
 <systemList>
@@ -198,20 +242,41 @@ $newConfig = "
         <platform>snes</platform>
         <theme>snes</theme>
     </system>
+    <system>
+        <fullname>Playstation</fullname>
+        <name>psx</name>
+        <path>$psxPath</path>
+        <extension>.cue .iso .pbp .CUE .ISO .PBP</extension>
+        <command>%HOME%\.emulationstation\systems\epsxe\ePSXe.exe -bios .emulationstation\bios\SCPH1001.BIN -nogui -loadbin %ROM_RAW%</command>
+        <platform>psx</platform>
+        <theme>psx</theme>
+    </system>
 </systemList>
 "
 
 Set-Content $esConfigFile -Value $newConfig
 
+
+# 
 # 11. Setup a nice looking theme.
+# 
 $themesPath = $env:userprofile+"\.emulationstation\themes\"
 New-Item -ItemType Directory -Force -Path $themesPath
 $themesFile = $requirementsFolder + "\es_theme_recalbox_for_retropie-master.zip"
 Expand-Archive -Path $themesFile -Destination $themesPath
 
 
-# 11. Run the updated EmulationStation binary manually. You can run it from anywhere.
+# 
+# 12. Use updated binaries.
+# 
+# TO-DO: Find a way to download the new binaries.
+
+
+# 
+# 13. Run the updated EmulationStation binary manually. You can run it from anywhere.
+# 
 Write-Host "Manually grab the EmulationStation updated binary as stated in Github."
 
-# 12. Enjoy your retro games!
+
+# 14. Enjoy your retro games!
 Write-Host "Enjoy!"
