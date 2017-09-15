@@ -12,7 +12,7 @@ choco install vcredist2013 -y
 choco install vcredist2015 -y
 
 # 
-# 2. Acqurie files 
+# 2. Acquire files 
 # 
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
@@ -52,7 +52,7 @@ Stop-Process -Name "emulationstation"
 
 
 # 
-# 4. Prepare retroarch
+# 4. Prepare Retroarch
 # 
 $retroArchPath = $env:userprofile + "\.emulationstation\systems\retroarch\"
 $retroArchBinary = $requirementsFolder + "\RetroArch.7z"
@@ -116,7 +116,7 @@ Expand-Archive -Path $psxEmulatorPath -Destination $psxEmulator
 
 
 # 
-# 6. Start retroarch and generate a config
+# 6. Start Retroarch and generate a config.
 # 
 $retroarchExecutable = $retroArchPath + "retroarch.exe"
 $retroarchConfigPath = $retroArchPath + "\retroarch.cfg"
