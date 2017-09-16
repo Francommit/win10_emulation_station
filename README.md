@@ -17,9 +17,11 @@ Steps
 
 TO-DO
 ------
-1. Add in support for Steam games
-2. Check the Powershell version prior to running
-3. Add some more validation throughout the script
+1. Add in the auto-windows scraper and attempt to scrape public domain titles
+2. Add multiple public domain roms and separate each list into its own file
+3. Add in support for Steam games
+3. Check the Powershell version prior to running
+4. Add some more validation throughout the script
 
 
 Troubleshooting
