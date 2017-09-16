@@ -36,6 +36,36 @@ Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | F
 
 }
 
+# This is a temporary hack until I make some nicer JSON files and clean it up.
+# 
+# Latest ES Windows binaries
+$repo = "jrassa/emulationstation"
+$file = "EmulationStation-Win32.zip"
+
+$releases = "https://api.github.com/repos/$repo/releases"
+$tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
+
+$downloadUrl = "https://github.com/$repo/releases/download/$tag/$file"
+$name = $file.Split(".")[0]
+$zip = "$name-$tag.zip"
+$output = $requirementsFolder + $zip
+
+Invoke-WebRequest $downloadUrl -Out $output
+
+# Theme that supports the latest ES binaries
+$repo = "recalbox/recalbox-themes"
+$file = "recalbox-multi-v2.0.0.tar.xz"
+
+$releases = "https://api.github.com/repos/$repo/releases"
+$tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
+
+$downloadUrl = "https://github.com/$repo/releases/download/$tag/$file"
+$name = $file.Split(".")[0]
+$zip = "$name-$tag.zip"
+$output = $requirementsFolder + $zip
+
+Invoke-WebRequest $downloadUrl -Out $output
+
 
 # 
 # 3. Generate es_systems.cfg
@@ -247,7 +277,7 @@ $newConfig = "
         <name>psx</name>
         <path>$psxPath</path>
         <extension>.cue .iso .pbp .CUE .ISO .PBP</extension>
-        <command>%HOME%\.emulationstation\systems\epsxe\ePSXe.exe -bios .emulationstation\bios\SCPH1001.BIN -nogui -loadbin %ROM_RAW%</command>
+        <command>$psxEmulatorPath\$psxEmulator -bios .emulationstation\bios\SCPH1001.BIN -nogui -loadbin %ROM_RAW%</command>
         <platform>psx</platform>
         <theme>psx</theme>
     </system>
@@ -261,15 +291,19 @@ Set-Content $esConfigFile -Value $newConfig
 # 11. Setup a nice looking theme.
 # 
 $themesPath = $env:userprofile+"\.emulationstation\themes\"
+$themesFile = $requirementsFolder + "recalbox-multi-v2-recalbox-multi-v2.0.0.zip"
+$themesFiles = $requirementsFolder + "recalbox-multi-v2-recalbox-multi-v2.0.0"
 New-Item -ItemType Directory -Force -Path $themesPath
-$themesFile = $requirementsFolder + "\es_theme_recalbox_for_retropie-master.zip"
-Expand-Archive -Path $themesFile -Destination $themesPath
+Expand-Archive -Path $themesFile -Destination $requirementsFolder
+Expand-Archive -Path $themesFiles -Destination $themesPath
 
 
 # 
 # 12. Use updated binaries.
 # 
-# TO-DO: Find a way to download the new binaries.
+$emulationStationInstallFolder = "C:\Program Files (x86)\EmulationStation"
+$updatedEmulationStatonBinaries = $requirementsFolder + "\EmulationStation-Win32-continuous.zip"
+Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder
 
 
 # 

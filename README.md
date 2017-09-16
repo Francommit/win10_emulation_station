@@ -15,11 +15,12 @@ Steps
 4. Launch Emulation Station and Enjoy
 
 
-Bonus Steps
+TO-DO
 ------
-1. Bonus Step. Download latest version of Emulation Station compiled for Windows 
-https://github.com/jrassa/EmulationStation/releases/download/continuous/EmulationStation-Win32.zip
-(thanks to Github for making this impossible to download via Powershell)
+1. Automatically edit the ES setting to show the favorites menu
+2. Add in support for Steam games
+3. Check the Powershell version prior to running
+4. Add some more validation throughout the script
 
 
 Troubleshooting
@@ -36,6 +37,5 @@ Special Thanks
 - Nesworld for their open-source NES roms - http://www.nesworld.com/
 - Liberto for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
-- Github for making it impossible to download public release binaries without ripping your eyes out.
-- boluge for his minor change to the recalbox theme https://github.com/boluge
 - OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
+- recalbox for their themes https://github.com/recalbox/recalbox-themes
