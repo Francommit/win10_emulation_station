@@ -6,6 +6,12 @@ An auto-installer to set up Emulation Station correctly on a 64 bit version of W
 As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love. 
 I spent several nights trying to figure out how to configure everything correctly for a Windows machine to finally get it just right. Given the pain I went through and how now several of my friends have requested the same setup I decided to throw together a quick little powershell script for others to use.
 
+Features
+------
+- Uses an up to date version of Emulation Station from the Raspberry Pi branch
+- Auto populates emulators with public domain roms
+- Auto installs a popular theme with support for 'Favorites'
+- Initial installer is less than 20KB in size, it's a script!
 
 Steps
 ------
@@ -22,6 +28,7 @@ TO-DO
 3. Add in support for Steam games
 3. Check the Powershell version prior to running
 4. Add some more validation throughout the script
+5. Add some pretty pictures to this page
 
 
 Troubleshooting
