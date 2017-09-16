@@ -307,9 +307,65 @@ Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStat
 
 
 # 
-# 13. Run the updated EmulationStation binary manually. You can run it from anywhere.
+# 13. Update the recalbox theme to use the correct folder naming conventions
 # 
-Write-Host "Manually grab the EmulationStation updated binary as stated in Github."
+$incorrectFolderName = $env:userprofile+"\.emulationstation\themes\recalbox-multi\favorites"
+$correctFolderName = "auto-favorites"
+& Rename-Item -Path $incorrectFolderName -NewName $correctFolderName
+
+
+# 
+# 14. Generate settings file with favorites enabled.
+# 
+$esConfigFile = $env:userprofile+"\.emulationstation\es_settings.cfg"
+$newSettingsConfig = "<?xml version='1.0'?>
+<bool name='BackgroundJoystickInput' value='false' />
+<bool name='CaptionsCompatibility' value='true' />
+<bool name='DrawFramerate' value='false' />
+<bool name='EnableSounds' value='true' />
+<bool name='MoveCarousel' value='true' />
+<bool name='ParseGamelistOnly' value='false' />
+<bool name='QuickSystemSelect' value='true' />
+<bool name='SaveGamelistsOnExit' value='true' />
+<bool name='ScrapeRatings' value='true' />
+<bool name='ScreenSaverControls' value='true' />
+<bool name='ScreenSaverOmxPlayer' value='false' />
+<bool name='ShowHelpPrompts' value='true' />
+<bool name='ShowHiddenFiles' value='false' />
+<bool name='SlideshowScreenSaverCustomImageSource' value='false' />
+<bool name='SlideshowScreenSaverRecurse' value='false' />
+<bool name='SlideshowScreenSaverStretch' value='false' />
+<bool name='SortAllSystems' value='false' />
+<bool name='StretchVideoOnScreenSaver' value='false' />
+<bool name='UseCustomCollectionsSystem' value='true' />
+<bool name='VideoAudio' value='true' />
+<bool name='VideoOmxPlayer' value='false' />
+<int name='MaxVRAM' value='100' />
+<int name='ScraperResizeHeight' value='0' />
+<int name='ScraperResizeWidth' value='400' />
+<int name='ScreenSaverSwapImageTimeout' value='10000' />
+<int name='ScreenSaverSwapVideoTimeout' value='30000' />
+<int name='ScreenSaverTime' value='300000' />
+<string name='AudioDevice' value='Master' />
+<string name='CollectionSystemsAuto' value='favorites' />
+<string name='CollectionSystemsCustom' value='' />
+<string name='GamelistViewStyle' value='automatic' />
+<string name='OMXAudioDev' value='both' />
+<string name='PowerSaverMode' value='disabled' />
+<string name='Scraper' value='TheGamesDB' />
+<string name='ScreenSaverBehavior' value='dim' />
+<string name='ScreenSaverGameInfo' value='never' />
+<string name='SlideshowScreenSaverBackgroundAudioFile' value='$env:userprofile/.emulationstation/slideshow/audio/slideshow_bg.wav' />
+<string name='SlideshowScreenSaverImageDir' value='$env:userprofile/.emulationstation/slideshow/image' />
+<string name='SlideshowScreenSaverImageFilter' value='.png,.jpg' />
+<string name='ThemeSet' value='recalbox-multi' />
+<string name='TransitionStyle' value='fade' />
+
+"
+
+Set-Content $esConfigFile -Value $newSettingsConfig
+$requiredTmpFolder = $env:userprofile+"\.emulationstation\tmp\"
+New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 
 
 # 14. Enjoy your retro games!
