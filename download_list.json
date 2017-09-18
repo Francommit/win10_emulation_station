@@ -16,5 +16,10 @@
 	  {"file":"N-Warp Daisakusen V1.1.smc", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SNES/N-Warp%20Daisakusen/N-Warp%20Daisakusen%20V1.1.smc"},
 	  {"file":"mednafen_psx_libretro.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/mednafen_psx_libretro.dll.zip"},
 	  {"file":"Marilyn_In_the_Magic_World_(010a).7z","url":"http://psxdev.net/homebrew/files/Marilyn_In_the_Magic_World_(010a).7z"}
+	],
+	"releases": [
+		{"file":"EmulationStation-Win32.zip", "repo":"jrassa/emulationstation"},
+		{"file":"recalbox-multi-v2.0.0.tar.xz", "repo":"recalbox/recalbox-themes"},
+		{"file":"scraper_windows_amd64.zip", "repo":"sselph/scraper"}
 	]
 }

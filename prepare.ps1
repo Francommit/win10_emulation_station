@@ -36,35 +36,32 @@ Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | F
 
 }
 
-# This is a temporary hack until I make some nicer JSON files and clean it up.
-# 
-# Latest ES Windows binaries
-$repo = "jrassa/emulationstation"
-$file = "EmulationStation-Win32.zip"
 
-$releases = "https://api.github.com/repos/$repo/releases"
-$tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
+Get-Content download_list.json | ConvertFrom-Json | Select -expand releases | ForEach-Object {
 
-$downloadUrl = "https://github.com/$repo/releases/download/$tag/$file"
-$name = $file.Split(".")[0]
-$zip = "$name-$tag.zip"
-$output = $requirementsFolder + $zip
+    $repo = $_.repo
+    $file = $_.file
 
-Invoke-WebRequest $downloadUrl -Out $output
+    $releases = "https://api.github.com/repos/$repo/releases"
+    $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
 
-# Theme that supports the latest ES binaries
-$repo = "recalbox/recalbox-themes"
-$file = "recalbox-multi-v2.0.0.tar.xz"
+    $url = "https://github.com/$repo/releases/download/$tag/$file"
+    $name = $file.Split(".")[0]
 
-$releases = "https://api.github.com/repos/$repo/releases"
-$tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
+    $zip = "$name-$tag.zip"
+    $output = $requirementsFolder + $zip
 
-$downloadUrl = "https://github.com/$repo/releases/download/$tag/$file"
-$name = $file.Split(".")[0]
-$zip = "$name-$tag.zip"
-$output = $requirementsFolder + $zip
+    if(![System.IO.File]::Exists($output)) {
 
-Invoke-WebRequest $downloadUrl -Out $output
+        Invoke-WebRequest $url -Out $output
+        Write-Host $file "does not exist...Downloading."
+
+    } else {
+
+        Write-Host $file "Already exists...Skipping download."
+    }
+
+}
 
 
 # 
@@ -366,6 +363,12 @@ $newSettingsConfig = "<?xml version='1.0'?>
 Set-Content $esConfigFile -Value $newSettingsConfig
 $requiredTmpFolder = $env:userprofile+"\.emulationstation\tmp\"
 New-Item -ItemType Directory -Force -Path $requiredTmpFolder
+
+
+# 
+# 15. Add in a game art scraper
+# 
+$fastScraperLocation = $romPath + "\fastscraper.bat"
 
 
 # 14. Enjoy your retro games!
