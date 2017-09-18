@@ -25,17 +25,17 @@ Steps
 TO-DO
 ------
 1. Add string wildcard matching to github release files
-2. Check the Powershell version prior to running
-3. Add some pretty pictures to this page
+2. Add some pretty pictures to this page
 
 
 Troubleshooting
 ------
 - PSX Homebrew Games won't load unless you acquire the bios's and add them to the bios folder.
+- If the script fails for whatever reason delete the contents of C:\Users\\{user}\\.emulationstation and try again.
 - Emulation Station may crash when you return to it from a external progam, ensure your graphics drivers are up to date.
 - Launching a Retroarch rom may return you to ES, you're probably on a 32-bit verison of Windows and need to acquire seperate cores.
 - Powershell commands may fail, ensure your Powershell session is in Admin mode.
-- If the script fails for whatever reason delete the contents of C:\Users\\{user}\\.emulationstation and try again.
+- If Powershell complains about syntax you're probably somehow running a Powershell version lower than 5. Run 'choco install powershell -y' to update.
 
 Special Thanks
 ------
