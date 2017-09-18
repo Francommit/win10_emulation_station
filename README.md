@@ -11,24 +11,22 @@ Features
 - Uses an up to date version of Emulation Station from the Raspberry Pi branch
 - Auto populates emulators with public domain roms
 - Auto installs a popular theme with support for 'Favorites'
-- Initial installer is less than 20KB in size, it's a script!
+- Initial installer is less than 20KB in size, it's a script
+- Adds in a quick game content scraper which lives in the rom folder (run C:\Users\name\.emulationstation\roms\scraper.exe)
 
 Steps
 ------
 1. Ensure chocolatey is installed https://chocolatey.org/install
-2. Ensure Powershell is set to "Set-executionpolicy Bypass" 
+2. Ensure Powershell is set to "Set-executionpolicy Bypass"
 3. Run prepare.ps1 in an admin session of Powershell
 4. Launch Emulation Station and Enjoy
 
 
 TO-DO
 ------
-1. Add in the auto-windows scraper and attempt to scrape public domain titles
-2. Add multiple public domain roms and separate each list into its own file
-3. Add in support for Steam games
-3. Check the Powershell version prior to running
-4. Add some more validation throughout the script
-5. Add some pretty pictures to this page
+1. Add string wildcard matching to github release files
+2. Check the Powershell version prior to running
+3. Add some pretty pictures to this page
 
 
 Troubleshooting
@@ -47,3 +45,4 @@ Special Thanks
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
 - OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
 - recalbox for their themes https://github.com/recalbox/recalbox-themes
+- sselph for his awesome scraper https://github.com/sselph/scraper

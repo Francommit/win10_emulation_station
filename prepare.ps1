@@ -135,7 +135,7 @@ Expand-Archive -Path $mdCore -Destination $coresPath
 # PSX Setup
 $psxCore = $requirementsFolder + "\mednafen_psx_libretro.dll.zip"
 $psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
-$psxEmulator = $requirementsFolder + "\ePSXe205.zip"
+$psxEmulator = $requirementsFolder + "ePSXe205.zip"
 $psxBiosPath = $env:userprofile + "\.emulationstation\bios\"
 Expand-Archive -Path $psxCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $psxEmulatorPath
@@ -205,8 +205,6 @@ Expand-Archive -Path $psxRom -Destination $psxPath
 
 $fbaPath =  $romPath+"\fba"
 New-Item -ItemType Directory -Force -Path $fbaPath
-
-
 
 
 # 
@@ -285,7 +283,7 @@ Set-Content $esConfigFile -Value $newConfig
 
 
 # 
-# 11. Setup a nice looking theme.
+# 10. Setup a nice looking theme.
 # 
 $themesPath = $env:userprofile+"\.emulationstation\themes\"
 $themesFile = $requirementsFolder + "recalbox-multi-v2-recalbox-multi-v2.0.0.zip"
@@ -296,7 +294,7 @@ Expand-Archive -Path $themesFiles -Destination $themesPath
 
 
 # 
-# 12. Use updated binaries.
+# 11. Use updated binaries.
 # 
 $emulationStationInstallFolder = "C:\Program Files (x86)\EmulationStation"
 $updatedEmulationStatonBinaries = $requirementsFolder + "\EmulationStation-Win32-continuous.zip"
@@ -304,7 +302,7 @@ Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStat
 
 
 # 
-# 13. Update the recalbox theme to use the correct folder naming conventions
+# 12. Update the recalbox theme to use the correct folder naming conventions
 # 
 $incorrectFolderName = $env:userprofile+"\.emulationstation\themes\recalbox-multi\favorites"
 $correctFolderName = "auto-favorites"
@@ -312,7 +310,7 @@ $correctFolderName = "auto-favorites"
 
 
 # 
-# 14. Generate settings file with favorites enabled.
+# 13. Generate settings file with favorites enabled.
 # 
 $esConfigFile = $env:userprofile+"\.emulationstation\es_settings.cfg"
 $newSettingsConfig = "<?xml version='1.0'?>
@@ -366,10 +364,11 @@ New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 
 
 # 
-# 15. Add in a game art scraper
+# 14. Add in a game art scraper
 # 
-$fastScraperLocation = $romPath + "\fastscraper.bat"
+$scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.4.zip"
+Expand-Archive -Path $scraperZip -Destination $romPath
 
 
-# 14. Enjoy your retro games!
+# 15. Enjoy your retro games!
 Write-Host "Enjoy!"
