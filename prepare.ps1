@@ -145,6 +145,10 @@ Expand-Archive -Path $psxCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $psxEmulatorPath
 Expand-Archive -Path $psxEmulatorPath -Destination $psxEmulator
 
+# Atari2600 Setup
+$atari2600Core = $requirementsFolder + "\stella_libretro.dll.zip"
+Expand-Archive -Path $atari2600Core -Destination $atari2600Core
+
 
 # 
 # 6. Start Retroarch and generate a config.
@@ -215,11 +219,20 @@ Expand-Archive -Path $gbcRom -Destination $gbcPath
 $fbaPath =  $romPath+"\fba"
 New-Item -ItemType Directory -Force -Path $fbaPath
 
+$masterSystemPath =  $romPath+"\mastersystem"
+New-Item -ItemType Directory -Force -Path $masterSystemPath
+
+$atari2600Path =  $romPath+"\atari2600"
+New-Item -ItemType Directory -Force -Path $atari2600Path
+
+
 
 # 
-# TESTING: Need to test and find freeware games for these emulators.
+# Not working, needs different core:
 # 
 
+# WIP: Need to test and find freeware games for these emulators.
+# Need to write a bat to boot these
 # ScummVm Setup
 $scummVmPath =  $romPath+"\scummvm"
 New-Item -ItemType Directory -Force -Path $scummVmPath
@@ -238,33 +251,23 @@ $msxCore = $requirementsFolder + "\fmsx_libretro.dll.zip"
 Expand-Archive -Path $msxCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $msxPath
 
-# Amiga Setup
-$amigaPath =  $romPath+"\amiga"
-$amigaCore = $requirementsFolder + "\puae_libretro.dll.zip"
-Expand-Archive -Path $amigaCore -Destination $coresPath
-New-Item -ItemType Directory -Force -Path $amigaPath
-
-# Atari2600 Setup
-$atari2600Path =  $romPath+"\atari2600"
-$atari2600Core = $requirementsFolder + "\stella_libretro.dll.zip"
-Expand-Archive -Path $atari2600Core -Destination $atari2600Core
-New-Item -ItemType Directory -Force -Path $atari2600Path
-
-# Atari7800 Setup
-$atari7800Path =  $romPath+"\atari7800"
-$atari7800Core = $requirementsFolder + "\prosystem_libretro.dll.zip"
-Expand-Archive -Path $atari7800Core -Destination $atari7800Core
-New-Item -ItemType Directory -Force -Path $atari7800Path
-
 # Commodore 64 Setup
 $commodore64Path =  $romPath+"\c64"
 $commodore64Core = $requirementsFolder + "\vice_x64_libretro.dll.zip"
 Expand-Archive -Path $commodore64Core -Destination $commodore64Core
 New-Item -ItemType Directory -Force -Path $commodore64Path
 
-# Mastersystem Setup
-$masterSystemPath =  $romPath+"\mastersystem"
-New-Item -ItemType Directory -Force -Path $masterSystemPath
+# Amiga Setup
+$amigaPath =  $romPath+"\amiga"
+$amigaCore = $requirementsFolder + "\puae_libretro.dll.zip"
+Expand-Archive -Path $amigaCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $amigaPath
+
+# Atari7800 Setup
+$atari7800Path =  $romPath+"\atari7800"
+$atari7800Core = $requirementsFolder + "\prosystem_libretro.dll.zip"
+Expand-Archive -Path $atari7800Core -Destination $atari7800Core
+New-Item -ItemType Directory -Force -Path $atari7800Path
 
 
 # 
@@ -411,7 +414,7 @@ $newConfig = "
     <system>
         <fullname>Neo Geo Pocket</fullname>
         <name>ngp</name>
-        <path>$neogeoPath</path>
+        <path>$neogeoPocketPath</path>
         <extension>.ngp .ngc .zip .ZIP</extension>
         <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>        
         <platform>ngp</platform>
@@ -429,12 +432,6 @@ $newConfig = "
 </systemList>
 "
 Set-Content $esConfigFile -Value $newConfig
-
-
-
-
-
-
 
 
 # 
