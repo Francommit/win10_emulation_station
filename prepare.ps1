@@ -217,6 +217,57 @@ New-Item -ItemType Directory -Force -Path $fbaPath
 
 
 # 
+# TESTING: Need to test and find freeware games for these emulators.
+# 
+
+# ScummVm Setup
+$scummVmPath =  $romPath+"\scummvm"
+New-Item -ItemType Directory -Force -Path $scummVmPath
+
+# NeogeoPocket Setup
+$neogeoPocketPath =  $romPath+"\ngp"
+New-Item -ItemType Directory -Force -Path $neogeoPocketPath
+
+# Neogeo Setup
+$neogeoPath =  $romPath+"\neogeo"
+New-Item -ItemType Directory -Force -Path $neogeoPath
+
+# MSX Setup
+$msxPath =  $romPath+"\msx"
+$msxCore = $requirementsFolder + "\fmsx_libretro.dll.zip"
+Expand-Archive -Path $msxCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $msxPath
+
+# Amiga Setup
+$amigaPath =  $romPath+"\amiga"
+$amigaCore = $requirementsFolder + "\puae_libretro.dll.zip"
+Expand-Archive -Path $amigaCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $amigaPath
+
+# Atari2600 Setup
+$atari2600Path =  $romPath+"\atari2600"
+$atari2600Core = $requirementsFolder + "\stella_libretro.dll.zip"
+Expand-Archive -Path $atari2600Core -Destination $atari2600Core
+New-Item -ItemType Directory -Force -Path $atari2600Path
+
+# Atari7800 Setup
+$atari7800Path =  $romPath+"\atari7800"
+$atari7800Core = $requirementsFolder + "\prosystem_libretro.dll.zip"
+Expand-Archive -Path $atari7800Core -Destination $atari7800Core
+New-Item -ItemType Directory -Force -Path $atari7800Path
+
+# Commodore 64 Setup
+$commodore64Path =  $romPath+"\c64"
+$commodore64Core = $requirementsFolder + "\vice_x64_libretro.dll.zip"
+Expand-Archive -Path $commodore64Core -Destination $commodore64Core
+New-Item -ItemType Directory -Force -Path $commodore64Path
+
+# Mastersystem Setup
+$masterSystemPath =  $romPath+"\mastersystem"
+New-Item -ItemType Directory -Force -Path $masterSystemPath
+
+
+# 
 # 9. Hack the es_config file
 # 
 $esConfigFile = $env:userprofile+"\.emulationstation\es_systems.cfg"
@@ -379,55 +430,7 @@ $newConfig = "
 "
 Set-Content $esConfigFile -Value $newConfig
 
-# 
-# TESTING: Need to test and find freeware games for these emulators.
-# 
 
-# ScummVm Setup
-$scummVmPath =  $romPath+"\scummvm"
-New-Item -ItemType Directory -Force -Path $scummVmPath
-
-# NeogeoPocket Setup
-$neogeoPocketPath =  $romPath+"\ngp"
-New-Item -ItemType Directory -Force -Path $neogeoPocketPath
-
-# Neogeo Setup
-$neogeoPath =  $romPath+"\neogeo"
-New-Item -ItemType Directory -Force -Path $neogeoPath
-
-# MSX Setup
-$msxPath =  $romPath+"\msx"
-$msxCore = $requirementsFolder + "\fmsx_libretro.dll.zip"
-Expand-Archive -Path $msxCore -Destination $coresPath
-New-Item -ItemType Directory -Force -Path $msxPath
-
-# Amiga Setup
-$amigaPath =  $romPath+"\amiga"
-$amigaCore = $requirementsFolder + "\puae_libretro.dll.zip"
-Expand-Archive -Path $amigaCore -Destination $coresPath
-New-Item -ItemType Directory -Force -Path $amigaPath
-
-# Atari2600 Setup
-$atari2600Path =  $romPath+"\atari2600"
-$atari2600Core = $requirementsFolder + "\stella_libretro.dll.zip"
-Expand-Archive -Path $atari2600Core -Destination $atari2600Core
-New-Item -ItemType Directory -Force -Path $atari2600Path
-
-# Atari7800 Setup
-$atari7800Path =  $romPath+"\atari7800"
-$atari7800Core = $requirementsFolder + "\prosystem_libretro.dll.zip"
-Expand-Archive -Path $atari7800Core -Destination $atari7800Core
-New-Item -ItemType Directory -Force -Path $atari7800Path
-
-# Commodore 64 Setup
-$commodore64Path =  $romPath+"\c64"
-$commodore64Core = $requirementsFolder + "\vice_x64_libretro.dll.zip"
-Expand-Archive -Path $commodore64Core -Destination $commodore64Core
-New-Item -ItemType Directory -Force -Path $commodore64Path
-
-# Mastersystem Setup
-$masterSystemPath =  $romPath+"\mastersystem"
-New-Item -ItemType Directory -Force -Path $masterSystemPath
 
 
 
