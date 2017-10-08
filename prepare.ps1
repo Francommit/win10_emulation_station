@@ -286,18 +286,152 @@ $newConfig = "
         <theme>psx</theme>
     </system>
     <system>
-        <name>gbc</name>
         <fullname>Game Boy Color</fullname>
+        <name>gbc</name>
         <path>$gbcPath</path>
         <extension>.gbc .GBC .zip .ZIP</extension>
         <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
         <platform>gbc</platform>
         <theme>gbc</theme>
     </system>
+    <system>
+        <fullname>Amiga</fullname>
+        <name>amiga</name>
+        <path>$amigaPath</path>
+        <extension>.adf .ADF</extension>
+        <command>$retroarchExecutable -L $coresPath\puae_libretro.dll %ROM%</command>
+        <platform>amiga</platform>
+        <theme>amiga</theme>
+    </system>
+    <system>
+        <fullname>Atari 2600</fullname>
+        <name>atari2600</name>
+        <path>$atari2600Path</path>
+        <extension>.a26 .bin .rom .A26 .BIN .ROM</extension>
+        <command>$retroarchExecutable -L $coresPath\stella_libretro.dll %ROM%</command>
+        <platform>atari2600</platform>
+        <theme>atari2600</theme>
+    </system>
+    <system>
+        <fullname>Atari 7800 Prosystem</fullname>
+        <name>atari7800</name>
+        <path>$atari7800Path</path>
+        <extension>.a78 .bin .A78 .BIN</extension>
+        <command>$retroarchExecutable -L $coresPath\prosystem_libretro.dll %ROM%</command>
+        <platform>atari7800</platform>
+        <theme>atari7800</theme>
+    </system>
+    <system>
+        <fullname>Commodore 64</fullname>
+        <name>c64</name>
+        <path>$commodore64Path</path>
+        <extension>.crt .d64 .g64 .t64 .tap .x64 .zip .CRT .D64 .G64 .T64 .TAP .X64 .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\vice_x64_libretro.dll %ROM%</command>
+        <platform>c64</platform>
+        <theme>c64</theme>
+    </system>
+    <system>
+        <fullname>Sega Master System</fullname>
+        <name>mastersystem</name>
+        <path>$masterSystemPath</path>
+        <extension>.bin .sms .zip .BIN .SMS .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
+        <platform>mastersystem</platform>
+        <theme>mastersystem</theme>
+    </system>
+    <system>
+        <fullname>MSX</fullname>
+        <name>msx</name>
+        <path>$msxPath</path>
+        <extension>.col .dsk .mx1 .mx2 .rom .COL .DSK .MX1 .MX2 .ROM</extension>
+        <command>$retroarchExecutable -L $coresPath\fmsx_libretro.dll %ROM%</command>
+        <platform>msx</platform>
+        <theme>msx</theme>
+    </system>
+    <system>
+        <name>neogeo</name>
+        <fullname>Neo Geo</fullname>
+        <path>$neogeoPath</path>
+        <extension>.zip .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>        
+        <platform>neogeo</platform>
+        <theme>neogeo</theme>
+    </system>
+    <system>
+        <fullname>Neo Geo Pocket</fullname>
+        <name>ngp</name>
+        <path>$neogeoPath</path>
+        <extension>.ngp .ngc .zip .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>        
+        <platform>ngp</platform>
+        <theme>ngp</theme>
+    </system>
+    <system>
+        <fullname>ScummVM</fullname>
+        <name>scummvm</name>
+        <path>$scummVmPath</path>
+        <extension>.bat .BAT</extension>
+        <command>%ROM%</command>
+        <platform>pc</platform>
+        <theme>scummvm</theme>
+    </system>
 </systemList>
 "
-
 Set-Content $esConfigFile -Value $newConfig
+
+# 
+# TESTING: Need to test and find freeware games for these emulators.
+# 
+
+# ScummVm Setup
+$scummVmPath =  $romPath+"\scummvm"
+New-Item -ItemType Directory -Force -Path $scummVmPath
+
+# NeogeoPocket Setup
+$neogeoPocketPath =  $romPath+"\ngp"
+New-Item -ItemType Directory -Force -Path $neogeoPocketPath
+
+# Neogeo Setup
+$neogeoPath =  $romPath+"\neogeo"
+New-Item -ItemType Directory -Force -Path $neogeoPath
+
+# MSX Setup
+$msxPath =  $romPath+"\msx"
+$msxCore = $requirementsFolder + "\fmsx_libretro.dll.zip"
+Expand-Archive -Path $msxCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $msxPath
+
+# Amiga Setup
+$amigaPath =  $romPath+"\amiga"
+$amigaCore = $requirementsFolder + "\puae_libretro.dll.zip"
+Expand-Archive -Path $amigaCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $amigaPath
+
+# Atari2600 Setup
+$atari2600Path =  $romPath+"\atari2600"
+$atari2600Core = $requirementsFolder + "\stella_libretro.dll.zip"
+Expand-Archive -Path $atari2600Core -Destination $atari2600Core
+New-Item -ItemType Directory -Force -Path $atari2600Path
+
+# Atari7800 Setup
+$atari7800Path =  $romPath+"\atari7800"
+$atari7800Core = $requirementsFolder + "\prosystem_libretro.dll.zip"
+Expand-Archive -Path $atari7800Core -Destination $atari7800Core
+New-Item -ItemType Directory -Force -Path $atari7800Path
+
+# Commodore 64 Setup
+$commodore64Path =  $romPath+"\c64"
+$commodore64Core = $requirementsFolder + "\vice_x64_libretro.dll.zip"
+Expand-Archive -Path $commodore64Core -Destination $commodore64Core
+New-Item -ItemType Directory -Force -Path $commodore64Path
+
+# Mastersystem Setup
+$masterSystemPath =  $romPath+"\mastersystem"
+New-Item -ItemType Directory -Force -Path $masterSystemPath
+
+
+
+
 
 
 # 
@@ -386,16 +520,7 @@ New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 # 
 $scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.4.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
-
-
-# 
-# 15. Enjoy your retro games!
-# 
-Write-Host "Enjoy!"
-
-
-# 
-# 16. Extra Games NES
+# TESTING: Extra Games NES, testing to see if any scraped games available to replace games with no hash online
 # 
 # Get-Content download_list.json | ConvertFrom-Json | Select -expand extra_nes_games | ForEach-Object {
 
@@ -418,3 +543,9 @@ Write-Host "Enjoy!"
 #     Expand-Archive -Path $nesRom -Destination $nesPath
 
 # }
+
+
+# 
+# 15. Enjoy your retro games!
+# 
+Write-Host "Enjoy!"
