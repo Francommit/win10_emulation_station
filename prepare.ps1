@@ -132,6 +132,10 @@ Expand-Archive -Path $snesCore -Destination $coresPath
 $mdCore = $requirementsFolder + "\genesis_plus_gx_libretro.dll.zip"
 Expand-Archive -Path $mdCore -Destination $coresPath
 
+# Game boy Colour Setup
+$gbcCore = $requirementsFolder + "\gambatte_libretro.dll.zip"
+Expand-Archive -Path $gbcCore -Destination $coresPath
+
 # PSX Setup
 $psxCore = $requirementsFolder + "\mednafen_psx_libretro.dll.zip"
 $psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
@@ -202,6 +206,11 @@ $psxPath = $romPath+"\psx"
 $psxRom = $requirementsFolder + "\Marilyn_In_the_Magic_World_(010a).7z"
 New-Item -ItemType Directory -Force -Path $psxPath
 Expand-Archive -Path $psxRom -Destination $psxPath
+
+$gbcPath = $romPath+"\gbc"
+$gbcRom = $requirementsFolder + "\star_heritage.zip" 
+New-Item -ItemType Directory -Force -Path $gbcPath
+Expand-Archive -Path $gbcRom -Destination $gbcPath
 
 $fbaPath =  $romPath+"\fba"
 New-Item -ItemType Directory -Force -Path $fbaPath
@@ -275,6 +284,15 @@ $newConfig = "
         <command>$psxEmulatorPath\$psxEmulator -bios .emulationstation\bios\SCPH1001.BIN -nogui -loadbin %ROM_RAW%</command>
         <platform>psx</platform>
         <theme>psx</theme>
+    </system>
+    <system>
+        <name>gbc</name>
+        <fullname>Game Boy Color</fullname>
+        <path>$gbcPath</path>
+        <extension>.gbc .GBC .zip .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
+        <platform>gbc</platform>
+        <theme>gbc</theme>
     </system>
 </systemList>
 "
@@ -370,5 +388,33 @@ $scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.4.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
+# 
 # 15. Enjoy your retro games!
+# 
 Write-Host "Enjoy!"
+
+
+# 
+# 16. Extra Games NES
+# 
+# Get-Content download_list.json | ConvertFrom-Json | Select -expand extra_nes_games | ForEach-Object {
+
+#     $url = $_.url
+#     $file = $_.file
+#     $output = $requirementsFolder + $file
+
+#     if(![System.IO.File]::Exists($output)){
+
+#         Write-Host $file "does not exist...Downloading."
+#         Start-BitsTransfer -Source $url -Destination $output
+
+#     } else {
+
+#         Write-Host $file "Already exists...Skipping download."
+
+#     }
+
+#     $nesRom = $requirementsFolder + $file 
+#     Expand-Archive -Path $nesRom -Destination $nesPath
+
+# }
