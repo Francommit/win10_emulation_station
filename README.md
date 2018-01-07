@@ -1,6 +1,7 @@
 Emulation Station configured for Windows 10
 ======
 
+***
 ALERT TO NEW USERS:
 ===================
 
@@ -9,6 +10,7 @@ https://buildbot.libretro.com/nightly/windows/x86_64/latest/
 
 And I'll fix it when I get a chance. Thanks
 
+***
 
 An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
 
@@ -33,7 +35,7 @@ Steps
 
 TO-DO
 ------
-1. Add string wildcard matching to github release files
+1. Change cores to grab the latest core set 
 2. Add some pretty pictures to this page
 
 
