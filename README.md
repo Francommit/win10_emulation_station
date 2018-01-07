@@ -1,6 +1,15 @@
 Emulation Station configured for Windows 10
 ======
 
+ALERT TO NEW USERS:
+===================
+
+There's currently a bug with the cores this grabs. Temporarily get your requried cores from here:
+https://buildbot.libretro.com/nightly/windows/x86_64/latest/
+
+And I'll fix it when I get a chance. Thanks
+
+
 An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
 
 As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love. 
