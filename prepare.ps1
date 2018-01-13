@@ -515,29 +515,6 @@ New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 # 
 $scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.4.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
-# TESTING: Extra Games NES, testing to see if any scraped games available to replace games with no hash online
-# 
-# Get-Content download_list.json | ConvertFrom-Json | Select -expand extra_nes_games | ForEach-Object {
-
-#     $url = $_.url
-#     $file = $_.file
-#     $output = $requirementsFolder + $file
-
-#     if(![System.IO.File]::Exists($output)){
-
-#         Write-Host $file "does not exist...Downloading."
-#         Start-BitsTransfer -Source $url -Destination $output
-
-#     } else {
-
-#         Write-Host $file "Already exists...Skipping download."
-
-#     }
-
-#     $nesRom = $requirementsFolder + $file 
-#     Expand-Archive -Path $nesRom -Destination $nesPath
-
-# }
 
 
 # 
