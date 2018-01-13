@@ -21,10 +21,9 @@ Steps
 3. Run prepare.ps1 in an admin session of Powershell
 4. Launch Emulation Station and Enjoy
 
+Installation GIF:
+![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
 
-TO-DO
-------
-1. Add some pretty pictures to this page
 
 
 Troubleshooting
