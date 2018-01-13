@@ -12,7 +12,7 @@ Features
 - Auto populates emulators with public domain roms
 - Auto installs a popular theme with support for adding 'Favorites'
 - Initial installer is less than 20KB in size, it's a script
-- Adds in a quick game content scraper which lives in the rom folder (run C:\Users\name\.emulationstation\roms\scraper.exe)
+- Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\.emulationstation\roms\scraper.exe)
 
 Steps
 ------
@@ -30,7 +30,7 @@ Installation GIF:
 Troubleshooting
 ------
 - PSX Homebrew Games won't load unless you acquire the bios's and add them to the bios folder.
-- If the script fails for whatever reason delete the contents of C:\Users\\{user}\\.emulationstation and try again.
+- If the script fails for whatever reason delete the contents of %UserProfile%\.emulationstation and try again.
 - Emulation Station may crash when you return to it from a external progam, ensure your graphics drivers are up to date.
 - Launching a Retroarch rom may return you to ES, you're probably on a 32-bit verison of Windows and need to acquire seperate cores.
 - Powershell commands may fail, ensure your Powershell session is in Admin mode.
