@@ -103,11 +103,6 @@ Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 # 
 # 5. Prepare cores
 # 
-$coresPath = $retroArchPath + "cores"
-$newCoreZipFile = $requirementsFolder + "\Cores-v1.0.0.2-64-bit.zip"
-New-Item -ItemType Directory -Force -Path $coresPath
-Expand-Archive -Path $newCoreZipFile -Destination $coresPath
-
 # NES Setup
 $nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
 Expand-Archive -Path $nesCore -Destination $coresPath

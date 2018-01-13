@@ -2,7 +2,6 @@
 	"downloads": [
 	  {"file":"ePSXe205.zip", "url":"http://www.epsxe.com/files/ePSXe205.zip"},
 	  {"file": "RetroArch.7z", "url": "https://buildbot.libretro.com/stable/1.6.7/windows/x86_64/RetroArch.7z"},
-	  {"file": "Cores-v1.0.0.2-64-bit.zip", "url": "http://buildbot.libretro.com/stable/archive/stable/win-x86_64/Cores-v1.0.0.2-64-bit.zip"},
 	  {"file": "assimilate_full.zip", "url": "http://www.nesworld.com/homebrew/assimilate_full.zip"},
 	  {"file": "fceumm_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"},
 	  {"file": "parallel_n64_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/parallel_n64_libretro.dll.zip"},	  

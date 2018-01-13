@@ -1,17 +1,6 @@
 Emulation Station configured for Windows 10
 ======
 
-***
-ALERT TO NEW USERS:
-===================
-
-There's currently a bug with the cores this grabs. Temporarily get your requried cores from here:
-https://buildbot.libretro.com/nightly/windows/x86_64/latest/
-
-And I'll fix it when I get a chance. Thanks
-
-***
-
 An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
 
 As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love. 
@@ -21,7 +10,7 @@ Features
 ------
 - Uses an up to date version of Emulation Station from the Raspberry Pi branch
 - Auto populates emulators with public domain roms
-- Auto installs a popular theme with support for 'Favorites'
+- Auto installs a popular theme with support for adding 'Favorites'
 - Initial installer is less than 20KB in size, it's a script
 - Adds in a quick game content scraper which lives in the rom folder (run C:\Users\name\.emulationstation\roms\scraper.exe)
 
@@ -35,8 +24,7 @@ Steps
 
 TO-DO
 ------
-1. Change cores to grab the latest core set 
-2. Add some pretty pictures to this page
+1. Add some pretty pictures to this page
 
 
 Troubleshooting
