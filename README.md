@@ -20,6 +20,7 @@ Steps
 2. Ensure Powershell is set to "Set-executionpolicy Bypass"
 3. Run prepare.ps1 in an admin session of Powershell
 4. Launch Emulation Station and Enjoy
+5. Access your ROMS here %UserProfile%\.emulationstation\roms
 
 Installation GIF:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
