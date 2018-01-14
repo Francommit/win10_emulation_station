@@ -518,6 +518,24 @@ Expand-Archive -Path $scraperZip -Destination $romPath
 
 
 # 
-# 15. Enjoy your retro games!
+# 15. Create some useful desktop shortcuts
+# 
+$userProfileVariable = Get-ChildItem Env:UserProfile
+$romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
+$coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
+
+$wshshell = New-Object -ComObject WScript.Shell
+$desktop = [System.Environment]::GetFolderPath('Desktop')
+$lnk = $wshshell.CreateShortcut($desktop+"\Roms Location.lnk")
+$lnk.TargetPath = $romsShortcut
+$lnk.Save() 
+
+$lnk = $wshshell.CreateShortcut($desktop+"\Cores Location.lnk")
+$lnk.TargetPath = $coresShortcut
+$lnk.Save() 
+ 
+
+# 
+# 16. Enjoy your retro games!
 # 
 Write-Host "Enjoy!"
