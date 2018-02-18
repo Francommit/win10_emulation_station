@@ -144,7 +144,7 @@ Expand-Archive -Path $psxEmulatorPath -Destination $psxEmulator
 
 # Atari2600 Setup
 $atari2600Core = $requirementsFolder + "\stella_libretro.dll.zip"
-Expand-Archive -Path $atari2600Core -Destination $atari2600Core
+Expand-Archive -Path $atari2600Core -Destination $coresPath
 
 
 # 
