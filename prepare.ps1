@@ -513,7 +513,7 @@ New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 # 
 # 14. Add in a game art scraper
 # 
-$scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.4.zip"
+$scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.5.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
