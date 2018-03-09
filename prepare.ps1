@@ -1,4 +1,5 @@
 Import-Module BitsTransfer
+[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
 
 # 
 # 1. Chocolatey installs 
