@@ -83,7 +83,7 @@ Stop-Process -Name "emulationstation"
 # 4. Prepare Retroarch
 # 
 $retroArchPath = $env:userprofile + "\.emulationstation\systems\retroarch\"
-$retroArchBinary = $requirementsFolder + "\RetroArch.7z"
+$retroArchBinary = $requirementsFolder + "RetroArch.7z"
 
 New-Item -ItemType Directory -Force -Path $retroArchPath
 
@@ -107,44 +107,43 @@ Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 $coresPath = $retroArchPath + "cores"
 
 # NES Setup
-$nesCore = $requirementsFolder + "\fceumm_libretro.dll.zip"
+$nesCore = $requirementsFolder + "fceumm_libretro.dll.zip"
 Expand-Archive -Path $nesCore -Destination $coresPath
 
 # N64 Setup
-$n64Core = $requirementsFolder + "\parallel_n64_libretro.dll.zip"
+$n64Core = $requirementsFolder + "parallel_n64_libretro.dll.zip"
 Expand-Archive -Path $n64Core -Destination $coresPath
 
 # FBA Setup
-$fbaCore = $requirementsFolder + "\fbalpha2012_libretro.dll.zip"
+$fbaCore = $requirementsFolder + "fbalpha2012_libretro.dll.zip"
 Expand-Archive -Path $fbaCore -Destination $coresPath
 
 # GBA Setup
-$gbaCore = $requirementsFolder + "\vba_next_libretro.dll.zip"
+$gbaCore = $requirementsFolder + "vba_next_libretro.dll.zip"
 Expand-Archive -Path $gbaCore -Destination $coresPath
 
 # SNES Setup
-$snesCore = $requirementsFolder + "\snes9x_libretro.dll.zip"
+$snesCore = $requirementsFolder + "snes9x_libretro.dll.zip"
 Expand-Archive -Path $snesCore -Destination $coresPath
 
 # Genesis GX Setup
-$mdCore = $requirementsFolder + "\genesis_plus_gx_libretro.dll.zip"
+$mdCore = $requirementsFolder + "genesis_plus_gx_libretro.dll.zip"
 Expand-Archive -Path $mdCore -Destination $coresPath
 
 # Game boy Colour Setup
-$gbcCore = $requirementsFolder + "\gambatte_libretro.dll.zip"
+$gbcCore = $requirementsFolder + "gambatte_libretro.dll.zip"
 Expand-Archive -Path $gbcCore -Destination $coresPath
 
 # PSX Setup
-$psxCore = $requirementsFolder + "\mednafen_psx_libretro.dll.zip"
-$psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
 $psxEmulator = $requirementsFolder + "ePSXe205.zip"
+$psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
 $psxBiosPath = $env:userprofile + "\.emulationstation\bios\"
-Expand-Archive -Path $psxCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $psxEmulatorPath
-Expand-Archive -Path $psxEmulatorPath -Destination $psxEmulator
+Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
+New-Item -ItemType Directory -Force -Path $psxBiosPath
 
 # Atari2600 Setup
-$atari2600Core = $requirementsFolder + "\stella_libretro.dll.zip"
+$atari2600Core = $requirementsFolder + "stella_libretro.dll.zip"
 Expand-Archive -Path $atari2600Core -Destination $coresPath
 
 
@@ -152,7 +151,7 @@ Expand-Archive -Path $atari2600Core -Destination $coresPath
 # 6. Start Retroarch and generate a config.
 # 
 $retroarchExecutable = $retroArchPath + "retroarch.exe"
-$retroarchConfigPath = $retroArchPath + "\retroarch.cfg"
+$retroarchConfigPath = $retroArchPath + "retroarch.cfg"
 
 & $retroarchExecutable
 
@@ -180,37 +179,37 @@ New-Item -ItemType Directory -Force -Path $romPath
 
 # Path creation + Open-Source / Freeware Rom population
 $nesPath =  $romPath+"\nes"
-$nesRom = $requirementsFolder + "\assimilate_full.zip" 
+$nesRom = $requirementsFolder + "assimilate_full.zip" 
 New-Item -ItemType Directory -Force -Path $nesPath
 Expand-Archive -Path $nesRom -Destination $nesPath
 
 $n64Path =  $romPath+"\n64"
-$n64Rom = $requirementsFolder + "\pom-twin.zip"
+$n64Rom = $requirementsFolder + "pom-twin.zip"
 New-Item -ItemType Directory -Force -Path $n64Path
 Expand-Archive -Path $n64Rom -Destination $n64Path
 
 $gbaPath =  $romPath+"\gba"
-$gbaRom = $requirementsFolder + "\uranus0ev_fix.gba"
+$gbaRom = $requirementsFolder + "uranus0ev_fix.gba"
 New-Item -ItemType Directory -Force -Path $gbaPath
-Move-Item -Path $gbaRom -Destination $gbaPath
+Copy-Item -Path $gbaRom -Destination $gbaPath
 
 $mdPath = $romPath+"\megadrive"
-$mdRom =  $requirementsFolder + "\rickdangerous.gen"
+$mdRom =  $requirementsFolder + "rickdangerous.gen"
 New-Item -ItemType Directory -Force -Path $mdPath
-Move-Item -Path $mdRom -Destination $mdPath
+Copy-Item -Path $mdRom -Destination $mdPath
 
 $snesPath = $romPath+"\snes"
-$snesRom = $requirementsFolder + "\N-Warp Daisakusen V1.1.smc"
+$snesRom = $requirementsFolder + "N-Warp Daisakusen V1.1.smc"
 New-Item -ItemType Directory -Force -Path $snesPath
-Move-Item -Path $snesRom -Destination $snesPath
+Copy-Item -Path $snesRom -Destination $snesPath
 
 $psxPath = $romPath+"\psx"
-$psxRom = $requirementsFolder + "\Marilyn_In_the_Magic_World_(010a).7z"
+$psxRom = $requirementsFolder + "Marilyn_In_the_Magic_World_(010a).7z"
 New-Item -ItemType Directory -Force -Path $psxPath
 Expand-Archive -Path $psxRom -Destination $psxPath
 
 $gbcPath = $romPath+"\gbc"
-$gbcRom = $requirementsFolder + "\star_heritage.zip" 
+$gbcRom = $requirementsFolder + "star_heritage.zip" 
 New-Item -ItemType Directory -Force -Path $gbcPath
 Expand-Archive -Path $gbcRom -Destination $gbcPath
 
@@ -245,26 +244,26 @@ New-Item -ItemType Directory -Force -Path $neogeoPath
 
 # MSX Setup
 $msxPath =  $romPath+"\msx"
-$msxCore = $requirementsFolder + "\fmsx_libretro.dll.zip"
+$msxCore = $requirementsFolder + "fmsx_libretro.dll.zip"
 Expand-Archive -Path $msxCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $msxPath
 
 # Commodore 64 Setup
 $commodore64Path =  $romPath+"\c64"
-$commodore64Core = $requirementsFolder + "\vice_x64_libretro.dll.zip"
-Expand-Archive -Path $commodore64Core -Destination $commodore64Core
+$commodore64Core = $requirementsFolder + "vice_x64_libretro.dll.zip"
+Expand-Archive -Path $commodore64Core -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $commodore64Path
 
 # Amiga Setup
 $amigaPath =  $romPath+"\amiga"
-$amigaCore = $requirementsFolder + "\puae_libretro.dll.zip"
+$amigaCore = $requirementsFolder + "puae_libretro.dll.zip"
 Expand-Archive -Path $amigaCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $amigaPath
 
 # Atari7800 Setup
 $atari7800Path =  $romPath+"\atari7800"
-$atari7800Core = $requirementsFolder + "\prosystem_libretro.dll.zip"
-Expand-Archive -Path $atari7800Core -Destination $atari7800Core
+$atari7800Core = $requirementsFolder + "prosystem_libretro.dll.zip"
+Expand-Archive -Path $atari7800Core -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $atari7800Path
 
 
@@ -272,8 +271,7 @@ New-Item -ItemType Directory -Force -Path $atari7800Path
 # 9. Hack the es_config file
 # 
 $esConfigFile = $env:userprofile+"\.emulationstation\es_systems.cfg"
-$newConfig = "
-<systemList>
+$newConfig = "<systemList>
     <system>
         <name>nes</name>
         <fullname>Nintendo Entertainment System</fullname>
@@ -333,7 +331,7 @@ $newConfig = "
         <name>psx</name>
         <path>$psxPath</path>
         <extension>.cue .iso .pbp .CUE .ISO .PBP</extension>
-        <command>$psxEmulatorPath\$psxEmulator -bios .emulationstation\bios\SCPH1001.BIN -nogui -loadbin %ROM_RAW%</command>
+        <command>${psxEmulatorPath}ePSXe.exe -bios ${psxBiosPath}SCPH1001.BIN -nogui -loadbin %ROM_RAW%</command>
         <platform>psx</platform>
         <theme>psx</theme>
     </system>
@@ -447,7 +445,7 @@ Expand-Archive -Path $themesFiles -Destination $themesPath
 # 11. Use updated binaries.
 # 
 $emulationStationInstallFolder = "C:\Program Files (x86)\EmulationStation"
-$updatedEmulationStatonBinaries = $requirementsFolder + "\EmulationStation-Win32-continuous.zip"
+$updatedEmulationStatonBinaries = $requirementsFolder + "EmulationStation-Win32-continuous-master.zip"
 Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder
 
 
