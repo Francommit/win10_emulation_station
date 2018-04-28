@@ -134,18 +134,30 @@ Expand-Archive -Path $mdCore -Destination $coresPath
 $gbcCore = $requirementsFolder + "gambatte_libretro.dll.zip"
 Expand-Archive -Path $gbcCore -Destination $coresPath
 
-# PSX Setup
-$psxEmulator = $requirementsFolder + "ePSXe205.zip"
-$psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
-$psxBiosPath = $env:userprofile + "\.emulationstation\bios\"
-New-Item -ItemType Directory -Force -Path $psxEmulatorPath
-Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
-New-Item -ItemType Directory -Force -Path $psxBiosPath
-
 # Atari2600 Setup
 $atari2600Core = $requirementsFolder + "stella_libretro.dll.zip"
 Expand-Archive -Path $atari2600Core -Destination $coresPath
 
+# MAME Setup
+$mameCore = $requirementsFolder + "mame_libretro.dll.zip"
+Expand-Archive -Path $mameCore -Destination $coresPath
+
+# PSX Setup
+$psxEmulator = $requirementsFolder + "ePSXe205.zip"
+$psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
+$psxBiosPath = $psxEmulatorPath + "bios\"
+New-Item -ItemType Directory -Force -Path $psxEmulatorPath
+Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
+
+# PS2 Setup
+$ps2Emulator = $requirementsFolder + "pcsx2-1.4.0-binaries.7z"
+$ps2ExtractionPath = $env:userprofile + "\.emulationstation\systems\"
+$ps2ExtractedPath = $ps2ExtractionPath + "PCSX2 1.4.0\"
+$ps2EmulatorPath = $ps2ExtractionPath + "pcsx2\"
+$ps2BiosPath = $ps2EmulatorPath + "bios\"
+Expand-Archive -Path $ps2Emulator -Destination $ps2ExtractionPath
+Rename-Item -Path $ps2ExtractedPath -NewName "pcsx2"
+New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
 # 
 # 6. Start Retroarch and generate a config.
@@ -208,6 +220,9 @@ $psxRom = $requirementsFolder + "Marilyn_In_the_Magic_World_(010a).7z"
 New-Item -ItemType Directory -Force -Path $psxPath
 Expand-Archive -Path $psxRom -Destination $psxPath
 
+$ps2Path = $romPath+"\ps2"
+New-Item -ItemType Directory -Force -Path $ps2Path
+
 $gbcPath = $romPath+"\gbc"
 $gbcRom = $requirementsFolder + "star_heritage.zip" 
 New-Item -ItemType Directory -Force -Path $gbcPath
@@ -222,7 +237,8 @@ New-Item -ItemType Directory -Force -Path $masterSystemPath
 $atari2600Path =  $romPath+"\atari2600"
 New-Item -ItemType Directory -Force -Path $atari2600Path
 
-
+$mamePath =  $romPath+"\mame"
+New-Item -ItemType Directory -Force -Path $mamePath
 
 # 
 # Not working, needs different core:
@@ -282,6 +298,15 @@ $newConfig = "<systemList>
         <theme>nes</theme>
     </system>
     <system>
+        <fullname>Super Nintendo</fullname>
+        <name>snes</name>
+        <path>$snesPath</path>
+        <extension>.smc .sfc .fig .swc .SMC .SFC .FIG .SWC</extension>
+        <command>$retroarchExecutable -L $coresPath\snes9x_libretro.dll %ROM%</command>
+        <platform>snes</platform>
+        <theme>snes</theme>
+    </system>
+    <system>
         <fullname>Nintendo 64</fullname>
         <name>n64</name>
         <path>$n64Path</path>
@@ -291,13 +316,13 @@ $newConfig = "<systemList>
         <theme>n64</theme>
     </system>
     <system>
-        <fullname>Final Burn Alpha</fullname>
-        <name>fba</name>
-        <path>$fbaPath</path>
-        <extension>.zip .ZIP .fba .FBA</extension>
-        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>
-        <platform>arcade</platform>
-        <theme></theme>
+        <fullname>Game Boy Color</fullname>
+        <name>gbc</name>
+        <path>$gbcPath</path>
+        <extension>.gbc .GBC .zip .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
+        <platform>gbc</platform>
+        <theme>gbc</theme>
     </system>
     <system>
         <fullname>Game Boy Advance</fullname>
@@ -309,40 +334,40 @@ $newConfig = "<systemList>
         <theme>gba</theme>
     </system>
     <system>
-        <fullname>Sega Mega Drive / Genesis</fullname>
-        <name>megadrive</name>
-        <path>$mdPath</path>
-        <extension>.smd .SMD .bin .BIN .gen .GEN .md .MD .zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
-        <platform>genesis,megadrive</platform>
-        <theme>megadrive</theme>
-    </system>
-    <system>
-        <fullname>Super Nintendo</fullname>
-        <name>snes</name>
-        <path>$snesPath</path>
-        <extension>.smc .sfc .fig .swc .SMC .SFC .FIG .SWC</extension>
-        <command>$retroarchExecutable -L $coresPath\snes9x_libretro.dll %ROM%</command>
-        <platform>snes</platform>
-        <theme>snes</theme>
-    </system>
-    <system>
         <fullname>Playstation</fullname>
         <name>psx</name>
         <path>$psxPath</path>
         <extension>.cue .iso .pbp .CUE .ISO .PBP</extension>
-        <command>${psxEmulatorPath}ePSXe.exe -bios ${psxBiosPath}SCPH1001.BIN -nogui -loadbin %ROM_RAW%</command>
+        <command>${psxEmulatorPath}ePSXe.exe -bios ${psxBiosPath}SCPH1001.BIN -nogui -loadbin %ROM%</command>
         <platform>psx</platform>
         <theme>psx</theme>
     </system>
     <system>
-        <fullname>Game Boy Color</fullname>
-        <name>gbc</name>
-        <path>$gbcPath</path>
-        <extension>.gbc .GBC .zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
-        <platform>gbc</platform>
-        <theme>gbc</theme>
+        <fullname>Playstation 2</fullname>
+        <name>ps2</name>
+        <path>$ps2Path</path>
+        <extension>.iso .img .bin .mdf .z .z2 .bz2 .dump .cso .ima .gz</extension>
+        <command>${ps2EmulatorPath}pcsx2.exe %ROM% --fullscreen --nogui</command>
+        <platform>ps2</platform>
+        <theme>ps2</theme>
+    </system>
+    <system>
+        <fullname>MAME</fullname>
+        <name>mame</name>
+        <path>$mamePath</path>
+        <extension>.zip .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\mame_libretro.dll %ROM%</command>
+        <platform>mame</platform>
+        <theme>mame</theme>
+    </system>
+    <system>
+        <fullname>Final Burn Alpha</fullname>
+        <name>fba</name>
+        <path>$fbaPath</path>
+        <extension>.zip .ZIP .fba .FBA</extension>
+        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>
+        <platform>arcade</platform>
+        <theme></theme>
     </system>
     <system>
         <fullname>Amiga</fullname>
@@ -379,6 +404,15 @@ $newConfig = "<systemList>
         <command>$retroarchExecutable -L $coresPath\vice_x64_libretro.dll %ROM%</command>
         <platform>c64</platform>
         <theme>c64</theme>
+    </system>
+    <system>
+        <fullname>Sega Mega Drive / Genesis</fullname>
+        <name>megadrive</name>
+        <path>$mdPath</path>
+        <extension>.smd .SMD .bin .BIN .gen .GEN .md .MD .zip .ZIP</extension>
+        <command>$retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
+        <platform>genesis,megadrive</platform>
+        <theme>megadrive</theme>
     </system>
     <system>
         <fullname>Sega Master System</fullname>
