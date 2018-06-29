@@ -43,7 +43,7 @@ Special Thanks
 ------
 - jrassa for his up to date compiled version of Emulation Station - https://github.com/jrassa/EmulationStation
 - Nesworld for their open-source NES roms - http://www.nesworld.com/
-- Liberto for their retroarch version - https://www.libretro.com/
+- Libretro for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
 - OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
 - recalbox for their themes https://github.com/recalbox/recalbox-themes
