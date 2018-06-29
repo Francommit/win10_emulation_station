@@ -14,9 +14,9 @@ Features
 - Initial installer is less than 20KB in size, it's a script
 - Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\.emulationstation\roms\scraper.exe)
 
-Translations
+Translations (Read this in other languages)
 ------
-*Read this in other languages: [Portuguese](README.pt-br.md)
+[Portuguese](README.pt-br.md)
 
 Steps
 ------
