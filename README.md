@@ -1,9 +1,6 @@
 Emulation Station configured for Windows 10
 ======
 
-
-*Read this in other languages: [Portuguese](README.pt-br.md)
-
 An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
 
 As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love. 
@@ -16,6 +13,10 @@ Features
 - Auto installs a popular theme with support for adding 'Favorites'
 - Initial installer is less than 20KB in size, it's a script
 - Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\.emulationstation\roms\scraper.exe)
+
+Translations
+------
+*Read this in other languages: [Portuguese](README.pt-br.md)
 
 Steps
 ------
