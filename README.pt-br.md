@@ -56,4 +56,4 @@ Agradecimentos Especiais
 - OpenEmu por seu trabalho na coleção de rom livres https://github.com/OpenEmu/OpenEmu-Update
 - recalbox por seus temas https://github.com/recalbox/recalbox-themes
 - sselph por seu maravilhoso recuperador de informações de roms https://github.com/sselph/scraper
-- PRElias pela tradução em Portugês do Brasil - http://paulorobertoelias.com
+- PRElias pela tradução em Português do Brasil - http://paulorobertoelias.com
