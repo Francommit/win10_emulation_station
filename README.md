@@ -1,6 +1,9 @@
 Emulation Station configured for Windows 10
 ======
 
+
+*Read this in other languages: [Portuguese](README.pt-br.md)
+
 An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
 
 As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love. 
@@ -43,7 +46,7 @@ Special Thanks
 ------
 - jrassa for his up to date compiled version of Emulation Station - https://github.com/jrassa/EmulationStation
 - Nesworld for their open-source NES roms - http://www.nesworld.com/
-- Liberto for their retroarch version - https://www.libretro.com/
+- Libretro for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
 - OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
 - recalbox for their themes https://github.com/recalbox/recalbox-themes
