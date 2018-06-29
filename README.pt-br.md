@@ -1,9 +1,6 @@
 Emulation Station configurado para Windows 10
 ======
 
-
-*Read this in other languages: [English](README.md)
-
 Auto instalador para configurar corretamente o Emulation Station em uma máquina com Windows 10 64bit.
 
 Com o aumento da pupularidade do Retropie, a configuração do Emulationstation em plataformas windows não
@@ -20,6 +17,10 @@ Destaques
 - Instala automaticamente um tema popular com suporte para a adição de favoritos
 - Instalador inicial com menos de 20kb, já que é apenas um script
 - Inclue um recuperador de informações de roms dentro da pasta de rom (execute %UserProfile%\.emulationstation\roms\scraper.exe)
+
+Traduções
+------
+[English](README.md)
 
 Passo-a-passo
 ------
