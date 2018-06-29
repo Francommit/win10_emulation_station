@@ -1,6 +1,9 @@
 Emulation Station configured for Windows 10
 ======
 
+
+*Read this in other languages: [Portuguese](README.pt-br.md)
+
 An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
 
 As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love. 
