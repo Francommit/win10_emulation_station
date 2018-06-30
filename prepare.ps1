@@ -159,6 +159,10 @@ Expand-Archive -Path $ps2Emulator -Destination $ps2ExtractionPath
 Rename-Item -Path $ps2ExtractedPath -NewName "pcsx2"
 New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
+# Gamecube Setup
+$gcCore = $requirementsFolder + "dolphin_libretro.dll.zip"
+Expand-Archive -Path $gcCore -Destination $coresPath
+
 # 
 # 6. Start Retroarch and generate a config.
 # 
@@ -282,6 +286,12 @@ $atari7800Core = $requirementsFolder + "prosystem_libretro.dll.zip"
 Expand-Archive -Path $atari7800Core -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $atari7800Path
 
+# Gamecube Setup
+$gcPath =  $romPath+"\gc"
+$gcCore = $requirementsFolder + "dolphin_libretro.dll.zip"
+Expand-Archive -Path $gcCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $gcPath
+
 
 # 
 # 9. Hack the es_config file
@@ -314,6 +324,15 @@ $newConfig = "<systemList>
         <command>$retroarchExecutable -L $coresPath\parallel_n64_libretro.dll %ROM%</command>
         <platform>n64</platform>
         <theme>n64</theme>
+    </system>
+    <system>
+        <fullname>Gamecube</fullname>
+        <name>gc</name>
+        <path>$gcPath</path>
+        <extension>.iso .ISO</extension>
+        <command>$retroarchExecutable -L $coresPath\dolphin_libretro.dll %ROM%</command>
+        <platform>gc</platform>
+        <theme>gc</theme>
     </system>
     <system>
         <fullname>Game Boy Color</fullname>

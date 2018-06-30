@@ -22,7 +22,8 @@
 	  {"file":"prosystem_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/prosystem_libretro.dll.zip"},
 	  {"file":"vice_x64_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/vice_x64_libretro.dll.zip"},
 	  {"file":"fmsx_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fmsx_libretro.dll.zip"},
-	  {"file":"puae_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/puae_libretro.dll.zip"}
+	  {"file":"puae_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/puae_libretro.dll.zip"},
+	  {"file":"dolphin_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/dolphin_libretro.dll.zip"}
 	],
 	"releases": [
 		{"file":"EmulationStation-Win32.zip", "repo":"jrassa/emulationstation"},
