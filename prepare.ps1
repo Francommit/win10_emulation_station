@@ -18,7 +18,7 @@ choco install vcredist2015 -y
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 
-Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | ForEach-Object {
+Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
 
     $url = $_.url
     $file = $_.file
@@ -38,7 +38,7 @@ Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | F
 }
 
 
-Get-Content download_list.json | ConvertFrom-Json | Select -expand releases | ForEach-Object {
+Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
     $repo = $_.repo
     $file = $_.file
