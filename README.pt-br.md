@@ -46,6 +46,7 @@ Possíveis problemas e soluções
 - Se ao executar uma rom no Retroarch, retornar para o Emulationstation, você provavelmente está em uma versão 32-bit do Windows e precisará de outros cores (DLLs do Retroarch).
 - Comandos Powershell podem falhar, certifique-se que sua sessão está em modo administrador.
 - Se o Powershell reclamar da sintaxe, você provavelmente está executando uma versão do Powershell abaixo da 5. Execute 'choco install powershell -y' para atualizar.
+- Gamecube precisa de umas configurações - https://www.libretro.com/index.php/new-core-dolphin-windowslinux-alpha-release/
 
 Agradecimentos Especiais
 ------

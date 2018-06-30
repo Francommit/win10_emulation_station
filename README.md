@@ -42,6 +42,7 @@ Troubleshooting
 - Launching a Retroarch rom may return you to ES, you're probably on a 32-bit verison of Windows and need to acquire seperate cores.
 - Powershell commands may fail, ensure your Powershell session is in Admin mode.
 - If Powershell complains about syntax you're probably somehow running a Powershell version lower than 5. Run 'choco install powershell -y' to update.
+- Gamecube has some configuration needs - https://www.libretro.com/index.php/new-core-dolphin-windowslinux-alpha-release/
 
 Special Thanks
 ------
