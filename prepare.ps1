@@ -750,16 +750,24 @@ Screensaver = 0
 New-Item $dolphinConfigFolder -ItemType directory
 Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
+# 
+# 16. Fixing epsxe bug setting the registry
+# 
+$path = 'HKCU:\SOFTWARE\epsxe\config'
+
+New-Item -Path $path -Force | Out-Null
+
+Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 
 # 
-# 15. Add in a game art scraper
+# 17. Add in a game art scraper
 # 
 $scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.5.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
 # 
-# 16. Create some useful desktop shortcuts
+# 18. Create some useful desktop shortcuts
 # 
 $userProfileVariable = Get-ChildItem Env:UserProfile
 $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
@@ -777,6 +785,6 @@ $lnk.Save()
  
 
 # 
-# 17. Enjoy your retro games!
+# 19. Enjoy your retro games!
 # 
 Write-Host "Enjoy!"
