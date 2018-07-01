@@ -46,7 +46,7 @@ Possíveis problemas e soluções
 - Se ao executar uma rom no Retroarch, retornar para o Emulationstation, você provavelmente está em uma versão 32-bit do Windows e precisará de outros cores (DLLs do Retroarch).
 - Comandos Powershell podem falhar, certifique-se que sua sessão está em modo administrador.
 - Se o Powershell reclamar da sintaxe, você provavelmente está executando uma versão do Powershell abaixo da 5. Execute 'choco install powershell -y' para atualizar.
-- Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\.emulationstationes_input.cfg e altere a linha do hotkeyenable para <code><input id="5" name="hotkeyenable" type="button" value="10" /></code>
+- Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\.emulationstationes_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 
 
 Agradecimentos Especiais

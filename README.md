@@ -42,7 +42,7 @@ Troubleshooting
 - Launching a Retroarch rom may return you to ES, you're probably on a 32-bit verison of Windows and need to acquire seperate cores.
 - Powershell commands may fail, ensure your Powershell session is in Admin mode.
 - If Powershell complains about syntax you're probably somehow running a Powershell version lower than 5. Run 'choco install powershell -y' to update.
-- If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\.emulationstationes_input.cfg and change the line for hotkeyenable to <code><input id="5" name="hotkeyenable" type="button" value="10" /></code>
+- If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\.emulationstationes_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 
 
 Special Thanks
