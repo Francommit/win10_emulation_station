@@ -38,7 +38,7 @@ GIF da instalação:
 
 Possíveis problemas e soluções
 ------
-- Se o seu controle não está funcionando no jogo, configure o Input no Retroarch (%UserProfile%\.emulationstation\systems\retroarch\retroarch.exe)
+- Se o seu controle não está funcionando no jogo, configure o Input no Retroarch (%UserProfile%\\.emulationstation\systems\retroarch\retroarch.exe)
 - Jogos de PS1 and PS2 não carregam a não ser que você tenha e inclua suas bios nas respectivas pastas (%UserProfile%\.emulationstation\systems\epsxe\bios e %UserProfile%\.emulationstation\systems\pcsx2\bios)
 - PS1 e PS2 também requerem configuração manual para os controles(%UserProfile%\.emulationstation\systems\epsxe\ePSXe.exe e %UserProfile%\\.emulationstation\systems\pcsx2\pcsx2.exe)
 - Se o script falhar por qualquer razão, apague o conteúdo da pasta %UserProfile%\.emulationstation e tente novamente.
