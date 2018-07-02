@@ -40,13 +40,13 @@ Possíveis problemas e soluções
 ------
 - Se o seu controle não está funcionando no jogo, configure o Input no Retroarch (%UserProfile%\.emulationstation\systems\retroarch\retroarch.exe)
 - Jogos de PS1 and PS2 não carregam a não ser que você tenha e inclua suas bios nas respectivas pastas (%UserProfile%\.emulationstation\systems\epsxe\bios e %UserProfile%\.emulationstation\systems\pcsx2\bios)
-- PS1 e PS2 também requerem configuração manual para os controles(%UserProfile%\.emulationstation\systems\epsxe\ePSXe.exe e %UserProfile%\.emulationstation\systems\pcsx2\pcsx2.exe)
+- PS1 e PS2 também requerem configuração manual para os controles(%UserProfile%\.emulationstation\systems\epsxe\ePSXe.exe e %UserProfile%\\.emulationstation\systems\pcsx2\pcsx2.exe)
 - Se o script falhar por qualquer razão, apague o conteúdo da pasta %UserProfile%\.emulationstation e tente novamente.
 - O Emulation Station pode travar quando você retorna para ele depois de um programa externo, certifique-se que sua placa de vídeo possui os drivers atualizados.
 - Se ao executar uma rom no Retroarch, retornar para o Emulationstation, você provavelmente está em uma versão 32-bit do Windows e precisará de outros cores (DLLs do Retroarch).
 - Comandos Powershell podem falhar, certifique-se que sua sessão está em modo administrador.
 - Se o Powershell reclamar da sintaxe, você provavelmente está executando uma versão do Powershell abaixo da 5. Execute 'choco install powershell -y' para atualizar.
-- Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\.emulationstationes_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
+- Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\\.emulationstation\es_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 
 
 Agradecimentos Especiais
