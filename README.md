@@ -36,13 +36,13 @@ Troubleshooting
 ------
 - If the controller is not working in game, configure Input in Retroarch (%UserProfile%\.emulationstation\systems\retroarch\retroarch.exe)
 - PSX and PS2 Homebrew Games won't load unless you acquire the bios's and add them to the bios folder (%UserProfile%\.emulationstation\systems\epsxe\bios and %UserProfile%\.emulationstation\systems\pcsx2\bios)
-- PSX and PS2 also require manual configuration for controllers (%UserProfile%\.emulationstation\systems\epsxe\ePSXe.exe and %UserProfile%\.emulationstation\systems\pcsx2\pcsx2.exe)
+- PSX and PS2 also require manual configuration for controllers (%UserProfile%\.emulationstation\systems\epsxe\ePSXe.exe and %UserProfile%\\.emulationstation\systems\pcsx2\pcsx2.exe)
 - If the script fails for whatever reason delete the contents of %UserProfile%\.emulationstation and try again.
 - Emulation Station may crash when you return to it from a external progam, ensure your graphics drivers are up to date.
 - Launching a Retroarch rom may return you to ES, you're probably on a 32-bit verison of Windows and need to acquire seperate cores.
 - Powershell commands may fail, ensure your Powershell session is in Admin mode.
 - If Powershell complains about syntax you're probably somehow running a Powershell version lower than 5. Run 'choco install powershell -y' to update.
-- If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
+- If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 
 
 Special Thanks
