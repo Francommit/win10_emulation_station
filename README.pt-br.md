@@ -24,10 +24,12 @@ Traduções
 
 Passo-a-passo
 ------
-1. Execute prepare.ps1 em uma sessão administrativa Powershell
+1. Certifique-se que o chocolatey está instalado https://chocolatey.org/install
+2. Certifique-se que o Powershell está configurado para "Set-executionpolicy Bypass" (execute o comando)
+3. Execute prepare.ps1 em uma sessão administrativa Powershell
   (NOTA: Powershell pode reiniciar seu computador já que algumas bibliotecas requerem o reinício, se isto ocorrer, simplesmente re-execute depois de seu PC reiniciar)
-2. Execute o Emulation Station and aproveite
-3. Acesse suas ROMS aqui %UserProfile%\\.emulationstation\roms
+4. Execute o Emulation Station and aproveite
+5. Acesse suas ROMS aqui %UserProfile%\\.emulationstation\roms
 
 GIF da instalação:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
@@ -45,7 +47,6 @@ Possíveis problemas e soluções
 - Comandos Powershell podem falhar, certifique-se que sua sessão está em modo administrador.
 - Se o Powershell reclamar da sintaxe, você provavelmente está executando uma versão do Powershell abaixo da 5. Execute 'choco install powershell -y' para atualizar.
 - Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\\.emulationstation\es_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
-- Emulation Station não funciona muito bem com múltiplos monitores. Recomendo o uso de apenas um ao executar o programa
 
 
 Agradecimentos Especiais
