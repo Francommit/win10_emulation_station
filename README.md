@@ -20,12 +20,10 @@ Translations
 
 Steps
 ------
-1. Ensure chocolatey is installed https://chocolatey.org/install
-2. Ensure Powershell is set to "Set-executionpolicy Bypass"
-3. Run prepare.ps1 in an admin session of Powershell
+1. Run prepare.ps1 in an admin session of Powershell
   (NOTE: Powershell might restart your computer as some libraries require a restart, if so, simply re-run after your PC restarts)
-4. Launch Emulation Station and Enjoy
-5. Access your ROMS here %UserProfile%\\.emulationstation\roms
+2. Launch Emulation Station and Enjoy
+3. Access your ROMS here %UserProfile%\\.emulationstation\roms
 
 Installation GIF:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
