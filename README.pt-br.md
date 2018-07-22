@@ -45,6 +45,12 @@ Possíveis problemas e soluções
 - Comandos Powershell podem falhar, certifique-se que sua sessão está em modo administrador.
 - Se o Powershell reclamar da sintaxe, você provavelmente está executando uma versão do Powershell abaixo da 5. Execute 'choco install powershell -y' para atualizar.
 - Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\\.emulationstation\es_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
+- Se você não conseguir executar o script no menu de contexto (botão direito do mouse), reverta o padrão "Abrir com" para o Bloco de Notas.
+
+Recursos Opcionais
+------
+- Se você usa o OneDrive para armazenar suas ROMs e saves, pode executar o script onedrive.ps1 ou pode modificá-lo para qualquer outra pasta específica. Mais instruções nos comentários
+- Se você mudou para um tema com vídeos e já tem esses arquivos, mas precisa incluir referências no gamelist, você pode copiar o script gamelist_manager.xml para cada pasta ROM e executá-lo. Incluirá TAGs de vídeo e marquess para cada jogo com base em seu nome. Tema legal que contém isso: [es-theme-crt] (https://github.com/PRElias/es-theme-crt)
 
 
 Agradecimentos Especiais
@@ -56,4 +62,4 @@ Agradecimentos Especiais
 - OpenEmu por seu trabalho na coleção de rom livres https://github.com/OpenEmu/OpenEmu-Update
 - recalbox por seus temas https://github.com/recalbox/recalbox-themes
 - sselph por seu maravilhoso recuperador de informações de roms https://github.com/sselph/scraper
-- PRElias pela tradução em Português do Brasil - http://paulorobertoelias.com
+- PRElias pela tradução em Português do Brasil, automatização do choco e funcionalidades opcionais - http://paulorobertoelias.com
