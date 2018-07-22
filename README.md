@@ -41,6 +41,12 @@ Troubleshooting
 - Powershell commands may fail, ensure your Powershell session is in Admin mode.
 - If Powershell complains about syntax you're probably somehow running a Powershell version lower than 5. Run 'choco install powershell -y' to update.
 - If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
+- If you are unable to run script from context menu (right mouse button), revert default "Open with" to Notepad
+
+Optional Features
+------
+- If you use OneDrive to store your ROMs and saves, you can run the script onedrive.ps1 or you can modifify it to any other specific folder. Further instructions in comments
+- If you changed for a theme with videos and already have those files but needs to include references on gamelist, you can copy the script gamelist_manager.xml to each ROM folder and execute. It will include video and marquee TAGs for each game based on its name. Cool theme which contains that: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
 
 
 Special Thanks
@@ -52,3 +58,4 @@ Special Thanks
 - OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
 - recalbox for their themes https://github.com/recalbox/recalbox-themes
 - sselph for his awesome scraper https://github.com/sselph/scraper
+- PRElias for Portuguese translations, choco auto-intall and new optional features
