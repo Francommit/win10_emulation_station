@@ -58,4 +58,4 @@ Special Thanks
 - OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
 - recalbox for their themes https://github.com/recalbox/recalbox-themes
 - sselph for his awesome scraper https://github.com/sselph/scraper
-- PRElias for Portuguese translations, choco auto-intall and new optional features
+- PRElias for Portuguese translations, choco auto-intall and new optional features - http://paulorobertoelias.com
