@@ -10,9 +10,6 @@ Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey
 # Reloading PATH variables
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
 
-Import-Module BitsTransfer
-[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
-
 # 
 # 1. Chocolatey installs 
 # 
