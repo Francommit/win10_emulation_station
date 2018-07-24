@@ -1,6 +1,10 @@
 # Configuring
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
 
+$scriptpath = $MyInvocation.MyCommand.Path
+$dir = Split-Path $scriptpath
+Push-Location $dir
+
 $doc = [xml] (Get-Content -raw gamelist.xml)
 
 foreach ($gameEl in $doc.DocumentElement.game) {
