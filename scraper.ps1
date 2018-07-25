@@ -6,7 +6,7 @@ $dir = $env:userprofile+"\.emulationstation\roms"
 $timestamp = Get-Date -Format FileDateTime
 
 #Backup for gamelist file
-rename-item $dir\nes\gamelist.xml -newname ("gamelist" + $timestamp + ".xml")
+Copy-Item $dir\nes\gamelist.xml "$dir\nes\gamelist$timestamp.xml"
 
 #NES
 $Command = "$dir\scraper.exe"
