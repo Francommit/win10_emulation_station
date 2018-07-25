@@ -1,18 +1,16 @@
 # Configuring
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
+#Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
 
-$scriptpath = $MyInvocation.MyCommand.Path
-$dir = Split-Path $scriptpath
-Push-Location $dir
+$dir = $env:userprofile+"\.emulationstation\roms"
 
 $timestamp = Get-Date -Format FileDateTime
 
-rename-item $dir\gamelist.xml -newname ("gamelist" + $timestamp + ".xml")
-"$dir\scraper.exe rom_dir ./nes -rom_path ./nes -download_videos -download_marquees"
+#Backup for gamelist file
+rename-item $dir\nes\gamelist.xml -newname ("gamelist" + $timestamp + ".xml")
 
+#NES
+$Command = "$dir\scraper.exe"
+$Params_list = "-rom_dir $dir\nes -rom_path $dir\nes -download_videos -download_marquees -console_src=ss"
 
-
-
-
-
-
+$Params = $Params_list.Split("-")
+& "$Command" $Params
