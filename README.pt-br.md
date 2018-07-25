@@ -15,7 +15,7 @@ Destaques
 - Usa uma versão atualizada do Emulation Station da branch do Raspery Pi
 - Popula automaticamente emuladores com roms de domínio público
 - Instala automaticamente um tema popular com suporte para a adição de favoritos
-- Instalador inicial com menos de 20kb, já que é apenas um script
+- Instalador inicial com menos alguns KB, já que são apenas scripts
 - Inclue um recuperador de informações de roms dentro da pasta de rom (execute %UserProfile%\\.emulationstation\roms\scraper.exe)
 
 Traduções
@@ -47,11 +47,12 @@ Possíveis problemas e soluções
 - Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\\.emulationstation\es_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 - Se você não conseguir executar o script no menu de contexto (botão direito do mouse), reverta o padrão "Abrir com" para o Bloco de Notas.
 
-Recursos Opcionais
+Recursos Opcionais e Dicas
 ------
+- Se você prefere executar seus scripts usando o menu de contexto (botão direito do mouse), mas não possui a opção de executá-los em modo administrador, você pode simplesmente dar um duplo-clique no arquivo "powershell_run-as-admin.reg" e aceitar as modificações ao registro. Será criado uma nova entrada no menu para executar facilmente
 - Se você usa o OneDrive para armazenar suas ROMs e saves, pode executar o script onedrive.ps1 ou pode modificá-lo para qualquer outra pasta específica. Mais instruções nos comentários
-- Se você mudou para um tema com vídeos e já tem esses arquivos, mas precisa incluir referências no gamelist, você pode copiar o script gamelist_manager.xml para cada pasta ROM e executá-lo. Incluirá TAGs de vídeo e marquess para cada jogo com base em seu nome. Tema legal que contém isso: [es-theme-crt] (https://github.com/PRElias/es-theme-crt)
-
+- Alguns novos temas apresentam vídeos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
+- Script para recuperar informações (scraper) de forma fácil incluído. Apenas execute e ele fará o backup dos arquivos gamelist.xml para cada pasta de ROMs e produzirá um novo arquivo com dados recuperados dos serviços de scrap (se você modificou sua pasta de ROMs, por favor, confira a mesma antes de executar)
 
 Agradecimentos Especiais
 ------

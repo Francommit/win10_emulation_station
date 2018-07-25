@@ -3,7 +3,7 @@ Emulation Station configured for Windows 10
 
 An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
 
-As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love. 
+As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love.
 I spent several nights trying to figure out how to configure everything correctly for a Windows machine to finally get it just right. Given the pain I went through and how now several of my friends have requested the same setup I decided to throw together a quick little powershell script for others to use.
 
 Features
@@ -11,7 +11,7 @@ Features
 - Uses an up to date version of Emulation Station from the Raspberry Pi branch
 - Auto populates emulators with public domain roms
 - Auto installs a popular theme with support for adding 'Favorites'
-- Initial installer is less than 20KB in size, it's a script
+- Initial installer is less than a few KB in size, it's just scripts
 - Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\\.emulationstation\roms\scraper.exe)
 
 Translations
@@ -43,11 +43,12 @@ Troubleshooting
 - If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 - If you are unable to run script from context menu (right mouse button), revert default "Open with" to Notepad
 
-Optional Features
+Optional Features and Tips
 ------
+- If you prefer to run your scripts using context menu (right mouse button) but lacks the abilitiy to run they on an admin session, you can just double-click "powershell_run-as-admin.reg" file and accept the registry modification. It creates a new entry on the menu to do that easily.
 - If you use OneDrive to store your ROMs and saves, you can run the script onedrive.ps1 or you can modifify it to any other specific folder. Further instructions in comments
-- If you changed for a theme with videos and already have those files but needs to include references on gamelist, you can copy the script gamelist_manager.xml to each ROM folder and execute. It will include video and marquee TAGs for each game based on its name. Cool theme which contains that: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
-
+- Some new themes shows videos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
+- Script for easy scraping included. Just run and it will backup your gamefile.xml for each ROM folder and produce a new one with data from scrap services (if you have modified your ROM folder, please check before run)
 
 Special Thanks
 ------
