@@ -199,6 +199,14 @@ $settingToFind = 'savestate_auto_load = "false"'
 $settingToSet = 'savestate_auto_load = "true"'
 (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
+$settingToFind = 'input_player1_analog_dpad_mode = "0"'
+$settingToSet = 'input_player1_analog_dpad_mode = "1"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
+$settingToFind = 'input_player2_analog_dpad_mode = "0"'
+$settingToSet = 'input_player2_analog_dpad_mode = "1"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
 
 # 
 # 8. Add those roms!
