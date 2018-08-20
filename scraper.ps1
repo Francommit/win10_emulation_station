@@ -26,7 +26,7 @@ $timestamp = Get-Date -Format FileDateTime
 # Running
 $console = "$dir\$system"
 Copy-Item $console\gamelist.xml "$console\gamelist$timestamp.xml"
-$Params_list = "&-rom_dir=$console &-rom_path=$console &-download_videos=true&-download_marquees=true&-console_src=ss&-ss_user=$login&-ss_password=$password&-image_dir=$console\images&-video_dir=$console\videos&-marquee_dir=$console\marquees&-output_file=$console\gamelist.xml&-rom_path=./&-image_path=./images&-marquee_path=./marquees&-video_path=./videos"
+$Params_list = "&-rom_dir=$console &-rom_path=$console &-download_videos=true&-download_marquees=true&-console_src=ss&-ss_user=$login&-ss_password=$password&-image_dir=$console\images&-video_dir=$console\videos&-marquee_dir=$console\marquees&-output_file=$console\gamelist.xml&-rom_path=./&-image_path=./images&-marquee_path=./marquees&-video_path=./videos&-extra_ext=.PBP,.CDI"
 $Params = $Params_list.Split("&")
 Write-Host "$Command" $Params
 & "$Command" $Params
