@@ -773,6 +773,8 @@ Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
 # 
 # 16. Fixing epsxe bug setting the registry
+# https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
+# https://www.youtube.com/watch?v=fY89H8fLFSc
 # 
 $path = 'HKCU:\SOFTWARE\epsxe\config'
 
