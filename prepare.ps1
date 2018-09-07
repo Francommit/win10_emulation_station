@@ -10,6 +10,11 @@ Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey
 # Reloading PATH variables
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
 
+# Get script path
+$scriptPath = $MyInvocation.MyCommand.Path
+$scriptDir = Split-Path $scriptPath
+Write-Host $scriptDir
+
 # 
 # 1. Chocolatey installs 
 # 
@@ -27,7 +32,7 @@ choco install vcredist2015 -y
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 
-Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
 
     $url = $_.url
     $file = $_.file
@@ -47,7 +52,7 @@ Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand downlo
 }
 
 
-Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
     $repo = $_.repo
     $file = $_.file
@@ -785,7 +790,7 @@ Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 # 
 # 17. Add in a game art scraper
 # 
-$scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.5.zip"
+$scraperZip = $requirementsFolder + "scraper_windows_amd64*.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
@@ -815,3 +820,5 @@ $lnk.Save()
 # 19. Enjoy your retro games!
 # 
 Write-Host "Enjoy!"
+
+Read-Host -Prompt "Press Enter to exit"
