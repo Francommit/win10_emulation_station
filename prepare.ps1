@@ -1,5 +1,19 @@
+# Configuring
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
+
 Import-Module BitsTransfer
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
+
+# Installing Chocolatey 
+Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+
+# Reloading PATH variables
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+
+# Get script path
+$scriptPath = $MyInvocation.MyCommand.Path
+$scriptDir = Split-Path $scriptPath
+Write-Host $scriptDir
 
 # 
 # 1. Chocolatey installs 
@@ -18,7 +32,7 @@ choco install vcredist2015 -y
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 
-Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
 
     $url = $_.url
     $file = $_.file
@@ -38,7 +52,7 @@ Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand downlo
 }
 
 
-Get-Content download_list.json | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
     $repo = $_.repo
     $file = $_.file
@@ -190,6 +204,17 @@ $settingToFind = 'savestate_auto_load = "false"'
 $settingToSet = 'savestate_auto_load = "true"'
 (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
+<<<<<<< HEAD
+=======
+$settingToFind = 'input_player1_analog_dpad_mode = "0"'
+$settingToSet = 'input_player1_analog_dpad_mode = "1"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
+$settingToFind = 'input_player2_analog_dpad_mode = "0"'
+$settingToSet = 'input_player2_analog_dpad_mode = "1"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
+>>>>>>> upstream/master
 
 # 
 # 8. Add those roms!
@@ -756,6 +781,8 @@ Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
 # 
 # 16. Fixing epsxe bug setting the registry
+# https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
+# https://www.youtube.com/watch?v=fY89H8fLFSc
 # 
 $path = 'HKCU:\SOFTWARE\epsxe\config'
 
@@ -766,7 +793,7 @@ Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 # 
 # 17. Add in a game art scraper
 # 
-$scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.5.zip"
+$scraperZip = $requirementsFolder + "scraper_windows_amd64*.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
@@ -776,6 +803,7 @@ Expand-Archive -Path $scraperZip -Destination $romPath
 $userProfileVariable = Get-ChildItem Env:UserProfile
 $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
 $coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
+$windowedEmulationStation = "C:\Program Files (x86)\EmulationStation\emulationstation.exe --windowed --resolution 1366 768"
 
 $wshshell = New-Object -ComObject WScript.Shell
 $desktop = [System.Environment]::GetFolderPath('Desktop')
@@ -786,9 +814,14 @@ $lnk.Save()
 $lnk = $wshshell.CreateShortcut($desktop+"\Cores Location.lnk")
 $lnk.TargetPath = $coresShortcut
 $lnk.Save() 
- 
+
+$lnk = $wshshell.CreateShortcut($desktop+"\Windowed EmulationStation.lnk")
+$lnk.TargetPath = $windowedEmulationStation
+$lnk.Save() 
 
 # 
 # 19. Enjoy your retro games!
 # 
 Write-Host "Enjoy!"
+
+Read-Host -Prompt "Press Enter to exit"
