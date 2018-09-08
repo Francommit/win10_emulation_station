@@ -1,5 +1,19 @@
+# Configuring
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
+
 Import-Module BitsTransfer
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
+
+# Installing Chocolatey 
+Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+
+# Reloading PATH variables
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+
+# Get script path
+$scriptPath = $MyInvocation.MyCommand.Path
+$scriptDir = Split-Path $scriptPath
+Write-Host $scriptDir
 
 # 
 # 1. Chocolatey installs 
@@ -18,7 +32,7 @@ choco install vcredist2015 -y
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 
-Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | ForEach-Object {
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
 
     $url = $_.url
     $file = $_.file
@@ -38,7 +52,7 @@ Get-Content download_list.json | ConvertFrom-Json | Select -expand downloads | F
 }
 
 
-Get-Content download_list.json | ConvertFrom-Json | Select -expand releases | ForEach-Object {
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
     $repo = $_.repo
     $file = $_.file
@@ -159,6 +173,10 @@ Expand-Archive -Path $ps2Emulator -Destination $ps2ExtractionPath
 Rename-Item -Path $ps2ExtractedPath -NewName "pcsx2"
 New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
+# Gamecube Setup
+$gcCore = $requirementsFolder + "dolphin_libretro.dll.zip"
+Expand-Archive -Path $gcCore -Destination $coresPath
+
 # 
 # 6. Start Retroarch and generate a config.
 # 
@@ -180,6 +198,18 @@ Stop-Process -Name "retroarch"
 # 
 $settingToFind = 'video_fullscreen = "false"'
 $settingToSet = 'video_fullscreen = "true"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
+$settingToFind = 'savestate_auto_load = "false"'
+$settingToSet = 'savestate_auto_load = "true"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
+$settingToFind = 'input_player1_analog_dpad_mode = "0"'
+$settingToSet = 'input_player1_analog_dpad_mode = "1"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+
+$settingToFind = 'input_player2_analog_dpad_mode = "0"'
+$settingToSet = 'input_player2_analog_dpad_mode = "1"'
 (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
 
@@ -282,6 +312,12 @@ $atari7800Core = $requirementsFolder + "prosystem_libretro.dll.zip"
 Expand-Archive -Path $atari7800Core -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $atari7800Path
 
+# Gamecube Setup
+$gcPath =  $romPath+"\gc"
+$gcCore = $requirementsFolder + "dolphin_libretro.dll.zip"
+Expand-Archive -Path $gcCore -Destination $coresPath
+New-Item -ItemType Directory -Force -Path $gcPath
+
 
 # 
 # 9. Hack the es_config file
@@ -314,6 +350,15 @@ $newConfig = "<systemList>
         <command>$retroarchExecutable -L $coresPath\parallel_n64_libretro.dll %ROM%</command>
         <platform>n64</platform>
         <theme>n64</theme>
+    </system>
+    <system>
+        <fullname>Gamecube</fullname>
+        <name>gc</name>
+        <path>$gcPath</path>
+        <extension>.iso .ISO</extension>
+        <command>$retroarchExecutable -L $coresPath\dolphin_libretro.dll %ROM%</command>
+        <platform>gc</platform>
+        <theme>gc</theme>
     </system>
     <system>
         <fullname>Game Boy Color</fullname>
@@ -546,18 +591,216 @@ New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 
 
 # 
-# 14. Add in a game art scraper
+# 14. Generate ini file for Dolphin.
 # 
-$scraperZip = $requirementsFolder + "scraper_windows_amd64-v1.4.5.zip"
+$dolphinConfigFile = $env:userprofile+"\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
+$dolphinConfigFolder = $env:userprofile+"\.emulationstation\systems\retroarch\saves\User\Config\"
+$dolphinConfigFileContent = "[General]
+LastFilename = 
+ShowLag = False
+ShowFrameCount = False
+ISOPaths = 0
+RecursiveISOPaths = False
+NANDRootPath = 
+DumpPath = 
+WirelessMac = 
+WiiSDCardPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\Wii\sd.raw
+[Interface]
+ConfirmStop = True
+UsePanicHandlers = True
+OnScreenDisplayMessages = True
+HideCursor = False
+AutoHideCursor = False
+MainWindowPosX = -2147483648
+MainWindowPosY = -2147483648
+MainWindowWidth = -1
+MainWindowHeight = -1
+LanguageCode = 
+ShowToolbar = True
+ShowStatusbar = True
+ShowLogWindow = False
+ShowLogConfigWindow = False
+ExtendedFPSInfo = False
+ThemeName = Clean
+PauseOnFocusLost = False
+DisableTooltips = False
+[Display]
+FullscreenResolution = Auto
+Fullscreen = False
+RenderToMain = True
+RenderWindowXPos = -1
+RenderWindowYPos = -1
+RenderWindowWidth = 640
+RenderWindowHeight = 480
+RenderWindowAutoSize = False
+KeepWindowOnTop = False
+ProgressiveScan = False
+PAL60 = False
+DisableScreenSaver = False
+ForceNTSCJ = False
+[GameList]
+ListDrives = False
+ListWad = True
+ListElfDol = True
+ListWii = True
+ListGC = True
+ListJap = True
+ListPal = True
+ListUsa = True
+ListAustralia = True
+ListFrance = True
+ListGermany = True
+ListItaly = True
+ListKorea = True
+ListNetherlands = True
+ListRussia = True
+ListSpain = True
+ListTaiwan = True
+ListWorld = True
+ListUnknown = True
+ListSort = 3
+ListSortSecondary = 0
+ColumnPlatform = True
+ColumnBanner = True
+ColumnNotes = True
+ColumnFileName = False
+ColumnID = False
+ColumnRegion = True
+ColumnSize = True
+ColumnState = True
+[Core]
+HLE_BS2 = True
+TimingVariance = 40
+CPUCore = 1
+Fastmem = True
+CPUThread = True
+DSPHLE = True
+SyncOnSkipIdle = True
+SyncGPU = True
+SyncGpuMaxDistance = 200000
+SyncGpuMinDistance = -200000
+SyncGpuOverclock = 1.00000000
+FPRF = False
+AccurateNaNs = False
+DefaultISO = 
+DVDRoot = 
+Apploader = 
+EnableCheats = False
+SelectedLanguage = 0
+OverrideGCLang = False
+DPL2Decoder = False
+Latency = 2
+AudioStretch = False
+AudioStretchMaxLatency = 80
+MemcardAPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardA.USA.raw
+MemcardBPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardB.USA.raw
+AgpCartAPath = 
+AgpCartBPath = 
+SlotA = 1
+SlotB = 255
+SerialPort1 = 255
+BBA_MAC = 
+SIDevice0 = 6
+AdapterRumble0 = True
+SimulateKonga0 = False
+SIDevice1 = 0
+AdapterRumble1 = True
+SimulateKonga1 = False
+SIDevice2 = 0
+AdapterRumble2 = True
+SimulateKonga2 = False
+SIDevice3 = 0
+AdapterRumble3 = True
+SimulateKonga3 = False
+WiiSDCard = False
+WiiKeyboard = False
+WiimoteContinuousScanning = False
+WiimoteEnableSpeaker = False
+RunCompareServer = False
+RunCompareClient = False
+EmulationSpeed = 1.00000000
+FrameSkip = 0x00000000
+Overclock = 1.00000000
+OverclockEnable = False
+GFXBackend = OGL
+GPUDeterminismMode = auto
+PerfMapDir = 
+EnableCustomRTC = False
+CustomRTCValue = 0x386d4380
+[Movie]
+PauseMovie = False
+Author = 
+DumpFrames = False
+DumpFramesSilent = False
+ShowInputDisplay = False
+ShowRTC = False
+[DSP]
+EnableJIT = False
+DumpAudio = False
+DumpAudioSilent = False
+DumpUCode = False
+Backend = Libretro
+Volume = 100
+CaptureLog = False
+[Input]
+BackgroundInput = False
+[FifoPlayer]
+LoopReplay = False
+[Analytics]
+ID = 
+Enabled = False
+PermissionAsked = False
+[Network]
+SSLDumpRead = False
+SSLDumpWrite = False
+SSLVerifyCertificates = True
+SSLDumpRootCA = False
+SSLDumpPeerCert = False
+[BluetoothPassthrough]
+Enabled = False
+VID = -1
+PID = -1
+LinkKeys = 
+[USBPassthrough]
+Devices = 
+[Sysconf]
+SensorBarPosition = 1
+SensorBarSensitivity = 50331648
+SpeakerVolume = 88
+WiimoteMotor = True
+WiiLanguage = 1
+AspectRatio = 1
+Screensaver = 0
+
+"
+New-Item $dolphinConfigFolder -ItemType directory
+Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
+
+# 
+# 16. Fixing epsxe bug setting the registry
+# https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
+# https://www.youtube.com/watch?v=fY89H8fLFSc
+# 
+$path = 'HKCU:\SOFTWARE\epsxe\config'
+
+New-Item -Path $path -Force | Out-Null
+
+Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
+
+# 
+# 17. Add in a game art scraper
+# 
+$scraperZip = $requirementsFolder + "scraper_windows_amd64*.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
 # 
-# 15. Create some useful desktop shortcuts
+# 18. Create some useful desktop shortcuts
 # 
 $userProfileVariable = Get-ChildItem Env:UserProfile
 $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
 $coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
+$windowedEmulationStation = "C:\Program Files (x86)\EmulationStation\emulationstation.exe --windowed --resolution 1366 768"
 
 $wshshell = New-Object -ComObject WScript.Shell
 $desktop = [System.Environment]::GetFolderPath('Desktop')
@@ -568,9 +811,14 @@ $lnk.Save()
 $lnk = $wshshell.CreateShortcut($desktop+"\Cores Location.lnk")
 $lnk.TargetPath = $coresShortcut
 $lnk.Save() 
- 
+
+$lnk = $wshshell.CreateShortcut($desktop+"\Windowed EmulationStation.lnk")
+$lnk.TargetPath = $windowedEmulationStation
+$lnk.Save() 
 
 # 
-# 16. Enjoy your retro games!
+# 19. Enjoy your retro games!
 # 
 Write-Host "Enjoy!"
+
+Read-Host -Prompt "Press Enter to exit"
