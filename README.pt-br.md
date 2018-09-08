@@ -15,7 +15,7 @@ Destaques
 - Usa uma versão atualizada do Emulation Station da branch do Raspery Pi
 - Popula automaticamente emuladores com roms de domínio público
 - Instala automaticamente um tema popular com suporte para a adição de favoritos
-- Instalador inicial com menos de 20kb, já que é apenas um script
+- Instalador inicial com menos alguns KB, já que são apenas scripts
 - Inclue um recuperador de informações de roms dentro da pasta de rom (execute %UserProfile%\\.emulationstation\roms\scraper.exe)
 
 Traduções
@@ -24,12 +24,10 @@ Traduções
 
 Passo-a-passo
 ------
-1. Certifique-se que o chocolatey está instalado https://chocolatey.org/install
-2. Certifique-se que o Powershell está configurado para "Set-executionpolicy Bypass" (execute o comando)
-3. Execute prepare.ps1 em uma sessão administrativa Powershell
+1. Execute prepare.ps1 em uma sessão administrativa Powershell
   (NOTA: Powershell pode reiniciar seu computador já que algumas bibliotecas requerem o reinício, se isto ocorrer, simplesmente re-execute depois de seu PC reiniciar)
-4. Execute o Emulation Station and aproveite
-5. Acesse suas ROMS aqui %UserProfile%\\.emulationstation\roms
+2. Execute o Emulation Station and aproveite
+3. Acesse suas ROMS aqui %UserProfile%\\.emulationstation\roms
 
 GIF da instalação:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
@@ -47,7 +45,14 @@ Possíveis problemas e soluções
 - Comandos Powershell podem falhar, certifique-se que sua sessão está em modo administrador.
 - Se o Powershell reclamar da sintaxe, você provavelmente está executando uma versão do Powershell abaixo da 5. Execute 'choco install powershell -y' para atualizar.
 - Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\\.emulationstation\es_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
+- Se você não conseguir executar o script no menu de contexto (botão direito do mouse), reverta o padrão "Abrir com" para o Bloco de Notas.
 
+Recursos Opcionais e Dicas
+------
+- Se você prefere executar seus scripts usando o menu de contexto (botão direito do mouse), mas não possui a opção de executá-los em modo administrador, você pode simplesmente dar um duplo-clique no arquivo "powershell_run-as-admin.reg" e aceitar as modificações ao registro. Será criado uma nova entrada no menu para executar facilmente
+- Se você usa o OneDrive para armazenar suas ROMs e saves, pode executar o script onedrive.ps1 ou pode modificá-lo para qualquer outra pasta específica. Mais instruções nos comentários
+- Alguns novos temas apresentam vídeos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
+- Script para recuperar informações (scraper) de forma fácil incluído. Apenas execute e ele fará o backup dos arquivos gamelist.xml para cada pasta de ROMs e produzirá um novo arquivo com dados recuperados dos serviços de scrap (se você modificou sua pasta de ROMs, por favor, confira a mesma antes de executar)
 
 Agradecimentos Especiais
 ------
@@ -58,4 +63,4 @@ Agradecimentos Especiais
 - OpenEmu por seu trabalho na coleção de rom livres https://github.com/OpenEmu/OpenEmu-Update
 - recalbox por seus temas https://github.com/recalbox/recalbox-themes
 - sselph por seu maravilhoso recuperador de informações de roms https://github.com/sselph/scraper
-- PRElias pela tradução em Português do Brasil - http://paulorobertoelias.com
+- PRElias pela tradução em Português do Brasil, automatização do choco e funcionalidades opcionais - http://paulorobertoelias.com
