@@ -3,12 +3,6 @@ Emulation Station configurado para Windows 10
 
 Auto instalador para configurar corretamente o Emulation Station em uma máquina com Windows 10 64bit.
 
-Com o aumento da pupularidade do Retropie, a configuração do Emulationstation em plataformas windows não
-tem recebido muita atenção.
-
-Eu já passei muitas noites tentando descobrir como configurar tudo corretamente para uma máquina Windows,
-para finalmente deixar tudo certo. Dado a dor de cabeça que passei e a quantidade de amigos meus que me
-pediram a mesma configuração, eu dedici juntar tudo e montar esse script powershell para outras pessoas usarem.
 
 Destaques
 ------
@@ -17,10 +11,6 @@ Destaques
 - Instala automaticamente um tema popular com suporte para a adição de favoritos
 - Instalador inicial com menos alguns KB, já que são apenas scripts
 - Inclue um recuperador de informações de roms dentro da pasta de rom (execute %UserProfile%\\.emulationstation\roms\scraper.exe)
-
-Traduções
-------
-[English](README.en.md)
 
 Passo-a-passo
 ------
@@ -54,6 +44,11 @@ Recursos Opcionais e Dicas
 - Alguns novos temas apresentam vídeos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
 - Script para recuperar informações (scraper) de forma fácil incluído. Apenas execute e ele fará o backup dos arquivos gamelist.xml para cada pasta de ROMs e produzirá um novo arquivo com dados recuperados dos serviços de scrap (se você modificou sua pasta de ROMs, por favor, confira a mesma antes de executar)
 
+Traduções
+------
+[English](README.en.md)
+
+
 Agradecimentos Especiais
 ------
 - jrassa pela sua versão atualizada da compilação do Emulation Station - https://github.com/jrassa/EmulationStation
@@ -63,4 +58,5 @@ Agradecimentos Especiais
 - OpenEmu por seu trabalho na coleção de rom livres https://github.com/OpenEmu/OpenEmu-Update
 - recalbox por seus temas https://github.com/recalbox/recalbox-themes
 - sselph por seu maravilhoso recuperador de informações de roms https://github.com/sselph/scraper
-- PRElias pela tradução em Português do Brasil, automatização do choco e funcionalidades opcionais - http://paulorobertoelias.com
+- PRElias pela tradução em Português do Brasil, automatização do choco e funcionalidades opcionais - http://paulorobertoelias.com.br
+- Chris Franco que teve a ideia e montou toda a estrutura do script original https://github.com/Francommit
