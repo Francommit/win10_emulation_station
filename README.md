@@ -1,62 +1,66 @@
-Emulation Station configured for Windows 10
+Emulation Station configurado para Windows 10
 ======
 
-An auto-installer to set up Emulation Station correctly on a 64 bit version of Windows 10.
+Auto instalador para configurar corretamente o Emulation Station em uma máquina com Windows 10 64bit.
 
-As Retropie's increase in popularity, the setup of Emulationstation on the Windows platform hasn't recieved much love.
-I spent several nights trying to figure out how to configure everything correctly for a Windows machine to finally get it just right. Given the pain I went through and how now several of my friends have requested the same setup I decided to throw together a quick little powershell script for others to use.
+Com o aumento da pupularidade do Retropie, a configuração do Emulationstation em plataformas windows não
+tem recebido muita atenção.
 
-Features
+Eu já passei muitas noites tentando descobrir como configurar tudo corretamente para uma máquina Windows,
+para finalmente deixar tudo certo. Dado a dor de cabeça que passei e a quantidade de amigos meus que me
+pediram a mesma configuração, eu dedici juntar tudo e montar esse script powershell para outras pessoas usarem.
+
+Destaques
 ------
-- Uses an up to date version of Emulation Station from the Raspberry Pi branch
-- Auto populates emulators with public domain roms
-- Auto installs a popular theme with support for adding 'Favorites'
-- Initial installer is less than a few KB in size, it's just scripts
-- Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\\.emulationstation\roms\scraper.exe)
+- Usa uma versão atualizada do Emulation Station da branch do Raspery Pi
+- Popula automaticamente emuladores com roms de domínio público
+- Instala automaticamente um tema popular com suporte para a adição de favoritos
+- Instalador inicial com menos alguns KB, já que são apenas scripts
+- Inclue um recuperador de informações de roms dentro da pasta de rom (execute %UserProfile%\\.emulationstation\roms\scraper.exe)
 
-Translations
+Traduções
 ------
-[Portuguese](README.pt-br.md)
+[English](README.en.md)
 
-Steps
+Passo-a-passo
 ------
-1. Run prepare.ps1 in an admin session of Powershell
-  (NOTE: Powershell might restart your computer as some libraries require a restart, if so, simply re-run after your PC restarts)
-2. Launch Emulation Station and Enjoy
-3. Access your ROMS here %UserProfile%\\.emulationstation\roms
+1. Execute prepare.ps1 em uma sessão administrativa Powershell
+  (NOTA: Powershell pode reiniciar seu computador já que algumas bibliotecas requerem o reinício, se isto ocorrer, simplesmente re-execute depois de seu PC reiniciar)
+2. Execute o Emulation Station and aproveite
+3. Acesse suas ROMS aqui %UserProfile%\\.emulationstation\roms
 
-Installation GIF:
+GIF da instalação:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
 
 
 
-Troubleshooting
+Possíveis problemas e soluções
 ------
-- If the controller is not working in game, configure Input in Retroarch (%UserProfile%\\.emulationstation\systems\retroarch\retroarch.exe)
-- PSX and PS2 Homebrew Games won't load unless you acquire the bios's and add them to the bios folder (%UserProfile%\\.emulationstation\systems\epsxe\bios and %UserProfile%\\.emulationstation\systems\pcsx2\bios)
-- PSX and PS2 also require manual configuration for controllers (%UserProfile%\\.emulationstation\systems\epsxe\ePSXe.exe and %UserProfile%\\.emulationstation\systems\pcsx2\pcsx2.exe)
-- If the script fails for whatever reason delete the contents of %UserProfile%\\.emulationstation and try again.
-- Emulation Station may crash when you return to it from a external progam, ensure your graphics drivers are up to date.
-- Launching a Retroarch rom may return you to ES, you're probably on a 32-bit verison of Windows and need to acquire seperate cores.
-- Powershell commands may fail, ensure your Powershell session is in Admin mode.
-- If Powershell complains about syntax you're probably somehow running a Powershell version lower than 5. Run 'choco install powershell -y' to update.
-- If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
-- If you are unable to run script from context menu (right mouse button), revert default "Open with" to Notepad
+- Se o seu controle não está funcionando no jogo, configure o Input no Retroarch (%UserProfile%\\.emulationstation\systems\retroarch\retroarch.exe)
+- Jogos de PS1 and PS2 não carregam a não ser que você tenha e inclua suas bios nas respectivas pastas (%UserProfile%\.emulationstation\systems\epsxe\bios e %UserProfile%\\.emulationstation\systems\pcsx2\bios)
+- PS1 e PS2 também requerem configuração manual para os controles(%UserProfile%\.emulationstation\systems\epsxe\ePSXe.exe e %UserProfile%\\.emulationstation\systems\pcsx2\pcsx2.exe)
+- Se o script falhar por qualquer razão, apague o conteúdo da pasta %UserProfile%\\.emulationstation e tente novamente.
+- O Emulation Station pode travar quando você retorna para ele depois de um programa externo, certifique-se que sua placa de vídeo possui os drivers atualizados.
+- Se ao executar uma rom no Retroarch, retornar para o Emulationstation, você provavelmente está em uma versão 32-bit do Windows e precisará de outros cores (DLLs do Retroarch).
+- Comandos Powershell podem falhar, certifique-se que sua sessão está em modo administrador.
+- Se o Powershell reclamar da sintaxe, você provavelmente está executando uma versão do Powershell abaixo da 5. Execute 'choco install powershell -y' para atualizar.
+- Se você estiver usando controles do Xbox e tendo problemas ao configurar o botão guia como hotkey, localize o arquivo (%UserProfile%\\.emulationstation\es_input.cfg e altere a linha do hotkeyenable para ```<input id="5" name="hotkeyenable" type="button" value="10" />```
+- Se você não conseguir executar o script no menu de contexto (botão direito do mouse), reverta o padrão "Abrir com" para o Bloco de Notas.
 
-Optional Features and Tips
+Recursos Opcionais e Dicas
 ------
-- If you prefer to run your scripts using context menu (right mouse button) but lacks the abilitiy to run they on an admin session, you can just double-click "powershell_run-as-admin.reg" file and accept the registry modification. It creates a new entry on the menu to do that easily.
-- If you use OneDrive to store your ROMs and saves, you can run the script onedrive.ps1 or you can modifify it to any other specific folder. Further instructions in comments
-- Some new themes shows videos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
-- Script for easy scraping included. Just run and it will backup your gamefile.xml for each ROM folder and produce a new one with data from scrap services (if you have modified your ROM folder, please check before run)
+- Se você prefere executar seus scripts usando o menu de contexto (botão direito do mouse), mas não possui a opção de executá-los em modo administrador, você pode simplesmente dar um duplo-clique no arquivo "powershell_run-as-admin.reg" e aceitar as modificações ao registro. Será criado uma nova entrada no menu para executar facilmente
+- Se você usa o OneDrive para armazenar suas ROMs e saves, pode executar o script onedrive.ps1 ou pode modificá-lo para qualquer outra pasta específica. Mais instruções nos comentários
+- Alguns novos temas apresentam vídeos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
+- Script para recuperar informações (scraper) de forma fácil incluído. Apenas execute e ele fará o backup dos arquivos gamelist.xml para cada pasta de ROMs e produzirá um novo arquivo com dados recuperados dos serviços de scrap (se você modificou sua pasta de ROMs, por favor, confira a mesma antes de executar)
 
-Special Thanks
+Agradecimentos Especiais
 ------
-- jrassa for his up to date compiled version of Emulation Station - https://github.com/jrassa/EmulationStation
-- Nesworld for their open-source NES roms - http://www.nesworld.com/
-- Libretro for their retroarch version - https://www.libretro.com/
-- dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
-- OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
-- recalbox for their themes https://github.com/recalbox/recalbox-themes
-- sselph for his awesome scraper https://github.com/sselph/scraper
-- PRElias for Portuguese translations, choco auto-intall and new optional features - http://paulorobertoelias.com
+- jrassa pela sua versão atualizada da compilação do Emulation Station - https://github.com/jrassa/EmulationStation
+- Nesworld por suas ROMs livres de NES - http://www.nesworld.com/
+- Libretro por sua versão do Retroarch - https://www.libretro.com/
+- dtgm por manter o pacote chocolatey do Emulation Station https://chocolatey.org/packages/emulationstation
+- OpenEmu por seu trabalho na coleção de rom livres https://github.com/OpenEmu/OpenEmu-Update
+- recalbox por seus temas https://github.com/recalbox/recalbox-themes
+- sselph por seu maravilhoso recuperador de informações de roms https://github.com/sselph/scraper
+- PRElias pela tradução em Português do Brasil, automatização do choco e funcionalidades opcionais - http://paulorobertoelias.com
