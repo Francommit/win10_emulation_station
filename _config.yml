@@ -2,3 +2,4 @@ theme: jekyll-theme-cayman
 title: EmulationStation pronto para Windows
 description: Instalador simples e automatizado para Windows
 google_analytics: UA-48861101-6
+show_downloads: true
