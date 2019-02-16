@@ -51,12 +51,12 @@ Traduções
 
 Agradecimentos Especiais
 ------
-- jrassa pela sua versão atualizada da compilação do Emulation Station - https://github.com/jrassa/EmulationStation
-- Nesworld por suas ROMs livres de NES - http://www.nesworld.com/
-- Libretro por sua versão do Retroarch - https://www.libretro.com/
-- dtgm por manter o pacote chocolatey do Emulation Station https://chocolatey.org/packages/emulationstation
-- OpenEmu por seu trabalho na coleção de rom livres https://github.com/OpenEmu/OpenEmu-Update
-- recalbox por seus temas https://github.com/recalbox/recalbox-themes
-- sselph por seu maravilhoso recuperador de informações de roms https://github.com/sselph/scraper
-- PRElias pela tradução em Português do Brasil, automatização do choco e funcionalidades opcionais - http://paulorobertoelias.com.br
-- Chris Franco que teve a ideia e montou toda a estrutura do script original https://github.com/Francommit
+- [jrassa](https://github.com/jrassa/EmulationStation) pela sua versão atualizada da compilação do Emulation Station
+- [Nesworld](http://www.nesworld.com/) por suas ROMs livres de NES  
+- [Libretro](https://www.libretro.com/) por sua versão do Retroarch  
+- [dtgm](https://chocolatey.org/packages/emulationstation) por manter o pacote chocolatey do Emulation Station 
+- [OpenEmu](https://github.com/OpenEmu/OpenEmu-Update) por seu trabalho na coleção de rom livres 
+- [recalbox](https://github.com/recalbox/recalbox-themes) por seus temas 
+- [sselph](https://github.com/sselph/scraper) por seu maravilhoso recuperador de informações de roms 
+- [Paulo Elias](http://paulorobertoelias.com.br) pela tradução em Português do Brasil, automatização do choco e funcionalidades opcionais
+- [Chris Franco](https://github.com/Francommit) que teve a ideia e montou toda a estrutura do script original 
