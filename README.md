@@ -1,5 +1,5 @@
 Emulation Station configurado para Windows 10
------
+======
 
 Auto instalador para configurar corretamente o Emulation Station em uma máquina com Windows 10 64bit.
 
