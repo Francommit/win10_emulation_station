@@ -20,9 +20,14 @@ Translations
 
 Steps
 ------
-1. Run prepare.ps1 in an admin session of Powershell
-  (NOTE: Powershell might restart your computer as some libraries require a restart, if so, simply re-run after your PC restarts)
+1. Run prepare.ps1 in an admin session of Powershell:
+- Powershell might restart your computer as some libraries require a restart, if so, simply re-run after your PC restarts)
+- You might need to change your Powershell execution policy, so run this instead of JUST prepare.ps1
+
+``Set-ExecutionPolicy Bypass -Scope Process -Force; .\prepare.ps1``
+
 2. Launch Emulation Station and Enjoy
+
 3. Access your ROMS here %UserProfile%\\.emulationstation\roms
 
 Installation GIF:
