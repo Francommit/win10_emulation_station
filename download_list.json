@@ -2,7 +2,7 @@
 	"downloads": [
 	  {"file":"ePSXe205.zip", "url":"http://www.epsxe.com/files/ePSXe205.zip"},
 	  {"file":"pcsx2-1.4.0-binaries.7z", "url":"https://pcsx2.net/download/releases/windows/send/40-windows/119-pcsx2-1-4-0-binaries.html"},
-	  {"file":"RetroArch.7z", "url": "https://buildbot.libretro.com/stable/1.6.7/windows/x86_64/RetroArch.7z"},
+	  {"file":"RetroArch.7z", "url": "https://buildbot.libretro.com/stable/1.8.4/windows/x86_64/RetroArch.7z"},
 	  {"file":"assimilate_full.zip", "url": "http://www.nesworld.com/homebrew/assimilate_full.zip"},
 	  {"file":"fceumm_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"},
 	  {"file":"mame_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/mame_libretro.dll.zip"},
