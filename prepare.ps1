@@ -510,11 +510,10 @@ Set-Content $esConfigFile -Value $newConfig
 # 10. Setup a nice looking theme.
 # 
 $themesPath = $env:userprofile+"\.emulationstation\themes\"
-$themesFile = $requirementsFolder + "recalbox-multi-v2-recalbox-multi-v2.0.0.zip"
-$themesFiles = $requirementsFolder + "recalbox-multi-v2-recalbox-multi-v2.0.0"
-New-Item -ItemType Directory -Force -Path $themesPath
+$themesFile = $requirementsFolder + "master.zip"
 Expand-Archive -Path $themesFile -Destination $requirementsFolder
-Expand-Archive -Path $themesFiles -Destination $themesPath
+$themesFolder = $requirementsFolder + "\recalbox-backport-master\"
+robocopy $themesFolder $themesPath /E
 
 
 # 
@@ -526,15 +525,7 @@ Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStat
 
 
 # 
-# 12. Update the recalbox theme to use the correct folder naming conventions
-# 
-$incorrectFolderName = $env:userprofile+"\.emulationstation\themes\recalbox-multi\favorites"
-$correctFolderName = "auto-favorites"
-& Rename-Item -Path $incorrectFolderName -NewName $correctFolderName
-
-
-# 
-# 13. Generate settings file with favorites enabled.
+# 12. Generate settings file with favorites enabled.
 # 
 $esConfigFile = $env:userprofile+"\.emulationstation\es_settings.cfg"
 $newSettingsConfig = "<?xml version='1.0'?>
@@ -577,7 +568,7 @@ $newSettingsConfig = "<?xml version='1.0'?>
 <string name='SlideshowScreenSaverBackgroundAudioFile' value='$env:userprofile/.emulationstation/slideshow/audio/slideshow_bg.wav' />
 <string name='SlideshowScreenSaverImageDir' value='$env:userprofile/.emulationstation/slideshow/image' />
 <string name='SlideshowScreenSaverImageFilter' value='.png,.jpg' />
-<string name='ThemeSet' value='recalbox-multi' />
+<string name='ThemeSet' value='recalbox-backport' />
 <string name='TransitionStyle' value='fade' />
 
 "
@@ -588,7 +579,7 @@ New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 
 
 # 
-# 14. Generate ini file for Dolphin.
+# 13. Generate ini file for Dolphin.
 # 
 $dolphinConfigFile = $env:userprofile+"\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
 $dolphinConfigFolder = $env:userprofile+"\.emulationstation\systems\retroarch\saves\User\Config\"
@@ -774,7 +765,7 @@ New-Item $dolphinConfigFolder -ItemType directory
 Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
 # 
-# 16. Fixing epsxe bug setting the registry
+# 14. Fixing epsxe bug setting the registry
 # https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
 # https://www.youtube.com/watch?v=fY89H8fLFSc
 # 
@@ -785,14 +776,14 @@ New-Item -Path $path -Force | Out-Null
 Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 
 # 
-# 17. Add in a game art scraper
+# 15. Add in a game art scraper
 # 
 $scraperZip = $requirementsFolder + "scraper_windows_amd64*.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
 # 
-# 18. Create some useful desktop shortcuts
+# 16. Create some useful desktop shortcuts
 # 
 $userProfileVariable = Get-ChildItem Env:UserProfile
 $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
@@ -814,7 +805,7 @@ $lnk.TargetPath = $windowedEmulationStation
 $lnk.Save() 
 
 # 
-# 19. Enjoy your retro games!
+# 17. Enjoy your retro games!
 # 
 Write-Host "Enjoy!"
 
