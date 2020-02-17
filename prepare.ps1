@@ -164,13 +164,10 @@ New-Item -ItemType Directory -Force -Path $psxEmulatorPath
 Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
 
 # PS2 Setup
-$ps2Emulator = $requirementsFolder + "pcsx2-1.4.0-binaries.7z"
-$ps2ExtractionPath = $env:userprofile + "\.emulationstation\systems\"
-$ps2ExtractedPath = $ps2ExtractionPath + "PCSX2 1.4.0\"
-$ps2EmulatorPath = $ps2ExtractionPath + "pcsx2\"
+$ps2EmulatorMsi = $requirementsFolder + "pcsx2-1.4.0-setup.exe"
+$ps2EmulatorPath = $env:userprofile + "\.emulationstation\systems\pcsx2\"
 $ps2BiosPath = $ps2EmulatorPath + "bios\"
-Expand-Archive -Path $ps2Emulator -Destination $ps2ExtractionPath
-Rename-Item -Path $ps2ExtractedPath -NewName "pcsx2"
+Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
 New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
 # Gamecube Setup
