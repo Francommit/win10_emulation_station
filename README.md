@@ -61,6 +61,6 @@ Special Thanks
 - Libretro for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation
 - OpenEmu for their Open-Source rom collection work https://github.com/OpenEmu/OpenEmu-Update
-- recalbox for their themes https://github.com/recalbox/recalbox-themes
+- fonic for his theme https://github.com/fonic/recalbox-backport
 - sselph for his awesome scraper https://github.com/sselph/scraper
 - PRElias for Portuguese translations, choco auto-intall and new optional features - http://paulorobertoelias.com
