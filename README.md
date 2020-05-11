@@ -22,6 +22,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::Secu
 ```
 - Updating links
 - More bios'
+- Made a little website/page - https://francommit.com/emulationstation/
 
 Translations
 ------
