@@ -14,6 +14,15 @@ Features
 - Initial installer is less than a few KB in size, it's just scripts
 - Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\\.emulationstation\roms\scraper.exe)
 
+WIP
+------
+- Single one liner to install everything:
+```
+Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/1.0.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
+```
+- Updating links
+- More bios'
+
 Translations
 ------
 [Portuguese](README.pt-br.md)
