@@ -1,7 +1,7 @@
 {
 	"downloads": [
 	  {"file":"ePSXe205.zip", "url":"http://www.epsxe.com/files/ePSXe205.zip"},
-	  {"file":"pcsx2-1.4.0-binaries.7z", "url":"https://pcsx2.net/download/releases/windows/send/40-windows/119-pcsx2-1-4-0-binaries.html"},
+	  {"file":"pcsx2-1.6.0-binaries.7z", "url":"https://pcsx2.net/download/releases/windows/send/40-windows/125-pcsx2-1-6-0-binaries.html"},
 	  {"file":"RetroArch.7z", "url": "https://buildbot.libretro.com/stable/1.6.7/windows/x86_64/RetroArch.7z"},
 	  {"file":"assimilate_full.zip", "url": "http://www.nesworld.com/homebrew/assimilate_full.zip"},
 	  {"file":"fceumm_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"},
@@ -15,7 +15,7 @@
 	  {"file":"genesis_plus_gx_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/genesis_plus_gx_libretro.dll.zip"},
 	  {"file":"snes9x_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/snes9x_libretro.dll.zip"},
 	  {"file":"N-Warp Daisakusen V1.1.smc", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SNES/N-Warp%20Daisakusen/N-Warp%20Daisakusen%20V1.1.smc"},
-	  {"file":"Marilyn_In_the_Magic_World_(010a).7z","url":"http://psxdev.net/homebrew/files/Marilyn_In_the_Magic_World_(010a).7z"},
+	  {"file":"marilyn_v0.12a.7z","url":"https://www.ps2-home.com/media/brew/marilyn_v0.12a.7z"},
 	  {"file":"star_heritage.zip","url":"http://www.nesworld.com/gbc/homebrew/commercial/star_heritage.zip"},
 	  {"file":"gambatte_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/gambatte_libretro.dll.zip"},
 	  {"file":"stella_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/stella_libretro.dll.zip"},
