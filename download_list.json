@@ -24,7 +24,7 @@
 	  {"file":"fmsx_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fmsx_libretro.dll.zip"},
 	  {"file":"puae_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/puae_libretro.dll.zip"},
 	  {"file":"dolphin_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/dolphin_libretro.dll.zip"},
-	  {"file":"master.zip","url":"https://github.com/fonic/recalbox-backport/archive/master.zip"}
+	  {"file":"master.zip","url":"https://codeload.github.com/fonic/recalbox-backport/zip/master"}
 	],
 	"releases": [
 		{"file":"EmulationStation-Win32.zip", "repo":"jrassa/emulationstation"},
