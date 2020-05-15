@@ -59,7 +59,7 @@ Troubleshooting
 
 Optional Features and Tips
 ------
-- If you prefer to run your scripts using context menu (right mouse button) but lacks the abilitiy to run they on an admin session, you can just double-click "powershell_run-as-admin.reg" file and accept the registry modification. It creates a new entry on the menu to do that easily.
+- If you prefer to run your scripts via context menu (right mouse button) but lack the abilitiy to run them in an admin session, you can just double-click the "powershell_run-as-admin.reg" file and accept the registry modification. It will add a new entry to the menu to do that easily.
 - If you use OneDrive to store your ROMs and saves, you can run the script onedrive.ps1 or you can modifify it to any other specific folder. Further instructions in comments
 - Some new themes shows videos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
 - Script for easy scraping included. Just run and it will backup your gamefile.xml for each ROM folder and produce a new one with data from scrap services (if you have modified your ROM folder, please check before run)
