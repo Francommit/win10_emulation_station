@@ -28,7 +28,7 @@
 	"releases": [
 		{"file":"EmulationStation-Win32.zip", "repo":"jrassa/emulationstation"},
 		{"file":"scraper_windows_amd64.zip", "repo":"sselph/scraper"},
-		{"file":"recalbox-backport.zip", "repo":"fonic/recalbox-backport"}
+		{"file":"recalbox-backport-v1.0.zip", "repo":"fonic/recalbox-backport"}
 	],
 	"extra_nes_games": [
 		{"file":"mojontwinsmulticart.zip","url":"http://www.nesworld.com/homebrew/mojontwinsmulticart.zip"},
