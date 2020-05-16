@@ -288,7 +288,9 @@ New-Item -ItemType Directory -Force -Path $scummVmPath
 
 # NeogeoPocket Setup
 $neogeoPocketPath =  "$romPath\ngp"
+$ngpRom = "$requirementsFolder\neopocket.zip"
 New-Item -ItemType Directory -Force -Path $neogeoPocketPath
+Expand-Archive -Path $ngpRom -Destination $neogeoPocketPath
 
 # Neogeo Setup
 $neogeoPath =  "$romPath\neogeo"
