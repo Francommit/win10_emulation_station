@@ -179,6 +179,10 @@ New-Item -ItemType Directory -Force -Path $ps2BiosPath
 $gcCore = "$requirementsFolder\dolphin_libretro.dll.zip"
 Expand-Archive -Path $gcCore -Destination $coresPath
 
+# NeoGeo Pocket Setup
+$ngpCore = "$requirementsFolder\race_libretro.dll.zip"
+Expand-Archive -Path $ngpCore -Destination $coresPath
+
 # 
 # 6. Start Retroarch and generate a config.
 # 
@@ -493,7 +497,7 @@ $newConfig = "<systemList>
         <name>ngp</name>
         <path>$neogeoPocketPath</path>
         <extension>.ngp .ngc .zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>        
+        <command>$retroarchExecutable -L $coresPath\race_libretro.dll %ROM%</command>        
         <platform>ngp</platform>
         <theme>ngp</theme>
     </system>
