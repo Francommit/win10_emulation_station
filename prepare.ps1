@@ -16,6 +16,10 @@ $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
 Write-Host $scriptDir
 
+# making life easier with all these annoying paths formatted stupid
+$dotESdir = "$($env:userprofile)\.emulationstation"
+
+
 # 
 # 1. Chocolatey installs 
 # 
@@ -83,8 +87,8 @@ Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -
 # 
 # 3. Generate es_systems.cfg
 # 
-& 'C:\Program Files (x86)\EmulationStation\emulationstation.exe'
-$configPath = $env:userprofile+"\.emulationstation\es_systems.cfg"
+& "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
+$configPath = "$env:userprofile\.emulationstation\es_systems.cfg"
 
 while (!(Test-Path $configPath)) { 
     Write-Host "Checking for config file..."
@@ -97,8 +101,8 @@ Stop-Process -Name "emulationstation"
 # 
 # 4. Prepare Retroarch
 # 
-$retroArchPath = $env:userprofile + "\.emulationstation\systems\retroarch\"
-$retroArchBinary = $requirementsFolder + "RetroArch.7z"
+$retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
+$retroArchBinary = "$requirementsFolder\RetroArch.7z"
 
 New-Item -ItemType Directory -Force -Path $retroArchPath
 
@@ -119,67 +123,67 @@ Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
 # 
 # 5. Prepare cores
 # 
-$coresPath = $retroArchPath + "cores"
+$coresPath = "$retroArchPath\cores"
 
 # NES Setup
-$nesCore = $requirementsFolder + "fceumm_libretro.dll.zip"
+$nesCore = "$requirementsFolder\fceumm_libretro.dll.zip"
 Expand-Archive -Path $nesCore -Destination $coresPath
 
 # N64 Setup
-$n64Core = $requirementsFolder + "parallel_n64_libretro.dll.zip"
+$n64Core = "$requirementsFolder\parallel_n64_libretro.dll.zip"
 Expand-Archive -Path $n64Core -Destination $coresPath
 
 # FBA Setup
-$fbaCore = $requirementsFolder + "fbalpha2012_libretro.dll.zip"
+$fbaCore = "$requirementsFolder\fbalpha2012_libretro.dll.zip"
 Expand-Archive -Path $fbaCore -Destination $coresPath
 
 # GBA Setup
-$gbaCore = $requirementsFolder + "vba_next_libretro.dll.zip"
+$gbaCore = "$requirementsFolder\vba_next_libretro.dll.zip"
 Expand-Archive -Path $gbaCore -Destination $coresPath
 
 # SNES Setup
-$snesCore = $requirementsFolder + "snes9x_libretro.dll.zip"
+$snesCore = "$requirementsFolder\snes9x_libretro.dll.zip"
 Expand-Archive -Path $snesCore -Destination $coresPath
 
 # Genesis GX Setup
-$mdCore = $requirementsFolder + "genesis_plus_gx_libretro.dll.zip"
+$mdCore = "$requirementsFolder\genesis_plus_gx_libretro.dll.zip"
 Expand-Archive -Path $mdCore -Destination $coresPath
 
 # Game boy Colour Setup
-$gbcCore = $requirementsFolder + "gambatte_libretro.dll.zip"
+$gbcCore = "$requirementsFolder\gambatte_libretro.dll.zip"
 Expand-Archive -Path $gbcCore -Destination $coresPath
 
 # Atari2600 Setup
-$atari2600Core = $requirementsFolder + "stella_libretro.dll.zip"
+$atari2600Core = "$requirementsFolder\stella_libretro.dll.zip"
 Expand-Archive -Path $atari2600Core -Destination $coresPath
 
 # MAME Setup
-$mameCore = $requirementsFolder + "mame_libretro.dll.zip"
+$mameCore = "$requirementsFolder\mame_libretro.dll.zip"
 Expand-Archive -Path $mameCore -Destination $coresPath
 
 # PSX Setup
-$psxEmulator = $requirementsFolder + "ePSXe205.zip"
-$psxEmulatorPath = $env:userprofile + "\.emulationstation\systems\epsxe\"
+$psxEmulator = "$requirementsFolder\ePSXe205.zip"
+$psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
 $psxBiosPath = $psxEmulatorPath + "bios\"
 New-Item -ItemType Directory -Force -Path $psxEmulatorPath
 Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
 
 # PS2 Setup
-$ps2EmulatorMsi = $requirementsFolder + "pcsx2-1.6.0-setup.exe"
-$ps2EmulatorPath = $env:userprofile + "\.emulationstation\systems\pcsx2\"
-$ps2BiosPath = $ps2EmulatorPath + "bios\"
+$ps2EmulatorMsi = "$requirementsFolder\pcsx2-1.6.0-setup.exe"
+$ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
+$ps2BiosPath = "$ps2EmulatorPath\bios\"
 Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
 New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
 # Gamecube Setup
-$gcCore = $requirementsFolder + "dolphin_libretro.dll.zip"
+$gcCore = "$requirementsFolder\dolphin_libretro.dll.zip"
 Expand-Archive -Path $gcCore -Destination $coresPath
 
 # 
 # 6. Start Retroarch and generate a config.
 # 
-$retroarchExecutable = $retroArchPath + "retroarch.exe"
-$retroarchConfigPath = $retroArchPath + "retroarch.cfg"
+$retroarchExecutable = "$retroArchPath\retroarch.exe"
+$retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 
 & $retroarchExecutable
 
@@ -214,58 +218,58 @@ $settingToSet = 'input_player2_analog_dpad_mode = "1"'
 # 
 # 8. Add those roms!
 # 
-$romPath =  $env:userprofile+"\.emulationstation\roms"
+$romPath =  "$env:userprofile\.emulationstation\roms"
 New-Item -ItemType Directory -Force -Path $romPath
 
 # Path creation + Open-Source / Freeware Rom population
-$nesPath =  $romPath+"\nes"
-$nesRom = $requirementsFolder + "assimilate_full.zip" 
+$nesPath =  "$romPath\nes"
+$nesRom = "$requirementsFolder\assimilate_full.zip" 
 New-Item -ItemType Directory -Force -Path $nesPath
 Expand-Archive -Path $nesRom -Destination $nesPath
 
-$n64Path =  $romPath+"\n64"
-$n64Rom = $requirementsFolder + "pom-twin.zip"
+$n64Path =  "$romPath\n64"
+$n64Rom = "$requirementsFolder\pom-twin.zip"
 New-Item -ItemType Directory -Force -Path $n64Path
 Expand-Archive -Path $n64Rom -Destination $n64Path
 
-$gbaPath =  $romPath+"\gba"
-$gbaRom = $requirementsFolder + "uranus0ev_fix.gba"
+$gbaPath =  "$romPath\gba"
+$gbaRom = "$requirementsFolder\uranus0ev_fix.gba"
 New-Item -ItemType Directory -Force -Path $gbaPath
 Copy-Item -Path $gbaRom -Destination $gbaPath
 
-$mdPath = $romPath+"\megadrive"
-$mdRom =  $requirementsFolder + "rickdangerous.gen"
+$mdPath = "$romPath\megadrive"
+$mdRom =  "$requirementsFolder\rickdangerous.gen"
 New-Item -ItemType Directory -Force -Path $mdPath
 Copy-Item -Path $mdRom -Destination $mdPath
 
-$snesPath = $romPath+"\snes"
-$snesRom = $requirementsFolder + "N-Warp Daisakusen V1.1.smc"
+$snesPath = "$romPath\snes"
+$snesRom = "$requirementsFolder\N-Warp Daisakusen V1.1.smc"
 New-Item -ItemType Directory -Force -Path $snesPath
 Copy-Item -Path $snesRom -Destination $snesPath
 
-$psxPath = $romPath+"\psx"
-$psxRom = $requirementsFolder + "Marilyn_In_the_Magic_World_(010a).7z"
+$psxPath = "$romPath\psx"
+$psxRom = "$requirementsFolder\Marilyn_In_the_Magic_World_(010a).7z"
 New-Item -ItemType Directory -Force -Path $psxPath
 Expand-Archive -Path $psxRom -Destination $psxPath
 
-$ps2Path = $romPath+"\ps2"
+$ps2Path = "$romPath\ps2"
 New-Item -ItemType Directory -Force -Path $ps2Path
 
-$gbcPath = $romPath+"\gbc"
-$gbcRom = $requirementsFolder + "star_heritage.zip" 
+$gbcPath = "$romPath\gbc"
+$gbcRom = "$requirementsFolder\star_heritage.zip" 
 New-Item -ItemType Directory -Force -Path $gbcPath
 Expand-Archive -Path $gbcRom -Destination $gbcPath
 
-$fbaPath =  $romPath+"\fba"
+$fbaPath =  "$romPath\fba"
 New-Item -ItemType Directory -Force -Path $fbaPath
 
-$masterSystemPath =  $romPath+"\mastersystem"
+$masterSystemPath =  "$romPath\mastersystem"
 New-Item -ItemType Directory -Force -Path $masterSystemPath
 
-$atari2600Path =  $romPath+"\atari2600"
+$atari2600Path =  "$romPath\atari2600"
 New-Item -ItemType Directory -Force -Path $atari2600Path
 
-$mamePath =  $romPath+"\mame"
+$mamePath =  "$romPath\mame"
 New-Item -ItemType Directory -Force -Path $mamePath
 
 # 
@@ -275,44 +279,44 @@ New-Item -ItemType Directory -Force -Path $mamePath
 # WIP: Need to test and find freeware games for these emulators.
 # Need to write a bat to boot these
 # ScummVm Setup
-$scummVmPath =  $romPath+"\scummvm"
+$scummVmPath =  "$romPath\scummvm"
 New-Item -ItemType Directory -Force -Path $scummVmPath
 
 # NeogeoPocket Setup
-$neogeoPocketPath =  $romPath+"\ngp"
+$neogeoPocketPath =  "$romPath\ngp"
 New-Item -ItemType Directory -Force -Path $neogeoPocketPath
 
 # Neogeo Setup
-$neogeoPath =  $romPath+"\neogeo"
+$neogeoPath =  "$romPath\neogeo"
 New-Item -ItemType Directory -Force -Path $neogeoPath
 
 # MSX Setup
-$msxPath =  $romPath+"\msx"
-$msxCore = $requirementsFolder + "fmsx_libretro.dll.zip"
+$msxPath =  "$romPath\msx"
+$msxCore = "$requirementsFolder\fmsx_libretro.dll.zip"
 Expand-Archive -Path $msxCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $msxPath
 
 # Commodore 64 Setup
-$commodore64Path =  $romPath+"\c64"
-$commodore64Core = $requirementsFolder + "vice_x64_libretro.dll.zip"
+$commodore64Path =  "$romPath\c64"
+$commodore64Core = "$requirementsFolder\vice_x64_libretro.dll.zip"
 Expand-Archive -Path $commodore64Core -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $commodore64Path
 
 # Amiga Setup
-$amigaPath =  $romPath+"\amiga"
-$amigaCore = $requirementsFolder + "puae_libretro.dll.zip"
+$amigaPath =  "$romPath\amiga"
+$amigaCore = "$requirementsFolder\puae_libretro.dll.zip"
 Expand-Archive -Path $amigaCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $amigaPath
 
 # Atari7800 Setup
-$atari7800Path =  $romPath+"\atari7800"
-$atari7800Core = $requirementsFolder + "prosystem_libretro.dll.zip"
+$atari7800Path =  "$romPath\atari7800"
+$atari7800Core = "$requirementsFolder\prosystem_libretro.dll.zip"
 Expand-Archive -Path $atari7800Core -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $atari7800Path
 
 # Gamecube Setup
-$gcPath =  $romPath+"\gc"
-$gcCore = $requirementsFolder + "dolphin_libretro.dll.zip"
+$gcPath =  "$romPath\gc"
+$gcCore = "$requirementsFolder\dolphin_libretro.dll.zip"
 Expand-Archive -Path $gcCore -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $gcPath
 
@@ -320,7 +324,7 @@ New-Item -ItemType Directory -Force -Path $gcPath
 # 
 # 9. Hack the es_config file
 # 
-$esConfigFile = $env:userprofile+"\.emulationstation\es_systems.cfg"
+$esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
 $newConfig = "<systemList>
     <system>
         <name>nes</name>
@@ -510,25 +514,25 @@ Set-Content $esConfigFile -Value $newConfig
 # 
 # 10. Setup a nice looking theme.
 # 
-$themesPath = $env:userprofile+"\.emulationstation\themes\"
-$themesFile = $requirementsFolder + "recalbox-backport-v1-recalbox-backport-v1.0.zip"
+$themesPath = "$env:userprofile\.emulationstation\themes\"
+$themesFile = "$requirementsFolder\recalbox-backport-v1-recalbox-backport-v1.0.zip"
 Expand-Archive -Path $themesFile -Destination $requirementsFolder
-$themesFolder = $requirementsFolder + "\recalbox-backport-v1.0\"
+$themesFolder = "$requirementsFolder\\recalbox-backport-v1.0\"
 robocopy $themesFolder $themesPath /E
 
 
 # 
 # 11. Use updated binaries.
 # 
-$emulationStationInstallFolder = "C:\Program Files (x86)\EmulationStation"
-$updatedEmulationStatonBinaries = $requirementsFolder + "EmulationStation-Win32-continuous-master.zip"
+$emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
+$updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32-continuous-master.zip"
 Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder
 
 
 # 
 # 12. Generate settings file with favorites enabled.
 # 
-$esConfigFile = $env:userprofile+"\.emulationstation\es_settings.cfg"
+$esConfigFile = "$env:userprofile\.emulationstation\es_settings.cfg"
 $newSettingsConfig = "<?xml version='1.0'?>
 <bool name='BackgroundJoystickInput' value='false' />
 <bool name='CaptionsCompatibility' value='true' />
@@ -575,15 +579,15 @@ $newSettingsConfig = "<?xml version='1.0'?>
 "
 
 Set-Content $esConfigFile -Value $newSettingsConfig
-$requiredTmpFolder = $env:userprofile+"\.emulationstation\tmp\"
+$requiredTmpFolder = "$env:userprofile\.emulationstation\tmp\"
 New-Item -ItemType Directory -Force -Path $requiredTmpFolder
 
 
 # 
 # 13. Generate ini file for Dolphin.
 # 
-$dolphinConfigFile = $env:userprofile+"\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
-$dolphinConfigFolder = $env:userprofile+"\.emulationstation\systems\retroarch\saves\User\Config\"
+$dolphinConfigFile = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
+$dolphinConfigFolder = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\"
 $dolphinConfigFileContent = "[General]
 LastFilename = 
 ShowLag = False
@@ -779,7 +783,7 @@ Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 # 
 # 15. Add in a game art scraper
 # 
-$scraperZip = $requirementsFolder + "scraper_windows_amd64*.zip"
+$scraperZip = "$requirementsFolder\scraper_windows_amd64*.zip"
 Expand-Archive -Path $scraperZip -Destination $romPath
 
 
@@ -789,25 +793,23 @@ Expand-Archive -Path $scraperZip -Destination $romPath
 $userProfileVariable = Get-ChildItem Env:UserProfile
 $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
 $coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
-#$windowedEmulationStation = "C:\Program Files (x86)\EmulationStation\emulationstation.exe --windowed --resolution 1366 768"
+$windowedEmulationStation = "`"${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe`" --resolution 1366 768 --windowed"
 
 $wshshell = New-Object -ComObject WScript.Shell
 $desktop = [System.Environment]::GetFolderPath('Desktop')
-$lnk = $wshshell.CreateShortcut($desktop+"\Roms Location.lnk")
-$lnk.TargetPath = $romsShortcut
-$lnk.Save() 
+$lnkRoms = $wshshell.CreateShortcut("$desktop\Roms Location.lnk")
+$lnkRoms.TargetPath = $romsShortcut
+$lnkRoms.Save() 
 
-$lnk = $wshshell.CreateShortcut($desktop+"\Cores Location.lnk")
-$lnk.TargetPath = $coresShortcut
-$lnk.Save() 
+$lnkCores = $wshshell.CreateShortcut("$desktop\Cores Location.lnk")
+$lnkCores.TargetPath = $coresShortcut
+$lnkCores.Save() 
 
-#$lnk = $wshshell.CreateShortcut($desktop+"\Windowed EmulationStation.lnk")
-#$lnk.TargetPath = $windowedEmulationStation
-#$lnk.Save() 
+$lnkWindowed = $wshshell.CreateShortcut("$desktop\Windowed EmulationStation.lnk")
+$lnkWindowed.TargetPath = $windowedEmulationStation
+$lnkWindowed.Save() 
 
 # 
 # 17. Enjoy your retro games!
 # 
 Write-Host "Enjoy!"
-
-Read-Host -Prompt "Press Enter to exit"
