@@ -23,12 +23,12 @@
 	  {"file":"vice_x64_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/vice_x64_libretro.dll.zip"},
 	  {"file":"fmsx_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fmsx_libretro.dll.zip"},
 	  {"file":"puae_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/puae_libretro.dll.zip"},
-	  {"file":"dolphin_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/dolphin_libretro.dll.zip"},
-	  {"file":"recalbox-backport-v1.0.zip","url":"https://github.com/fonic/recalbox-backport/releases/download/recalbox-backport-v1.0/recalbox-backport-v1.0.zip"}
+	  {"file":"dolphin_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/dolphin_libretro.dll.zip"}
 	],
 	"releases": [
 		{"file":"EmulationStation-Win32.zip", "repo":"jrassa/emulationstation"},
-		{"file":"scraper_windows_amd64.zip", "repo":"sselph/scraper"}
+		{"file":"scraper_windows_amd64.zip", "repo":"sselph/scraper"},
+		{"file":"recalbox-backport.zip", "repo":"fonic/recalbox-backport"}
 	],
 	"extra_nes_games": [
 		{"file":"mojontwinsmulticart.zip","url":"http://www.nesworld.com/homebrew/mojontwinsmulticart.zip"},
