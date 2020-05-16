@@ -14,21 +14,15 @@ Features
 - Initial installer is less than a few KB in size, it's just scripts
 - Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\\.emulationstation\roms\scraper.exe)
 
-WIP
+Steps
 ------
 - Single one liner to install everything:
 ```
-Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/1.0.6.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
+Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/1.0.7.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
 ```
-- Updating links
-- More bios'
-- Made a little website/page - https://francommit.com/emulationstation/
+- Bonus Website - https://francommit.com/emulationstation/
 
-Translations
-------
-[Portuguese](README.pt-br.md)
-
-Steps
+Old Steps
 ------
 1. Run prepare.ps1 in an admin session of Powershell:
 - Powershell might restart your computer as some libraries require a restart, if so, simply re-run after your PC restarts)
@@ -42,8 +36,6 @@ Steps
 Installation GIF:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
 
-
-
 Troubleshooting
 ------
 - If the controller is not working in game, configure Input in Retroarch (%UserProfile%\\.emulationstation\systems\retroarch\retroarch.exe)
@@ -56,6 +48,10 @@ Troubleshooting
 - If Powershell complains about syntax you're probably somehow running a Powershell version lower than 5. Run 'choco install powershell -y' to update.
 - If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 - If you are unable to run script from context menu (right mouse button), revert default "Open with" to Notepad
+
+Translations
+------
+[Portuguese](README.pt-br.md)
 
 Optional Features and Tips
 ------
