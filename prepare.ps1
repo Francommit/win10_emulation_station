@@ -165,7 +165,7 @@ New-Item -ItemType Directory -Force -Path $psxEmulatorPath
 Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
 
 # PS2 Setup
-$ps2EmulatorMsi = $requirementsFolder + "pcsx2-1.4.0-setup.exe"
+$ps2EmulatorMsi = $requirementsFolder + "pcsx2-1.6.0-setup.exe"
 $ps2EmulatorPath = $env:userprofile + "\.emulationstation\systems\pcsx2\"
 $ps2BiosPath = $ps2EmulatorPath + "bios\"
 Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
