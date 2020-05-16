@@ -793,7 +793,7 @@ Expand-Archive -Path $scraperZip -Destination $romPath
 $userProfileVariable = Get-ChildItem Env:UserProfile
 $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
 $coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
-$windowedEmulationStation = "`"${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe`" --resolution 1366 768 --windowed"
+$windowedEmulationStation = "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 
 $wshshell = New-Object -ComObject WScript.Shell
 $desktop = [System.Environment]::GetFolderPath('Desktop')
@@ -806,6 +806,7 @@ $lnkCores.TargetPath = $coresShortcut
 $lnkCores.Save() 
 
 $lnkWindowed = $wshshell.CreateShortcut("$desktop\Windowed EmulationStation.lnk")
+$lnkWindowed.Arguments = "--resolution 1366 768 --windowed"
 $lnkWindowed.TargetPath = $windowedEmulationStation
 $lnkWindowed.Save() 
 
