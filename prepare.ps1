@@ -30,6 +30,7 @@ choco install vcredist2008 -y
 choco install vcredist2010 -y
 choco install vcredist2013 -y
 choco install vcredist2015 -y
+choco install cemu -y
 
 # 
 # 2. Acquire files 
@@ -286,6 +287,9 @@ New-Item -ItemType Directory -Force -Path $mamePath
 $scummVmPath =  "$romPath\scummvm"
 New-Item -ItemType Directory -Force -Path $scummVmPath
 
+$wiiuPath =  "$romPath\wiiu"
+New-Item -ItemType Directory -Force -Path $wiiuPath
+
 # NeogeoPocket Setup
 $neogeoPocketPath =  "$romPath\ngp"
 $ngpRom = "$requirementsFolder\neopocket.zip"
@@ -512,6 +516,15 @@ $newConfig = "<systemList>
         <platform>pc</platform>
         <theme>scummvm</theme>
     </system>
+    <system>
+        <name>wiiu</name>
+        <fullname>Nintendo Wii U</fullname>
+        <path>$wiiuPath</path>
+        <extension>.rpx</extension>
+        <command>C:\tools\cemu\Cemu.exe -f -g "%ROM_RAW%"</command>
+        <platform>wiiu</platform>
+        <theme>wiiu</theme>
+</system>
 </systemList>
 "
 Set-Content $esConfigFile -Value $newConfig
