@@ -11,7 +11,7 @@ Features
 - Uses an up to date version of Emulation Station from the Raspberry Pi branch
 - Auto populates emulators with public domain roms
 - Auto installs a popular theme with support for adding 'Favorites'
-- Initial installer is less than a few KB in size, it's just scripts
+- Add multiple useful shortcuts to the user's Desktop
 - Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\\.emulationstation\roms\scraper.exe)
 
 Steps
@@ -20,6 +20,9 @@ Steps
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/1.0.10.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
 ```
+Installation GIF:
+![alt text](https://github.com/Francommit/github_gif_dump/blob/master/instructions_v2.gif?raw=true)
+
 - Bonus Website - https://francommit.com/emulationstation/
 
 Old Steps
@@ -33,7 +36,7 @@ Old Steps
 
 3. Access your ROMS here %UserProfile%\\.emulationstation\roms
 
-Installation GIF:
+Installation GIF old:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
 
 Troubleshooting
