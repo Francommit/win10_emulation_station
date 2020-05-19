@@ -521,7 +521,7 @@ $newConfig = "<systemList>
         <name>wiiu</name>
         <fullname>Nintendo Wii U</fullname>
         <path>$wiiuPath</path>
-        <extension>.rpx</extension>
+        <extension>.rpx .RPX</extension>
         <command>START /D C:\tools\cemu\ Cemu.exe -f -g `"%ROM_RAW%`"</command>
         <platform>wiiu</platform>
         <theme>wiiu</theme>
