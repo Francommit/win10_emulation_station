@@ -535,9 +535,9 @@ Set-Content $esConfigFile -Value $newConfig
 # 10. Setup a nice looking theme.
 # 
 $themesPath = "$env:userprofile\.emulationstation\themes\"
-$themesFile = "$requirementsFolder\recalbox-backport-v1-recalbox-backport-v1.0.zip"
+$themesFile = "$requirementsFolder\recalbox-backport-v2-recalbox-backport-v2.0.zip"
 Expand-Archive -Path $themesFile -Destination $requirementsFolder
-$themesFolder = "$requirementsFolder\\recalbox-backport-v1.0\"
+$themesFolder = "$requirementsFolder\recalbox-backport-v2.0\"
 robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np
 
 
