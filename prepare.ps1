@@ -16,16 +16,13 @@ $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
 Write-Host $scriptDir
 
-# making life easier with all these annoying paths formatted stupid
-$dotESdir = "$($env:userprofile)\.emulationstation"
-
 
 # 
 # 1. Chocolatey installs 
 # 
 choco install directx -y
 choco install 7zip -y
-choco install emulationstation.install -y --force
+choco install emulationstation.install -y
 choco install vcredist2008 -y
 choco install vcredist2010 -y
 choco install vcredist2013 -y
@@ -44,12 +41,31 @@ Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -
 
     $url = $_.url
     $file = $_.file
-    $output = $requirementsFolder + $file
+    $output = "$requirementsFolder\$file"
 
     if(![System.IO.File]::Exists($output)){
 
         Write-Host $file "does not exist...Downloading."
         Start-BitsTransfer -Source $url -Destination $output
+
+    } else {
+
+        Write-Host $file "Already exists...Skipping download."
+
+    }
+
+}
+
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand other_downloads | ForEach-Object {
+
+    $url = $_.url
+    $file = $_.file
+    $output = "$requirementsFolder\$file"
+
+    if(![System.IO.File]::Exists($output)){
+
+        Write-Host $file "does not exist...Downloading."
+        Invoke-WebRequest $url -Out $output
 
     } else {
 
@@ -72,7 +88,7 @@ Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -
     $name = $file.Split(".")[0]
 
     $zip = "$name-$tag.zip"
-    $output = $requirementsFolder + $zip
+    $output = "$requirementsFolder\$zip"
 
     if(![System.IO.File]::Exists($output)) {
 
@@ -327,7 +343,7 @@ $gcPath =  "$romPath\gc"
 $wiiPath = "$romPath\wii"
 New-Item -ItemType Directory -Force -Path $gcPath
 New-Item -ItemType Directory -Force -Path $wiiPath
-
+Copy-Item "$requirementsFolder\Homebrew.Channel.-.OHBC.wad" $wiiPath
 
 # 
 # 9. Hack the es_config file
@@ -374,7 +390,7 @@ $newConfig = "<systemList>
         <name>wii</name>
         <fullname>Nintendo Wii</fullname>
         <path>$wiiPath</path>
-        <extension>.iso .ISO</extension>
+        <extension>.iso .ISO .wad .WAD</extension>
         <command>C:\tools\Dolphin-x64\Dolphin.exe -e `"%ROM_RAW%`"</command>
         <platform>wii</platform>
         <theme>wii</theme>  

@@ -32,6 +32,10 @@
 		{"file":"scraper_windows_amd64.zip", "repo":"sselph/scraper"},
 		{"file":"recalbox-backport-v2.0.zip", "repo":"fonic/recalbox-backport"}
 	],
+	"other_downloads": [
+		{"file":"Homebrew.Channel.-.OHBC.wad", "url":"https://github.com/FIX94/hbc/releases/download/1.1.4-1/Homebrew.Channel.-.OHBC.wad"}
+	],
+	
 	"extra_nes_games": [
 		{"file":"mojontwinsmulticart.zip","url":"http://www.nesworld.com/homebrew/mojontwinsmulticart.zip"},
 		{"file":"alter_ego.zip","url":"http://www.nesworld.com/homebrew/alter_ego.zip"},
