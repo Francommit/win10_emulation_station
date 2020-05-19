@@ -31,6 +31,7 @@ choco install vcredist2010 -y
 choco install vcredist2013 -y
 choco install vcredist2015 -y
 choco install vcredist140 -y
+choco install dolphin --pre -y
 choco install cemu -y
 
 # 
@@ -177,10 +178,6 @@ $ps2BiosPath = "$ps2EmulatorPath\bios\"
 Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
 New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
-# Gamecube Setup
-$gcCore = "$requirementsFolder\dolphin_libretro.dll.zip"
-Expand-Archive -Path $gcCore -Destination $coresPath
-
 # NeoGeo Pocket Setup
 $ngpCore = "$requirementsFolder\race_libretro.dll.zip"
 Expand-Archive -Path $ngpCore -Destination $coresPath
@@ -325,11 +322,11 @@ $atari7800Core = "$requirementsFolder\prosystem_libretro.dll.zip"
 Expand-Archive -Path $atari7800Core -Destination $coresPath
 New-Item -ItemType Directory -Force -Path $atari7800Path
 
-# Gamecube Setup
+# Wii/Gamecube Setup
 $gcPath =  "$romPath\gc"
-$gcCore = "$requirementsFolder\dolphin_libretro.dll.zip"
-Expand-Archive -Path $gcCore -Destination $coresPath
+$wiiPath = "$romPath\wii"
 New-Item -ItemType Directory -Force -Path $gcPath
+New-Item -ItemType Directory -Force -Path $wiiPath
 
 
 # 
@@ -369,9 +366,18 @@ $newConfig = "<systemList>
         <name>gc</name>
         <path>$gcPath</path>
         <extension>.iso .ISO</extension>
-        <command>$retroarchExecutable -L $coresPath\dolphin_libretro.dll %ROM%</command>
+        <command>C:\tools\Dolphin-x64\Dolphin.exe -e `"%ROM_RAW%`"</command>
         <platform>gc</platform>
         <theme>gc</theme>
+    </system>
+    <system>
+        <name>wii</name>
+        <fullname>Nintendo Wii</fullname>
+        <path>$wiiPath</path>
+        <extension>.iso .ISO</extension>
+        <command>C:\tools\Dolphin-x64\Dolphin.exe -e `"%ROM_RAW%`"</command>
+        <platform>wii</platform>
+        <theme>wii</theme>  
     </system>
     <system>
         <fullname>Game Boy Color</fullname>
@@ -534,7 +540,7 @@ Set-Content $esConfigFile -Value $newConfig
 # 
 # 10. Setup a nice looking theme.
 # 
-$themesPath = "$env:userprofile\.emulationstation\themes\"
+$themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
 $themesFile = "$requirementsFolder\recalbox-backport-v2-recalbox-backport-v2.0.zip"
 Expand-Archive -Path $themesFile -Destination $requirementsFolder
 $themesFolder = "$requirementsFolder\recalbox-backport\"
