@@ -189,6 +189,7 @@ Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
 # PS2 Setup
 $ps2EmulatorMsi = "$requirementsFolder\pcsx2-1.6.0-setup.exe"
 $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
+$ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
 $ps2BiosPath = "$ps2EmulatorPath\bios\"
 Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
 New-Item -ItemType Directory -Force -Path $ps2BiosPath
@@ -426,7 +427,7 @@ $newConfig = "<systemList>
         <name>ps2</name>
         <path>$ps2Path</path>
         <extension>.iso .img .bin .mdf .z .z2 .bz2 .dump .cso .ima .gz</extension>
-        <command>${ps2EmulatorPath}pcsx2.exe %ROM% --fullscreen --nogui</command>
+        <command>${$ps2Binary} %ROM% --fullscreen --nogui</command>
         <platform>ps2</platform>
         <theme>ps2</theme>
     </system>
