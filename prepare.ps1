@@ -274,6 +274,9 @@ Expand-Archive -Path $psxRom -Destination $psxPath
 $ps2Path = "$romPath\ps2"
 New-Item -ItemType Directory -Force -Path $ps2Path
 
+$gbPath = "$romPath\gb"
+New-Item -ItemType Directory -Force -Path $gbPath
+
 $gbcPath = "$romPath\gbc"
 $gbcRom = "$requirementsFolder\star_heritage.zip" 
 New-Item -ItemType Directory -Force -Path $gbcPath
@@ -394,6 +397,15 @@ $newConfig = "<systemList>
         <command>C:\tools\Dolphin-x64\Dolphin.exe -e `"%ROM_RAW%`"</command>
         <platform>wii</platform>
         <theme>wii</theme>  
+    </system>
+    <system>
+        <fullname>Game Boy</fullname>
+        <name>gb</name>
+        <path>$gbPath</path>
+        <extension>.gb .zip .ZIP .7z</extension>
+        <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
+        <platform>gb</platform>
+        <theme>gb</theme>
     </system>
     <system>
         <fullname>Game Boy Color</fullname>
