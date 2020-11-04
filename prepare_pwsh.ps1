@@ -23,9 +23,9 @@ Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -
 
     if(![System.IO.File]::Exists($output)){
 
-        Write-Host $file "INFO: Does not exist...Downloading."
+        Write-Host "INFO: Downloading $file"
         Invoke-WebRequest $url -Out $output
-        Write-Host $file "INFO: Downloaded successfully."
+        Write-Host "INFO: Finished Downloading $file successfully"
 
     } else {
 
