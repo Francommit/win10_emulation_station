@@ -1,5 +1,4 @@
 name: 'Execute Powershell'
-author: 'Francommit'
 
 on:
   push:
