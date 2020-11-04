@@ -1,0 +1,18 @@
+name: 'Execute Powershell'
+author: 'Francommit'
+
+on:
+  push:
+    branches: [ action ]
+    
+jobs:
+
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Powershell Execution
+      run: Write-Host 'Hello world'
