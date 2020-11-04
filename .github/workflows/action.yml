@@ -13,8 +13,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Powershell - Version
-      run: $host.Version 
-
-    - name: Powershell - dir
-      run: dir
+    - name: Powershell - prepare.ps1
+      run: .\prepare.ps1
