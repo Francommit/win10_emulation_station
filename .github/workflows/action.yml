@@ -13,5 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Powershell Execution
-      run: Write-Host 'Hello world'
+    - name: Powershell - Version
+      run: $host.Version 
+
+    - name: Powershell - dir
+      run: dir
