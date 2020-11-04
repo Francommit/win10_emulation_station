@@ -7,7 +7,6 @@ $scriptDir = Split-Path $scriptPath
 Write-Host $scriptDir
 
 # Installs 
-# choco install directx -y
 # choco install emulationstation.install -y --force
 # choco install dolphin --pre -y
 # choco install cemu -y
@@ -16,24 +15,25 @@ Write-Host $scriptDir
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 
-# Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
 
-#     $url = $_.url
-#     $file = $_.file
-#     $output = "$requirementsFolder\$file"
+    $url = $_.url
+    $file = $_.file
+    $output = "$requirementsFolder\$file"
 
-#     if(![System.IO.File]::Exists($output)){
+    if(![System.IO.File]::Exists($output)){
 
-#         Write-Host $file "does not exist...Downloading."
-#         Invoke-WebRequest $url -Out $output
+        Write-Host $file "does not exist...Downloading."
+        Invoke-WebRequest $url -Out $output
+        Write-Host $file " Downloaded successfully."
 
-#     } else {
+    } else {
 
-#         Write-Host $file "Already exists...Skipping download."
+        Write-Host $file "Already exists...Skipping download."
 
-#     }
+    }
 
-# }
+}
 
 # Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand other_downloads | ForEach-Object {
 
