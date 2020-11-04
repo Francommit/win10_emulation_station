@@ -3,7 +3,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
 
 
 
-Install-Module -Name 7Zip4Powershell -Confirm:$false 
+Install-Module -Name 7Zip4Powershell -Confirm:$False -Force 
 
 
 # [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
