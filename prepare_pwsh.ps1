@@ -6,6 +6,8 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
 Install-PackageProvider ChocolateyGet -Force
 
 Install-Package -Name 7zip -Provider ChocolateyGet
+Get-Package nodejs -Verbose -Provider ChocolateyGet
+
 
 # [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
 # [System.net.ServicePointManager]::SecurityProtocol = 3072 -bor 768 -bor 192 -bor 48
