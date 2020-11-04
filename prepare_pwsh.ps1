@@ -1,45 +1,20 @@
-# Configuring
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
-
-
-
+# Install 7Zip
 Install-Module -Name 7Zip4Powershell -Confirm:$False -Force 
 
+# Get script path
+$scriptPath = $MyInvocation.MyCommand.Path
+$scriptDir = Split-Path $scriptPath
+Write-Host $scriptDir
 
-# [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
-# [System.net.ServicePointManager]::SecurityProtocol = 3072 -bor 768 -bor 192 -bor 48
-
-# # Installing Chocolatey 
-# Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
-
-# # Reloading PATH variables
-# $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
-
-# # Get script path
-# $scriptPath = $MyInvocation.MyCommand.Path
-# $scriptDir = Split-Path $scriptPath
-# Write-Host $scriptDir
-
-
-# # 
-# # 1. Chocolatey installs 
-# # 
+# Installs 
 # choco install directx -y
-# choco install 7zip -y
 # choco install emulationstation.install -y --force
-# choco install vcredist2008 -y
-# choco install vcredist2010 -y
-# choco install vcredist2013 -y
-# choco install vcredist2015 -y
-# choco install vcredist140 -y
 # choco install dolphin --pre -y
 # choco install cemu -y
 
-# # 
-# # 2. Acquire files 
-# # 
-# $requirementsFolder = "$PSScriptRoot\requirements\"
-# New-Item -ItemType Directory -Force -Path $requirementsFolder
+# Acquire files 
+$requirementsFolder = "$PSScriptRoot\requirements\"
+New-Item -ItemType Directory -Force -Path $requirementsFolder
 
 # Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
 
