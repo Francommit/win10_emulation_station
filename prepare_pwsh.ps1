@@ -4,7 +4,7 @@ Install-Module -Name 7Zip4Powershell -Confirm:$False -Force
 # Get script path
 $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
-Write-Host $scriptDir
+Write-Host "DEBUG: Script directory is: $scriptDir"
 
 # Installs 
 # choco install emulationstation.install -y --force
@@ -23,13 +23,13 @@ Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -
 
     if(![System.IO.File]::Exists($output)){
 
-        Write-Host $file "does not exist...Downloading."
+        Write-Host $file "INFO: Does not exist...Downloading."
         Invoke-WebRequest $url -Out $output
-        Write-Host $file " Downloaded successfully."
+        Write-Host $file "INFO: Downloaded successfully."
 
     } else {
 
-        Write-Host $file "Already exists...Skipping download."
+        Write-Host $file "INFO: Already exists...Skipping download."
 
     }
 
