@@ -3,10 +3,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
 
 
 
-Install-PackageProvider ChocolateyGet -Force
-
-Install-Package -Name 7zip -Provider ChocolateyGet
-Get-Package 7zip -Verbose -Provider ChocolateyGet
+Install-Module -Name 7Zip4Powershell -Confirm:$false 
 
 
 # [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls" #Convince Powershell to talk to sites with different versions of TLS
