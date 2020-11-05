@@ -54,6 +54,18 @@ function GithubReleaseFiles {
         }
     
     }
+
+}
+
+function Expand-Archive([string]$Path, [string]$Destination) {
+    $7z_Application = "C:\Program Files\7-Zip\7z.exe"
+    $7z_Arguments = @(
+        'x'                         ## eXtract files with full paths
+        '-y'                        ## assume Yes on all queries
+        "`"-o$($Destination)`""     ## set Output directory
+        "`"$($Path)`""              ## <archive_name>
+    )
+    & $7z_Application $7z_Arguments 
 }
 
 # Install 7Zip
@@ -81,36 +93,19 @@ Get-ChildItem "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 
 # Generate Emulation Station config file
 & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
-
 while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
     Write-Host "INFO: Checking for config file..."
     Start-Sleep 5
 }
-
+Write-Host "INFO: Config file generated"
 Stop-Process -Name "emulationstation"
 
-
-# # 
-# # 4. Prepare Retroarch
-# # 
-# $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
-# $retroArchBinary = "$requirementsFolder\RetroArch.7z"
-
-# New-Item -ItemType Directory -Force -Path $retroArchPath
-
-# Function Expand-Archive([string]$Path, [string]$Destination) {
-#     $7z_Application = "C:\Program Files\7-Zip\7z.exe"
-#     $7z_Arguments = @(
-#         'x'                         ## eXtract files with full paths
-#         '-y'                        ## assume Yes on all queries
-#         "`"-o$($Destination)`""     ## set Output directory
-#         "`"$($Path)`""              ## <archive_name>
-#     )
-#     & $7z_Application $7z_Arguments 
-# }
-
-# Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
-
+# Prepare Retroarch
+$retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
+$retroArchBinary = "$requirementsFolder\RetroArch.7z"
+New-Item -ItemType Directory -Force -Path $retroArchPath
+Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
+Get-ChildItem $retroArchPath
 
 # # 
 # # 5. Prepare cores
