@@ -26,7 +26,6 @@ function DownloadFiles {
 }
 
 function GithubReleaseFiles {
-    param ([String]$jsonDownloadOption)
 
     Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
