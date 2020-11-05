@@ -1,3 +1,28 @@
+function DownloadFiles {
+    param ([String]$jsonDownloadOption)
+    
+    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
+    
+        $url = $_.url
+        $file = $_.file
+        $output = "$requirementsFolder\$file"
+    
+        if(![System.IO.File]::Exists($output)){
+    
+            Write-Host "INFO: Downloading $file"
+            Invoke-WebRequest $url -Out $output
+            Write-Host "INFO: Finished Downloading $file successfully"
+    
+        } else {
+    
+            Write-Host $file "INFO: Already exists...Skipping download."
+    
+        }
+    
+    }
+
+}
+
 # Install 7Zip
 Install-Module -Name 7Zip4Powershell -Confirm:$False -Force 
 
@@ -14,46 +39,8 @@ Write-Host "DEBUG: Script directory is: $scriptDir"
 # Acquire files 
 $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
-
-Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand downloads | ForEach-Object {
-
-    $url = $_.url
-    $file = $_.file
-    $output = "$requirementsFolder\$file"
-
-    if(![System.IO.File]::Exists($output)){
-
-        Write-Host "INFO: Downloading $file"
-        Invoke-WebRequest $url -Out $output
-        Write-Host "INFO: Finished Downloading $file successfully"
-
-    } else {
-
-        Write-Host $file "INFO: Already exists...Skipping download."
-
-    }
-
-}
-
-# Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand other_downloads | ForEach-Object {
-
-#     $url = $_.url
-#     $file = $_.file
-#     $output = "$requirementsFolder\$file"
-
-#     if(![System.IO.File]::Exists($output)){
-
-#         Write-Host $file "does not exist...Downloading."
-#         Invoke-WebRequest $url -Out $output
-
-#     } else {
-
-#         Write-Host $file "Already exists...Skipping download."
-
-#     }
-
-# }
-
+DownloadFiles("downloads")
+DownloadFiles("other_downloads")
 
 # Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
