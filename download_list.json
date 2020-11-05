@@ -1,6 +1,10 @@
 {
 	"downloads": [
 		{
+			"file": "emulationstation_win32_latest.exe",
+			"url": "https://emulationstation.org/downloads/releases/emulationstation_win32_latest.exe"
+		},
+		{
 			"file": "ePSXe205.zip",
 			"url": "http://www.epsxe.com/files/ePSXe205.zip"
 		},

@@ -76,12 +76,12 @@ DownloadFiles("downloads")
 DownloadFiles("other_downloads")
 GithubReleaseFiles
 
+# Install Emulation Station
+Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
+Get-ChildItem "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 
 
-
-# # 
-# # 3. Generate es_systems.cfg
-# # 
+# Generate Emulation Station config file
 # & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 # $configPath = "$env:userprofile\.emulationstation\es_systems.cfg"
 
