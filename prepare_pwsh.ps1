@@ -44,12 +44,13 @@ function GithubReleaseFiles {
     
         if(![System.IO.File]::Exists($output)) {
     
+            Write-Host "INFO: Downloading $file"
             Invoke-WebRequest $url -Out $output
-            Write-Host $file "does not exist...Downloading."
+            Write-Host "INFO: Finished Downloading $file successfully"
     
         } else {
     
-            Write-Host $file "Already exists...Skipping download."
+            Write-Host $file "INFO: Already exists...Skipping download."
         }
     
     }
