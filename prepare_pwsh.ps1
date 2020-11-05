@@ -28,7 +28,7 @@ function DownloadFiles {
 function GithubReleaseFiles {
     param ([String]$jsonDownloadOption)
 
-    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
+    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
         $repo = $_.repo
         $file = $_.file
@@ -73,7 +73,9 @@ $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 DownloadFiles("downloads")
 DownloadFiles("other_downloads")
-GithubReleaseFiles("releases")
+GithubReleaseFiles()
+
+
 
 
 # # 
