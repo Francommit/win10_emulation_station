@@ -140,7 +140,7 @@ $atari2600Core = "$requirementsFolder\stella_libretro.dll.zip"
 Expand-Archive -Path $atari2600Core -Destination $coresPath
 
 # MAME Setup
-$mameCore = "$requirementsFolder\mame_libretro.dll.zip"
+$mameCore = "$requirementsFolder\hbmame_libretro.dll.zip"
 Expand-Archive -Path $mameCore -Destination $coresPath
 
 # # PSX Setup
@@ -412,7 +412,7 @@ Expand-Archive -Path $mameCore -Destination $coresPath
 #         <name>mame</name>
 #         <path>$mamePath</path>
 #         <extension>.zip .ZIP</extension>
-#         <command>$retroarchExecutable -L $coresPath\mame_libretro.dll %ROM%</command>
+#         <command>$retroarchExecutable -L $coresPath\hbmame_libretro.dll %ROM%</command>
 #         <platform>mame</platform>
 #         <theme>mame</theme>
 #     </system>
