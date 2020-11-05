@@ -1,6 +1,8 @@
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
     
+    Write-Host "Starting downloading of $jsonDownloadOption"
+
     Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
     
         $url = $_.url
@@ -23,13 +25,43 @@ function DownloadFiles {
 
 }
 
+function GithubReleaseFiles {
+    param ([String]$jsonDownloadOption)
+
+    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
+
+        $repo = $_.repo
+        $file = $_.file
+    
+        $releases = "https://api.github.com/repos/$repo/releases"
+        $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
+    
+        $url = "https://github.com/$repo/releases/download/$tag/$file"
+        $name = $file.Split(".")[0]
+    
+        $zip = "$name-$tag.zip"
+        $output = "$requirementsFolder\$zip"
+    
+        if(![System.IO.File]::Exists($output)) {
+    
+            Invoke-WebRequest $url -Out $output
+            Write-Host $file "does not exist...Downloading."
+    
+        } else {
+    
+            Write-Host $file "Already exists...Skipping download."
+        }
+    
+    }
+}
+
 # Install 7Zip
 Install-Module -Name 7Zip4Powershell -Confirm:$False -Force 
 
 # Get script path
 $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
-Write-Host "DEBUG: Script directory is: $scriptDir"
+Write-Host "INFO: Script directory is: $scriptDir"
 
 # Installs 
 # choco install emulationstation.install -y --force
@@ -41,32 +73,7 @@ $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 DownloadFiles("downloads")
 DownloadFiles("other_downloads")
-
-# Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
-
-#     $repo = $_.repo
-#     $file = $_.file
-
-#     $releases = "https://api.github.com/repos/$repo/releases"
-#     $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
-
-#     $url = "https://github.com/$repo/releases/download/$tag/$file"
-#     $name = $file.Split(".")[0]
-
-#     $zip = "$name-$tag.zip"
-#     $output = "$requirementsFolder\$zip"
-
-#     if(![System.IO.File]::Exists($output)) {
-
-#         Invoke-WebRequest $url -Out $output
-#         Write-Host $file "does not exist...Downloading."
-
-#     } else {
-
-#         Write-Host $file "Already exists...Skipping download."
-#     }
-
-# }
+GithubReleaseFiles("releases")
 
 
 # # 
