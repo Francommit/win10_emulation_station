@@ -143,59 +143,54 @@ Expand-Archive -Path $atari2600Core -Destination $coresPath
 $mameCore = "$requirementsFolder\hbmame_libretro.dll.zip"
 Expand-Archive -Path $mameCore -Destination $coresPath
 
-# # PSX Setup
-# $psxEmulator = "$requirementsFolder\ePSXe205.zip"
-# $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
-# $psxBiosPath = $psxEmulatorPath + "bios\"
-# New-Item -ItemType Directory -Force -Path $psxEmulatorPath
-# Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
+# PSX Setup
+$psxEmulator = "$requirementsFolder\ePSXe205.zip"
+$psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
+$psxBiosPath = $psxEmulatorPath + "bios\"
+New-Item -ItemType Directory -Force -Path $psxEmulatorPath
+Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
 
-# # PS2 Setup
-# $ps2EmulatorMsi = "$requirementsFolder\pcsx2-1.6.0-setup.exe"
-# $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
-# $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
-# $ps2BiosPath = "$ps2EmulatorPath\bios\"
-# Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
-# New-Item -ItemType Directory -Force -Path $ps2BiosPath
+# PS2 Setup
+$ps2EmulatorMsi = "$requirementsFolder\pcsx2-1.6.0-setup.exe"
+$ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
+$ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
+$ps2BiosPath = "$ps2EmulatorPath\bios\"
+Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
+New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
-# # NeoGeo Pocket Setup
-# $ngpCore = "$requirementsFolder\race_libretro.dll.zip"
-# Expand-Archive -Path $ngpCore -Destination $coresPath
+# NeoGeo Pocket Setup
+$ngpCore = "$requirementsFolder\race_libretro.dll.zip"
+Expand-Archive -Path $ngpCore -Destination $coresPath
 
-# # 
-# # 6. Start Retroarch and generate a config.
-# # 
-# $retroarchExecutable = "$retroArchPath\retroarch.exe"
-# $retroarchConfigPath = "$retroArchPath\retroarch.cfg"
+# Start Retroarch and generate a config.
+$retroarchExecutable = "$retroArchPath\retroarch.exe"
+$retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 
-# & $retroarchExecutable
+& $retroarchExecutable
 
-# while (!(Test-Path $retroarchConfigPath)) { 
-#     Write-Host "Checking for config file..."
-#     Start-Sleep 5
-# }
+while (!(Test-Path $retroarchConfigPath)) { 
+    Write-Host "Checking for config file..."
+    Start-Sleep 5
+}
 
-# Stop-Process -Name "retroarch"
+Stop-Process -Name "retroarch"
 
+# Tweak config!
+$settingToFind = 'video_fullscreen = "false"'
+$settingToSet = 'video_fullscreen = "true"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
-# # 
-# # 7. Let's hack that config!
-# # 
-# $settingToFind = 'video_fullscreen = "false"'
-# $settingToSet = 'video_fullscreen = "true"'
-# (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+$settingToFind = 'savestate_auto_load = "false"'
+$settingToSet = 'savestate_auto_load = "true"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
-# $settingToFind = 'savestate_auto_load = "false"'
-# $settingToSet = 'savestate_auto_load = "true"'
-# (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+$settingToFind = 'input_player1_analog_dpad_mode = "0"'
+$settingToSet = 'input_player1_analog_dpad_mode = "1"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
-# $settingToFind = 'input_player1_analog_dpad_mode = "0"'
-# $settingToSet = 'input_player1_analog_dpad_mode = "1"'
-# (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
-
-# $settingToFind = 'input_player2_analog_dpad_mode = "0"'
-# $settingToSet = 'input_player2_analog_dpad_mode = "1"'
-# (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+$settingToFind = 'input_player2_analog_dpad_mode = "0"'
+$settingToSet = 'input_player2_analog_dpad_mode = "1"'
+(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
 
 
 # # 
