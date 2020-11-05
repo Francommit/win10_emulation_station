@@ -72,7 +72,7 @@ $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 DownloadFiles("downloads")
 DownloadFiles("other_downloads")
-GithubReleaseFiles()
+GithubReleaseFiles
 
 
 
