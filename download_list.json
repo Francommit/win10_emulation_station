@@ -1,71 +1,250 @@
 {
 	"downloads": [
-	  {"file":"ePSXe205.zip", "url":"http://www.epsxe.com/files/ePSXe205.zip"},
-	  {"file":"pcsx2-1.6.0-setup.exe", "url":"http://delivery2.filecroco.com/kits_4/pcsx2-1.6.0-setup.exe"},
-	  {"file":"RetroArch.7z", "url": "https://buildbot.libretro.com/stable/1.9.0/windows/x86_64/RetroArch.7z"},
-	  {"file":"assimilate_full.zip", "url": "http://www.nesworld.com/homebrew/assimilate_full.zip"},
-	  {"file":"fceumm_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"},
-	  {"file":"mame_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/mame_libretro.dll.zip"},
-	  {"file":"parallel_n64_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/parallel_n64_libretro.dll.zip"},	  
-	  {"file":"pom-twin.zip","url":"http://www.nesworld.com/n64/homebrew/pom-twin.zip"},
-	  {"file":"fbalpha2012_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fbalpha2012_libretro.dll.zip"},
-	  {"file":"uranus0ev_fix.gba", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/GBA/Uranus%20Zero%20EV/uranus0ev_fix.gba"},
-	  {"file":"vba_next_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/vba_next_libretro.dll.zip"},
-	  {"file":"rickdangerous.gen", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SG/Rick%20Dangerous/rickdangerous.gen"},
-	  {"file":"genesis_plus_gx_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/genesis_plus_gx_libretro.dll.zip"},
-	  {"file":"snes9x_libretro.dll.zip", "url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/snes9x_libretro.dll.zip"},
-	  {"file":"N-Warp Daisakusen V1.1.smc", "url":"https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SNES/N-Warp%20Daisakusen/N-Warp%20Daisakusen%20V1.1.smc"},
-	  {"file":"Marilyn_In_the_Magic_World_(010a).7z","url":"https://raw.githubusercontent.com/PublicDomainRoms/public-domain-roms/master/psx/Marilyn_In_the_Magic_World_(010a).7z"},
-	  {"file":"star_heritage.zip","url":"http://www.nesworld.com/gbc/homebrew/commercial/star_heritage.zip"},
-	  {"file":"gambatte_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/gambatte_libretro.dll.zip"},
-	  {"file":"stella_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/stella_libretro.dll.zip"},
-	  {"file":"prosystem_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/prosystem_libretro.dll.zip"},
-	  {"file":"vice_x64_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/vice_x64_libretro.dll.zip"},
-	  {"file":"fmsx_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/fmsx_libretro.dll.zip"},
-	  {"file":"puae_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/puae_libretro.dll.zip"},
-	  {"file":"race_libretro.dll.zip","url":"http://buildbot.libretro.com/nightly/windows/x86_64/latest/race_libretro.dll.zip"},
-	  {"file":"neopocket.zip","url":"https://github.com/PublicDomainRoms/public-domain-roms/raw/master/ngp/neopocket.zip"}
+		{
+			"file": "ePSXe205.zip",
+			"url": "http://www.epsxe.com/files/ePSXe205.zip"
+		},
+		{
+			"file": "pcsx2-1.6.0-setup.exe",
+			"url": "https://delivery2.filecroco.com/kits_5/pcsx2-1.6.0-setup.exe"
+		},
+		{
+			"file": "RetroArch.7z",
+			"url": "https://buildbot.libretro.com/stable/1.9.0/windows/x86_64/RetroArch.7z"
+		},
+		{
+			"file": "assimilate_full.zip",
+			"url": "http://www.nesworld.com/homebrew/assimilate_full.zip"
+		},
+		{
+			"file": "fceumm_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"
+		},
+		{
+			"file": "hbmame_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/hbmame_libretro.dll.zip"
+		},
+		{
+			"file": "parallel_n64_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/parallel_n64_libretro.dll.zip"
+		},
+		{
+			"file": "pom-twin.zip",
+			"url": "http://www.nesworld.com/n64/homebrew/pom-twin.zip"
+		},
+		{
+			"file": "fbalpha2012_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/fbalpha2012_libretro.dll.zip"
+		},
+		{
+			"file": "uranus0ev_fix.gba",
+			"url": "https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/GBA/Uranus%20Zero%20EV/uranus0ev_fix.gba"
+		},
+		{
+			"file": "vba_next_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/vba_next_libretro.dll.zip"
+		},
+		{
+			"file": "rickdangerous.gen",
+			"url": "https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SG/Rick%20Dangerous/rickdangerous.gen"
+		},
+		{
+			"file": "genesis_plus_gx_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/genesis_plus_gx_libretro.dll.zip"
+		},
+		{
+			"file": "snes9x_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/snes9x_libretro.dll.zip"
+		},
+		{
+			"file": "N-Warp Daisakusen V1.1.smc",
+			"url": "https://github.com/OpenEmu/OpenEmu-Update/raw/master/Homebrew/SNES/N-Warp%20Daisakusen/N-Warp%20Daisakusen%20V1.1.smc"
+		},
+		{
+			"file": "Marilyn_In_the_Magic_World_(010a).7z",
+			"url": "https://raw.githubusercontent.com/PublicDomainRoms/public-domain-roms/master/psx/Marilyn_In_the_Magic_World_(010a).7z"
+		},
+		{
+			"file": "star_heritage.zip",
+			"url": "http://www.nesworld.com/gbc/homebrew/commercial/star_heritage.zip"
+		},
+		{
+			"file": "gambatte_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/gambatte_libretro.dll.zip"
+		},
+		{
+			"file": "stella_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/stella_libretro.dll.zip"
+		},
+		{
+			"file": "prosystem_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/prosystem_libretro.dll.zip"
+		},
+		{
+			"file": "vice_x64_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/vice_x64_libretro.dll.zip"
+		},
+		{
+			"file": "fmsx_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/fmsx_libretro.dll.zip"
+		},
+		{
+			"file": "puae_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/puae_libretro.dll.zip"
+		},
+		{
+			"file": "race_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/race_libretro.dll.zip"
+		},
+		{
+			"file": "neopocket.zip",
+			"url": "https://github.com/PublicDomainRoms/public-domain-roms/raw/master/ngp/neopocket.zip"
+		}
 	],
 	"releases": [
-		{"file":"EmulationStation-Win32.zip", "repo":"jrassa/emulationstation"},
-		{"file":"scraper_windows_amd64.zip", "repo":"sselph/scraper"},
-		{"file":"recalbox-backport-v2.0.zip", "repo":"fonic/recalbox-backport"}
+		{
+			"file": "scraper_windows_amd64.zip",
+			"repo": "sselph/scraper"
+		},
+		{
+			"file": "EmulationStation-Win32.zip",
+			"repo": "jrassa/emulationstation"
+		},
+		{
+			"file": "recalbox-backport-v2.1.zip",
+			"repo": "fonic/recalbox-backport"
+		}
 	],
 	"other_downloads": [
-		{"file":"Homebrew.Channel.-.OHBC.wad", "url":"https://github.com/FIX94/hbc/releases/download/1.1.4-1/Homebrew.Channel.-.OHBC.wad"}
+		{
+			"file": "Homebrew.Channel.-.OHBC.wad",
+			"url": "https://github.com/FIX94/hbc/releases/download/1.1.4-1/Homebrew.Channel.-.OHBC.wad"
+		}
 	],
-	
 	"extra_nes_games": [
-		{"file":"mojontwinsmulticart.zip","url":"http://www.nesworld.com/homebrew/mojontwinsmulticart.zip"},
-		{"file":"alter_ego.zip","url":"http://www.nesworld.com/homebrew/alter_ego.zip"},
-		{"file":"beatem.zip","url":"http://www.nesworld.com/homebrew/beatem.zip"},
-		{"file":"blaster.zip","url":"http://www.nesworld.com/homebrew/blaster.zip"},
-		{"file":"blurredlines2048.zip","url":"http://www.nesworld.com/homebrew/blurredlines2048.zip"},
-		{"file":"bomb_sweeper_v0.5.zip","url":"http://www.nesworld.com/homebrew/bomb_sweeper_v0.5.zip"},
-		{"file":"boxboy.zip","url":"http://www.nesworld.com/homebrew/boxboy.zip"},
-		{"file":"cyo.zip","url":"http://www.nesworld.com/homebrew/cyo.zip"},
-		{"file":"chase.zip","url":"http://www.nesworld.com/homebrew/chase.zip"},
-		{"file":"dpadhero2.zip","url":"http://www.nesworld.com/homebrew/dpadhero2.zip"},
-		{"file":"dabg.zip","url":"http://www.nesworld.com/homebrew/dabg.zip"},
-		{"file":"driar.zip","url":"http://www.nesworld.com/homebrew/driar.zip"},
-		{"file":"dushlan.zip","url":"http://www.nesworld.com/homebrew/dushlan.zip"},
-		{"file":"driar.zip","url":"http://www.nesworld.com/homebrew/driar.zip"},
-		{"file":"gemventure_(beta).zip","url":"http://www.nesworld.com/homebrew/gemventure_(beta).zip"},
-		{"file":"hot_seat_harry.zip","url":"http://www.nesworld.com/homebrew/hot_seat_harry.zip"},
-		{"file":"mojon-twins--jet-paco.zip","url":"http://www.nesworld.com/homebrew/mojon-twins--jet-paco.zip"},
-		{"file":"kyff.zip","url":"http://www.nesworld.com/homebrew/kyff.zip"},
-		{"file":"lan_master.zip","url":"http://www.nesworld.com/homebrew/lan_master.zip"},
-		{"file":"lawn_mower.zip","url":"http://www.nesworld.com/homebrew/lawn_mower.zip"},
-		{"file":"madwizard.zip","url":"http://www.nesworld.com/homebrew/madwizard.zip"},
-		{"file":"nes_virus_cleaner.nes","url":"http://www.nesworld.com/homebrew/nes_virus_cleaner.nes"},
-		{"file":"pitfall.zip","url":"http://www.nesworld.com/homebrew/pitfall.zip"},
-		{"file":"riseofamondus.zip","url":"http://www.nesworld.com/homebrew/riseofamondus.zip"},
-		{"file":"sgt-helmet-training-day.zip","url":"http://www.nesworld.com/homebrew/sgt-helmet-training-day.zip"},
-		{"file":"solarwars.zip","url":"http://www.nesworld.com/homebrew/solarwars.zip"},
-		{"file":"sting.zip","url":"http://www.nesworld.com/homebrew/sting.zip"},
-		{"file":"streemerz-v02.zip","url":"http://www.nesworld.com/homebrew/streemerz-v02.zip"},
-		{"file":"spnes.zip","url":"http://www.nesworld.com/homebrew/spnes.zip"},
-		{"file":"tiger_1.zip","url":"http://www.nesworld.com/homebrew/tiger_1.zip"},
-		{"file":"zooming_secretary1-02.zip","url":"http://www.nesworld.com/homebrew/zooming_secretary1-02.zip"}
+		{
+			"file": "mojontwinsmulticart.zip",
+			"url": "http://www.nesworld.com/homebrew/mojontwinsmulticart.zip"
+		},
+		{
+			"file": "alter_ego.zip",
+			"url": "http://www.nesworld.com/homebrew/alter_ego.zip"
+		},
+		{
+			"file": "beatem.zip",
+			"url": "http://www.nesworld.com/homebrew/beatem.zip"
+		},
+		{
+			"file": "blaster.zip",
+			"url": "http://www.nesworld.com/homebrew/blaster.zip"
+		},
+		{
+			"file": "blurredlines2048.zip",
+			"url": "http://www.nesworld.com/homebrew/blurredlines2048.zip"
+		},
+		{
+			"file": "bomb_sweeper_v0.5.zip",
+			"url": "http://www.nesworld.com/homebrew/bomb_sweeper_v0.5.zip"
+		},
+		{
+			"file": "boxboy.zip",
+			"url": "http://www.nesworld.com/homebrew/boxboy.zip"
+		},
+		{
+			"file": "cyo.zip",
+			"url": "http://www.nesworld.com/homebrew/cyo.zip"
+		},
+		{
+			"file": "chase.zip",
+			"url": "http://www.nesworld.com/homebrew/chase.zip"
+		},
+		{
+			"file": "dpadhero2.zip",
+			"url": "http://www.nesworld.com/homebrew/dpadhero2.zip"
+		},
+		{
+			"file": "dabg.zip",
+			"url": "http://www.nesworld.com/homebrew/dabg.zip"
+		},
+		{
+			"file": "driar.zip",
+			"url": "http://www.nesworld.com/homebrew/driar.zip"
+		},
+		{
+			"file": "dushlan.zip",
+			"url": "http://www.nesworld.com/homebrew/dushlan.zip"
+		},
+		{
+			"file": "driar.zip",
+			"url": "http://www.nesworld.com/homebrew/driar.zip"
+		},
+		{
+			"file": "gemventure_(beta).zip",
+			"url": "http://www.nesworld.com/homebrew/gemventure_(beta).zip"
+		},
+		{
+			"file": "hot_seat_harry.zip",
+			"url": "http://www.nesworld.com/homebrew/hot_seat_harry.zip"
+		},
+		{
+			"file": "mojon-twins--jet-paco.zip",
+			"url": "http://www.nesworld.com/homebrew/mojon-twins--jet-paco.zip"
+		},
+		{
+			"file": "kyff.zip",
+			"url": "http://www.nesworld.com/homebrew/kyff.zip"
+		},
+		{
+			"file": "lan_master.zip",
+			"url": "http://www.nesworld.com/homebrew/lan_master.zip"
+		},
+		{
+			"file": "lawn_mower.zip",
+			"url": "http://www.nesworld.com/homebrew/lawn_mower.zip"
+		},
+		{
+			"file": "madwizard.zip",
+			"url": "http://www.nesworld.com/homebrew/madwizard.zip"
+		},
+		{
+			"file": "nes_virus_cleaner.nes",
+			"url": "http://www.nesworld.com/homebrew/nes_virus_cleaner.nes"
+		},
+		{
+			"file": "pitfall.zip",
+			"url": "http://www.nesworld.com/homebrew/pitfall.zip"
+		},
+		{
+			"file": "riseofamondus.zip",
+			"url": "http://www.nesworld.com/homebrew/riseofamondus.zip"
+		},
+		{
+			"file": "sgt-helmet-training-day.zip",
+			"url": "http://www.nesworld.com/homebrew/sgt-helmet-training-day.zip"
+		},
+		{
+			"file": "solarwars.zip",
+			"url": "http://www.nesworld.com/homebrew/solarwars.zip"
+		},
+		{
+			"file": "sting.zip",
+			"url": "http://www.nesworld.com/homebrew/sting.zip"
+		},
+		{
+			"file": "streemerz-v02.zip",
+			"url": "http://www.nesworld.com/homebrew/streemerz-v02.zip"
+		},
+		{
+			"file": "spnes.zip",
+			"url": "http://www.nesworld.com/homebrew/spnes.zip"
+		},
+		{
+			"file": "tiger_1.zip",
+			"url": "http://www.nesworld.com/homebrew/tiger_1.zip"
+		},
+		{
+			"file": "zooming_secretary1-02.zip",
+			"url": "http://www.nesworld.com/homebrew/zooming_secretary1-02.zip"
+		}
 	]
 }
