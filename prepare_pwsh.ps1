@@ -25,35 +25,6 @@ function DownloadFiles {
 
 }
 
-function GithubReleaseFiles {
-
-    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
-
-        $repo = $_.repo
-        $file = $_.file
-    
-        $releases = "https://api.github.com/repos/$repo/releases"
-        $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
-    
-        $url = "https://github.com/$repo/releases/download/$tag/$file"
-        $name = $file.Split(".")[0]
-    
-        $zip = "$name-$tag.zip"
-        $output = "$requirementsFolder\$zip"
-    
-        if(![System.IO.File]::Exists($output)) {
-    
-            Invoke-WebRequest $url -Out $output
-            Write-Host $file "does not exist...Downloading."
-    
-        } else {
-    
-            Write-Host $file "Already exists...Skipping download."
-        }
-    
-    }
-}
-
 # Install 7Zip
 Install-Module -Name 7Zip4Powershell -Confirm:$False -Force 
 
@@ -72,9 +43,32 @@ $requirementsFolder = "$PSScriptRoot\requirements\"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 DownloadFiles("downloads")
 DownloadFiles("other_downloads")
-GithubReleaseFiles
 
+Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
+    $repo = $_.repo
+    $file = $_.file
+
+    $releases = "https://api.github.com/repos/$repo/releases"
+    $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
+
+    $url = "https://github.com/$repo/releases/download/$tag/$file"
+    $name = $file.Split(".")[0]
+
+    $zip = "$name-$tag.zip"
+    $output = "$requirementsFolder\$zip"
+
+    if(![System.IO.File]::Exists($output)) {
+
+        Invoke-WebRequest $url -Out $output
+        Write-Host $file "does not exist...Downloading."
+
+    } else {
+
+        Write-Host $file "Already exists...Skipping download."
+    }
+
+}
 
 
 # # 
