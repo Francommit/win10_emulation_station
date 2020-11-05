@@ -65,7 +65,6 @@ $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
 
 # Installs 
-# choco install emulationstation.install -y --force
 # choco install dolphin --pre -y
 # choco install cemu -y
 
@@ -80,17 +79,15 @@ GithubReleaseFiles
 Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
 Get-ChildItem "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 
-
 # Generate Emulation Station config file
-# & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
-# $configPath = "$env:userprofile\.emulationstation\es_systems.cfg"
+& "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 
-# while (!(Test-Path $configPath)) { 
-#     Write-Host "Checking for config file..."
-#     Start-Sleep 5
-# }
+while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
+    Write-Host "INFO: Checking for config file..."
+    Start-Sleep 5
+}
 
-# Stop-Process -Name "emulationstation"
+Stop-Process -Name "emulationstation"
 
 
 # # 
