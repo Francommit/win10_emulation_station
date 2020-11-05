@@ -65,7 +65,7 @@ function Expand-Archive([string]$Path, [string]$Destination) {
         "`"-o$($Destination)`""     ## set Output directory
         "`"$($Path)`""              ## <archive_name>
     )
-    & $7z_Application $7z_Arguments 
+    & $7z_Application $7z_Arguments | Out-Null
 }
 
 # Install 7Zip
@@ -169,11 +169,11 @@ $retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 & $retroarchExecutable
 
 while (!(Test-Path $retroarchConfigPath)) { 
-    Write-Host "Checking for config file..."
+    Write-Host "INFO: Checking for retroarch config file"
     Start-Sleep 5
 }
 
-Stop-Process -Name "retroarch"
+Stop-Process -Name "retroarch.exe"
 
 # Tweak config!
 $settingToFind = 'video_fullscreen = "false"'
