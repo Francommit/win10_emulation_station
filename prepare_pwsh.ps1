@@ -81,7 +81,7 @@ Write-Host "INFO: Script directory is: $scriptDir"
 # choco install cemu -y
 
 # Acquire files 
-$requirementsFolder = "$PSScriptRoot\requirements\"
+$requirementsFolder = "$PSScriptRoot\requirements"
 New-Item -ItemType Directory -Force -Path $requirementsFolder
 DownloadFiles("downloads")
 DownloadFiles("other_downloads")
@@ -102,51 +102,46 @@ Stop-Process -Name "emulationstation"
 
 # Prepare Retroarch
 $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
+$coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
 New-Item -ItemType Directory -Force -Path $retroArchPath
 Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
-Get-ChildItem $retroArchPath
 
-# # 
-# # 5. Prepare cores
-# # 
-# $coresPath = "$retroArchPath\cores"
+# NES Setup
+$nesCore = "$requirementsFolder\fceumm_libretro.dll.zip"
+Expand-Archive -Path $nesCore -Destination $coresPath
 
-# # NES Setup
-# $nesCore = "$requirementsFolder\fceumm_libretro.dll.zip"
-# Expand-Archive -Path $nesCore -Destination $coresPath
+# N64 Setup
+$n64Core = "$requirementsFolder\parallel_n64_libretro.dll.zip"
+Expand-Archive -Path $n64Core -Destination $coresPath
 
-# # N64 Setup
-# $n64Core = "$requirementsFolder\parallel_n64_libretro.dll.zip"
-# Expand-Archive -Path $n64Core -Destination $coresPath
+# FBA Setup
+$fbaCore = "$requirementsFolder\fbalpha2012_libretro.dll.zip"
+Expand-Archive -Path $fbaCore -Destination $coresPath
 
-# # FBA Setup
-# $fbaCore = "$requirementsFolder\fbalpha2012_libretro.dll.zip"
-# Expand-Archive -Path $fbaCore -Destination $coresPath
+# GBA Setup
+$gbaCore = "$requirementsFolder\vba_next_libretro.dll.zip"
+Expand-Archive -Path $gbaCore -Destination $coresPath
 
-# # GBA Setup
-# $gbaCore = "$requirementsFolder\vba_next_libretro.dll.zip"
-# Expand-Archive -Path $gbaCore -Destination $coresPath
+# SNES Setup
+$snesCore = "$requirementsFolder\snes9x_libretro.dll.zip"
+Expand-Archive -Path $snesCore -Destination $coresPath
 
-# # SNES Setup
-# $snesCore = "$requirementsFolder\snes9x_libretro.dll.zip"
-# Expand-Archive -Path $snesCore -Destination $coresPath
+# Genesis GX Setup
+$mdCore = "$requirementsFolder\genesis_plus_gx_libretro.dll.zip"
+Expand-Archive -Path $mdCore -Destination $coresPath
 
-# # Genesis GX Setup
-# $mdCore = "$requirementsFolder\genesis_plus_gx_libretro.dll.zip"
-# Expand-Archive -Path $mdCore -Destination $coresPath
+# Game boy Colour Setup
+$gbcCore = "$requirementsFolder\gambatte_libretro.dll.zip"
+Expand-Archive -Path $gbcCore -Destination $coresPath
 
-# # Game boy Colour Setup
-# $gbcCore = "$requirementsFolder\gambatte_libretro.dll.zip"
-# Expand-Archive -Path $gbcCore -Destination $coresPath
+# Atari2600 Setup
+$atari2600Core = "$requirementsFolder\stella_libretro.dll.zip"
+Expand-Archive -Path $atari2600Core -Destination $coresPath
 
-# # Atari2600 Setup
-# $atari2600Core = "$requirementsFolder\stella_libretro.dll.zip"
-# Expand-Archive -Path $atari2600Core -Destination $coresPath
-
-# # MAME Setup
-# $mameCore = "$requirementsFolder\mame_libretro.dll.zip"
-# Expand-Archive -Path $mameCore -Destination $coresPath
+# MAME Setup
+$mameCore = "$requirementsFolder\mame_libretro.dll.zip"
+Expand-Archive -Path $mameCore -Destination $coresPath
 
 # # PSX Setup
 # $psxEmulator = "$requirementsFolder\ePSXe205.zip"
