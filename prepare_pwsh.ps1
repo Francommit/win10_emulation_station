@@ -103,7 +103,7 @@ Stop-Process -Name "emulationstation"
 $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
 $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
-New-Item -ItemType Directory -Force -Path $retroArchPath
+New-Item -ItemType Directory -Force -Path $retroArchPath | Out-Null
 Expand-Archive -Path $retroArchBinary -Destination $retroArchPath | Out-Null
 
 # NES Setup
@@ -167,7 +167,7 @@ $retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 
 if (Test-Path $retroarchExecutable) {
     Write-Host "INFO: Retroarch executable found, launching"
-    & $retroarchExecutable
+    Start-Process $retroarchExecutable
 } else {
     Write-Host "ERROR: Could not find retroarch.exe"
     exit -1
