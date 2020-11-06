@@ -79,7 +79,7 @@ Write-Host "INFO: Script directory is: $scriptDir"
 Write-Host "DEBUG: Install choco test"
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-# TO-DO: install dolphin --pre -y
+choco install dolphin --pre -y
 # TO-DO: install cemu -y
 
 # Acquire files 
