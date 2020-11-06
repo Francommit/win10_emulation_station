@@ -278,7 +278,9 @@ New-Item -ItemType Directory -Force -Path $fbaPath | Out-Null
 
 Write-Host "INFO: Atari2600 Setup"
 $atari2600Path =  "$romPath\atari2600"
+$atari2600Rom = "$romPath\ramless_pong.bin"
 New-Item -ItemType Directory -Force -Path $atari2600Path | Out-Null
+Expand-Archive -Path $atari2600Rom -Destination $atari2600Path | Out-Null
 
 Write-Host "INFO: MAME setup"
 $mamePath =  "$romPath\mame"
