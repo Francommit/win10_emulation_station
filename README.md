@@ -3,6 +3,8 @@
 EmulationStation configured for Windows 10
 ======
 
+https://github.com/Francommit/win10_emulation_station/workflows/Build/badge.svg
+
 An auto-installer to set up Emulation Station correctly on a 64-bit version of Windows 10.
 
 Features

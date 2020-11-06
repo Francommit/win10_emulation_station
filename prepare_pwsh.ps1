@@ -72,9 +72,9 @@ $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-choco install 7zip -y
-choco install dolphin --pre -y
-choco install cemu -y
+choco install 7zip --no-progress -y 
+choco install dolphin --pre --no-progress -y 
+choco install cemu --no-progress -y 
 
 # Acquire files 
 $requirementsFolder = "$PSScriptRoot\requirements"
@@ -206,7 +206,7 @@ $settingToSet = 'input_player2_analog_dpad_mode = "1"'
 
 # Add roms
 $romPath =  "$env:userprofile\.emulationstation\roms"
-New-Item -ItemType Directory -Force -Path $romPath
+New-Item -ItemType Directory -Force -Path $romPath | Out-Null
 
 # Path creation + Open-Source / Freeware Rom population
 Write-Host "INFO: Setup NES"
