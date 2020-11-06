@@ -66,15 +66,13 @@ function Expand-Archive([string]$Path, [string]$Destination) {
     & $7z_Application $7z_Arguments | Out-Null
 }
 
-# Install 7Zip
-Install-Module -Name 7Zip4Powershell -Confirm:$False -Force 
-
 # Get script path
 $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco install 7zip -y
 choco install dolphin --pre -y
 choco install cemu -y
 
