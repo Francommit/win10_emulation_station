@@ -166,7 +166,13 @@ Expand-Archive -Path $ngpCore -Destination $coresPath
 $retroarchExecutable = "$retroArchPath\retroarch.exe"
 $retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 
-& $retroarchExecutable
+if (Test-Path $retroarchExecutable) {
+    Write-Host "INFO: Retroarch executable found, launching"
+    & $retroarchExecutable
+} else {
+    Write-Host "ERROR: Could not find retroarch.exe"
+    exit -1
+}
 
 while (!(Test-Path $retroarchConfigPath)) { 
     Write-Host "INFO: Checking for retroarch config file"
