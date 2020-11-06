@@ -543,9 +543,9 @@ $newConfig = "<systemList>
 "
 Set-Content $esConfigFile -Value $newConfig
 
-Write-Host "INFO: Setting up Emulation Station theme"
+Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$requirementsFolder\recalbox-backport-v2-recalbox-backport-v2.0.zip"
+$themesFile = "$requirementsFolder\recalbox-backport-v2.1-recalbox-backport-v2.1.zip"
 Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
 $themesFolder = "$requirementsFolder\recalbox-backport\"
 robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
@@ -554,9 +554,9 @@ robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
 # # 
 # # 11. Use updated binaries.
 # # 
-# $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
-# $updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32-continuous-master.zip"
-# Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder
+$emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
+$updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32-continuous-master.zip"
+Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder | Out-Null
 
 
 # # 
