@@ -89,7 +89,6 @@ GithubReleaseFiles
 
 # Install Emulation Station
 Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
-Get-ChildItem "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 
 # Generate Emulation Station config file
 & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
@@ -147,7 +146,7 @@ Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
 $psxEmulator = "$requirementsFolder\ePSXe205.zip"
 $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
 $psxBiosPath = $psxEmulatorPath + "bios\"
-New-Item -ItemType Directory -Force -Path $psxEmulatorPath
+New-Item -ItemType Directory -Force -Path $psxEmulatorPath | Out-Null
 Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath | Out-Null
 
 # PS2 Setup
@@ -156,7 +155,7 @@ $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
 $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
 $ps2BiosPath = "$ps2EmulatorPath\bios\"
 Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath | Out-Null
-New-Item -ItemType Directory -Force -Path $ps2BiosPath
+New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
 
 # NeoGeo Pocket Setup
 $ngpCore = "$requirementsFolder\race_libretro.dll.zip"
