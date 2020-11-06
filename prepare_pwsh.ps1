@@ -105,62 +105,62 @@ $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
 $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
 New-Item -ItemType Directory -Force -Path $retroArchPath
-Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
+Expand-Archive -Path $retroArchBinary -Destination $retroArchPath | Out-Null
 
 # NES Setup
 $nesCore = "$requirementsFolder\fceumm_libretro.dll.zip"
-Expand-Archive -Path $nesCore -Destination $coresPath
+Expand-Archive -Path $nesCore -Destination $coresPath | Out-Null
 
 # N64 Setup
 $n64Core = "$requirementsFolder\parallel_n64_libretro.dll.zip"
-Expand-Archive -Path $n64Core -Destination $coresPath
+Expand-Archive -Path $n64Core -Destination $coresPath | Out-Null
 
 # FBA Setup
 $fbaCore = "$requirementsFolder\fbalpha2012_libretro.dll.zip"
-Expand-Archive -Path $fbaCore -Destination $coresPath
+Expand-Archive -Path $fbaCore -Destination $coresPath | Out-Null
 
 # GBA Setup
 $gbaCore = "$requirementsFolder\vba_next_libretro.dll.zip"
-Expand-Archive -Path $gbaCore -Destination $coresPath
+Expand-Archive -Path $gbaCore -Destination $coresPath | Out-Null
 
 # SNES Setup
 $snesCore = "$requirementsFolder\snes9x_libretro.dll.zip"
-Expand-Archive -Path $snesCore -Destination $coresPath
+Expand-Archive -Path $snesCore -Destination $coresPath | Out-Null
 
 # Genesis GX Setup
 $mdCore = "$requirementsFolder\genesis_plus_gx_libretro.dll.zip"
-Expand-Archive -Path $mdCore -Destination $coresPath
+Expand-Archive -Path $mdCore -Destination $coresPath | Out-Null
 
 # Game boy Colour Setup
 $gbcCore = "$requirementsFolder\gambatte_libretro.dll.zip"
-Expand-Archive -Path $gbcCore -Destination $coresPath
+Expand-Archive -Path $gbcCore -Destination $coresPath | Out-Null
 
 # Atari2600 Setup
 $atari2600Core = "$requirementsFolder\stella_libretro.dll.zip"
-Expand-Archive -Path $atari2600Core -Destination $coresPath
+Expand-Archive -Path $atari2600Core -Destination $coresPath | Out-Null
 
 # MAME Setup
 $mameCore = "$requirementsFolder\hbmame_libretro.dll.zip"
-Expand-Archive -Path $mameCore -Destination $coresPath
+Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
 
 # PSX Setup
 $psxEmulator = "$requirementsFolder\ePSXe205.zip"
 $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
 $psxBiosPath = $psxEmulatorPath + "bios\"
 New-Item -ItemType Directory -Force -Path $psxEmulatorPath
-Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath
+Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath | Out-Null
 
 # PS2 Setup
 $ps2EmulatorMsi = "$requirementsFolder\pcsx2-1.6.0-setup.exe"
 $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
 $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
 $ps2BiosPath = "$ps2EmulatorPath\bios\"
-Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath
+Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath | Out-Null
 New-Item -ItemType Directory -Force -Path $ps2BiosPath
 
 # NeoGeo Pocket Setup
 $ngpCore = "$requirementsFolder\race_libretro.dll.zip"
-Expand-Archive -Path $ngpCore -Destination $coresPath
+Expand-Archive -Path $ngpCore -Destination $coresPath | Out-Null
 
 # Start Retroarch and generate a config.
 $retroarchExecutable = "$retroArchPath\retroarch.exe"
