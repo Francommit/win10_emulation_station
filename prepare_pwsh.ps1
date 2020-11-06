@@ -273,7 +273,7 @@ New-Item -ItemType Directory -Force -Path $fbaPath | Out-Null
 
 Write-Host "INFO: Atari2600 Setup"
 $atari2600Path =  "$romPath\atari2600"
-$atari2600Rom = "$romPath\ramless_pong.bin"
+$atari2600Rom = "$requirementsFolder\ramless_pong.bin"
 New-Item -ItemType Directory -Force -Path $atari2600Path | Out-Null
 Expand-Archive -Path $atari2600Rom -Destination $atari2600Path | Out-Null
 
@@ -547,7 +547,7 @@ Set-Content $esConfigFile -Value $newConfig
 
 Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$requirementsFolder\recalbox-backport-v2.1-recalbox-backport-v2.1.zip"
+$themesFile = "$requirementsFolder\recalbox-backport-v2.1.zip"
 Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
 $themesFolder = "$requirementsFolder\recalbox-backport\"
 robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
