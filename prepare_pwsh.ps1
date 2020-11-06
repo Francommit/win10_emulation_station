@@ -386,7 +386,7 @@ $atari2600Path =  "$romPath\atari2600"
 $atari2600Rom = "$requirementsFolder\ramless_pong.bin"
 if(Test-Path $atari2600Rom){
     New-Item -ItemType Directory -Force -Path $atari2600Path | Out-Null
-    Expand-Archive -Path $atari2600Rom -Destination $atari2600Path | Out-Null
+    Copy-Item -Path $atari2600Rom -Destination $atari2600Path | Out-Null
 } else {
     Write-Host "ERROR: $atari2600Rom not found."
     exit -1
