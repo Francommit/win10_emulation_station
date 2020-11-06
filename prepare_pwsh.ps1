@@ -76,9 +76,8 @@ $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
 
-# Installs 
-# choco install dolphin --pre -y
-# choco install cemu -y
+# TO-DO: install dolphin --pre -y
+# TO-DO: install cemu -y
 
 # Acquire files 
 $requirementsFolder = "$PSScriptRoot\requirements"
@@ -550,72 +549,65 @@ Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
 $themesFolder = "$requirementsFolder\recalbox-backport\"
 robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
 
-
-# # 
-# # 11. Use updated binaries.
-# # 
+Write-Host "INFO: Update EmulationStation binaries"
 $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
 $updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32-continuous-master.zip"
 Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder | Out-Null
 
 
-# # 
-# # 12. Generate settings file with favorites enabled.
-# # 
-# $esConfigFile = "$env:userprofile\.emulationstation\es_settings.cfg"
-# $newSettingsConfig = "<?xml version='1.0'?>
-# <bool name='BackgroundJoystickInput' value='false' />
-# <bool name='CaptionsCompatibility' value='true' />
-# <bool name='DrawFramerate' value='false' />
-# <bool name='EnableSounds' value='true' />
-# <bool name='MoveCarousel' value='true' />
-# <bool name='ParseGamelistOnly' value='false' />
-# <bool name='QuickSystemSelect' value='true' />
-# <bool name='SaveGamelistsOnExit' value='true' />
-# <bool name='ScrapeRatings' value='true' />
-# <bool name='ScreenSaverControls' value='true' />
-# <bool name='ScreenSaverOmxPlayer' value='false' />
-# <bool name='ShowHelpPrompts' value='true' />
-# <bool name='ShowHiddenFiles' value='false' />
-# <bool name='SlideshowScreenSaverCustomImageSource' value='false' />
-# <bool name='SlideshowScreenSaverRecurse' value='false' />
-# <bool name='SlideshowScreenSaverStretch' value='false' />
-# <bool name='SortAllSystems' value='false' />
-# <bool name='StretchVideoOnScreenSaver' value='false' />
-# <bool name='UseCustomCollectionsSystem' value='true' />
-# <bool name='VideoAudio' value='true' />
-# <bool name='VideoOmxPlayer' value='false' />
-# <int name='MaxVRAM' value='100' />
-# <int name='ScraperResizeHeight' value='0' />
-# <int name='ScraperResizeWidth' value='400' />
-# <int name='ScreenSaverSwapImageTimeout' value='10000' />
-# <int name='ScreenSaverSwapVideoTimeout' value='30000' />
-# <int name='ScreenSaverTime' value='300000' />
-# <string name='AudioDevice' value='Master' />
-# <string name='CollectionSystemsAuto' value='favorites' />
-# <string name='CollectionSystemsCustom' value='' />
-# <string name='GamelistViewStyle' value='automatic' />
-# <string name='OMXAudioDev' value='both' />
-# <string name='PowerSaverMode' value='disabled' />
-# <string name='Scraper' value='TheGamesDB' />
-# <string name='ScreenSaverBehavior' value='dim' />
-# <string name='ScreenSaverGameInfo' value='never' />
-# <string name='SlideshowScreenSaverBackgroundAudioFile' value='$env:userprofile/.emulationstation/slideshow/audio/slideshow_bg.wav' />
-# <string name='SlideshowScreenSaverImageDir' value='$env:userprofile/.emulationstation/slideshow/image' />
-# <string name='SlideshowScreenSaverImageFilter' value='.png,.jpg' />
-# <string name='ThemeSet' value='recalbox-backport' />
-# <string name='TransitionStyle' value='fade' />
+Write-Host "INFO: Generate ES settings file with favorites enabled."
+$esConfigFile = "$env:userprofile\.emulationstation\es_settings.cfg"
+$newSettingsConfig = "<?xml version='1.0'?>
+<bool name='BackgroundJoystickInput' value='false' />
+<bool name='CaptionsCompatibility' value='true' />
+<bool name='DrawFramerate' value='false' />
+<bool name='EnableSounds' value='true' />
+<bool name='MoveCarousel' value='true' />
+<bool name='ParseGamelistOnly' value='false' />
+<bool name='QuickSystemSelect' value='true' />
+<bool name='SaveGamelistsOnExit' value='true' />
+<bool name='ScrapeRatings' value='true' />
+<bool name='ScreenSaverControls' value='true' />
+<bool name='ScreenSaverOmxPlayer' value='false' />
+<bool name='ShowHelpPrompts' value='true' />
+<bool name='ShowHiddenFiles' value='false' />
+<bool name='SlideshowScreenSaverCustomImageSource' value='false' />
+<bool name='SlideshowScreenSaverRecurse' value='false' />
+<bool name='SlideshowScreenSaverStretch' value='false' />
+<bool name='SortAllSystems' value='false' />
+<bool name='StretchVideoOnScreenSaver' value='false' />
+<bool name='UseCustomCollectionsSystem' value='true' />
+<bool name='VideoAudio' value='true' />
+<bool name='VideoOmxPlayer' value='false' />
+<int name='MaxVRAM' value='100' />
+<int name='ScraperResizeHeight' value='0' />
+<int name='ScraperResizeWidth' value='400' />
+<int name='ScreenSaverSwapImageTimeout' value='10000' />
+<int name='ScreenSaverSwapVideoTimeout' value='30000' />
+<int name='ScreenSaverTime' value='300000' />
+<string name='AudioDevice' value='Master' />
+<string name='CollectionSystemsAuto' value='favorites' />
+<string name='CollectionSystemsCustom' value='' />
+<string name='GamelistViewStyle' value='automatic' />
+<string name='OMXAudioDev' value='both' />
+<string name='PowerSaverMode' value='disabled' />
+<string name='Scraper' value='TheGamesDB' />
+<string name='ScreenSaverBehavior' value='dim' />
+<string name='ScreenSaverGameInfo' value='never' />
+<string name='SlideshowScreenSaverBackgroundAudioFile' value='$env:userprofile/.emulationstation/slideshow/audio/slideshow_bg.wav' />
+<string name='SlideshowScreenSaverImageDir' value='$env:userprofile/.emulationstation/slideshow/image' />
+<string name='SlideshowScreenSaverImageFilter' value='.png,.jpg' />
+<string name='ThemeSet' value='recalbox-backport' />
+<string name='TransitionStyle' value='fade' />
 
-# "
+"
 
-# Set-Content $esConfigFile -Value $newSettingsConfig
-# $requiredTmpFolder = "$env:userprofile\.emulationstation\tmp\"
-# New-Item -ItemType Directory -Force -Path $requiredTmpFolder
+Set-Content $esConfigFile -Value $newSettingsConfig
+$requiredTmpFolder = "$env:userprofile\.emulationstation\tmp\"
+New-Item -ItemType Directory -Force -Path $requiredTmpFolder | Out-Null
 
-
-# # 
-# # 13. Generate ini file for Dolphin.
-# # 
+#  TO-DO: Install dolphin
+# Write-Host "INFO: Genrating Dolphin Config"
 # $dolphinConfigFile = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
 # $dolphinConfigFolder = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\"
 # $dolphinConfigFileContent = "[General]
@@ -799,48 +791,37 @@ Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStat
 # New-Item $dolphinConfigFolder -ItemType directory
 # Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
-# # 
-# # 14. Fixing epsxe bug setting the registry
+# TO-DO: Review if this is still needed or not
 # # https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
 # # https://www.youtube.com/watch?v=fY89H8fLFSc
 # # 
 # $path = 'HKCU:\SOFTWARE\epsxe\config'
-
 # New-Item -Path $path -Force | Out-Null
-
 # Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 
-# # 
-# # 15. Add in a game art scraper
-# # 
-# $scraperZip = "$requirementsFolder\scraper_windows_amd64*.zip"
-# Expand-Archive -Path $scraperZip -Destination $romPath
+Write-Host "INFO: Adding scraper in"
+$scraperZip = "$requirementsFolder\scraper_windows_amd64*.zip"
+Expand-Archive -Path $scraperZip -Destination $romPath | Out-Null
 
+Write-Host "INFO: Adding in useful desktop shortcuts"
+$userProfileVariable = Get-ChildItem Env:UserProfile
+$romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
+$coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
+$windowedEmulationStation = "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 
-# # 
-# # 16. Create some useful desktop shortcuts
-# # 
-# $userProfileVariable = Get-ChildItem Env:UserProfile
-# $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
-# $coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
-# $windowedEmulationStation = "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
+$wshshell = New-Object -ComObject WScript.Shell
+$desktop = [System.Environment]::GetFolderPath('Desktop')
+$lnkRoms = $wshshell.CreateShortcut("$desktop\Roms Location.lnk")
+$lnkRoms.TargetPath = $romsShortcut
+$lnkRoms.Save() 
 
-# $wshshell = New-Object -ComObject WScript.Shell
-# $desktop = [System.Environment]::GetFolderPath('Desktop')
-# $lnkRoms = $wshshell.CreateShortcut("$desktop\Roms Location.lnk")
-# $lnkRoms.TargetPath = $romsShortcut
-# $lnkRoms.Save() 
+$lnkCores = $wshshell.CreateShortcut("$desktop\Cores Location.lnk")
+$lnkCores.TargetPath = $coresShortcut
+$lnkCores.Save() 
 
-# $lnkCores = $wshshell.CreateShortcut("$desktop\Cores Location.lnk")
-# $lnkCores.TargetPath = $coresShortcut
-# $lnkCores.Save() 
+$lnkWindowed = $wshshell.CreateShortcut("$desktop\Windowed EmulationStation.lnk")
+$lnkWindowed.Arguments = "--resolution 1366 768 --windowed"
+$lnkWindowed.TargetPath = $windowedEmulationStation
+$lnkWindowed.Save() 
 
-# $lnkWindowed = $wshshell.CreateShortcut("$desktop\Windowed EmulationStation.lnk")
-# $lnkWindowed.Arguments = "--resolution 1366 768 --windowed"
-# $lnkWindowed.TargetPath = $windowedEmulationStation
-# $lnkWindowed.Save() 
-
-# # 
-# # 17. Enjoy your retro games!
-# # 
-# Write-Host "Enjoy!"
+Write-Host "INFO: Setup completed"
