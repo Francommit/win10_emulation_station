@@ -252,7 +252,9 @@ Expand-Archive -Path $psxRom -Destination $psxPath | Out-Null
 
 Write-Host "INFO: Setup PS2"
 $ps2Path = "$romPath\ps2"
+$ps2Rom = "$requirementsFolder\hermes-v.latest-ps2.zip"
 New-Item -ItemType Directory -Force -Path $ps2Path | Out-Null
+Expand-Archive -Path $ps2Rom -Destination $ps2Path | Out-Null
 
 Write-Host "INFO: Setup Gameboy"
 $gbPath = "$romPath\gb"

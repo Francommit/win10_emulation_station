@@ -1,6 +1,10 @@
 {
 	"downloads": [
 		{
+			"file": "hermes-v.latest-ps2.zip",
+			"url": "http: //www.retroguru.com/hermes/hermes-v.latest-ps2.zip"
+		},
+		{
 			"file": "emulationstation_win32_latest.exe",
 			"url": "https://emulationstation.org/downloads/releases/emulationstation_win32_latest.exe"
 		},
