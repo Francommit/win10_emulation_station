@@ -167,7 +167,7 @@ $retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 
 if (Test-Path $retroarchExecutable) {
     Write-Host "INFO: Retroarch executable found, launching"
-    Start-Process $retroarchExecutable
+    # Start-Process $retroarchExecutable
 } else {
     Write-Host "ERROR: Could not find retroarch.exe"
     exit -1
