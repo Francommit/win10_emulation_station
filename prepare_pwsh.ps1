@@ -31,9 +31,7 @@ function GithubReleaseFiles {
 
         $repo = $_.repo
         $file = $_.file
-        Write-Host "DEBUG: File: $file"
         $releases = "https://api.github.com/repos/$repo/releases"
-        Write-Host "DEBUG: Releases: $releases"
         $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
     
         $url = "https://github.com/$repo/releases/download/$tag/$file"
@@ -76,7 +74,6 @@ $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
 
-Write-Host "DEBUG: Install choco test"
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 choco install dolphin --pre -y
 choco install cemu -y
