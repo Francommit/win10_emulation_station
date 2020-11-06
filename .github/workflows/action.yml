@@ -14,4 +14,4 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Powershell - prepare_pwsh.ps1
-      run: .\prepare.ps1
+      run: .\prepare_pwsh.ps1
