@@ -266,13 +266,15 @@ $gbcRom = "$requirementsFolder\star_heritage.zip"
 New-Item -ItemType Directory -Force -Path $gbcPath | Out-Null
 Expand-Archive -Path $gbcRom -Destination $gbcPath | Out-Null
 
+Write-Host "INFO: Setup Mastersystem"
+$masterSystemPath =  "$romPath\mastersystem"
+$masterSystemRom = "$requirementsFolder\WahMunchers-SMS-R2.zip" 
+New-Item -ItemType Directory -Force -Path $masterSystemPath | Out-Null
+Expand-Archive -Path $masterSystemRom -Destination $masterSystemPath | Out-Null
+
 Write-Host "INFO: Setup FBA"
 $fbaPath =  "$romPath\fba"
 New-Item -ItemType Directory -Force -Path $fbaPath | Out-Null
-
-Write-Host "INFO: Setup Mastersystem"
-$masterSystemPath =  "$romPath\mastersystem"
-New-Item -ItemType Directory -Force -Path $masterSystemPath | Out-Null
 
 Write-Host "INFO: Atari2600 Setup"
 $atari2600Path =  "$romPath\atari2600"
