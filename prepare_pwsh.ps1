@@ -78,9 +78,8 @@ Write-Host "INFO: Script directory is: $scriptDir"
 
 Write-Host "DEBUG: Install choco test"
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
 choco install dolphin --pre -y
-# TO-DO: install cemu -y
+choco install cemu -y
 
 # Acquire files 
 $requirementsFolder = "$PSScriptRoot\requirements"
@@ -609,195 +608,193 @@ Set-Content $esConfigFile -Value $newSettingsConfig
 $requiredTmpFolder = "$env:userprofile\.emulationstation\tmp\"
 New-Item -ItemType Directory -Force -Path $requiredTmpFolder | Out-Null
 
-#  TO-DO: Install dolphin
-# Write-Host "INFO: Genrating Dolphin Config"
-# $dolphinConfigFile = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
-# $dolphinConfigFolder = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\"
-# $dolphinConfigFileContent = "[General]
-# LastFilename = 
-# ShowLag = False
-# ShowFrameCount = False
-# ISOPaths = 0
-# RecursiveISOPaths = False
-# NANDRootPath = 
-# DumpPath = 
-# WirelessMac = 
-# WiiSDCardPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\Wii\sd.raw
-# [Interface]
-# ConfirmStop = True
-# UsePanicHandlers = True
-# OnScreenDisplayMessages = True
-# HideCursor = False
-# AutoHideCursor = False
-# MainWindowPosX = -2147483648
-# MainWindowPosY = -2147483648
-# MainWindowWidth = -1
-# MainWindowHeight = -1
-# LanguageCode = 
-# ShowToolbar = True
-# ShowStatusbar = True
-# ShowLogWindow = False
-# ShowLogConfigWindow = False
-# ExtendedFPSInfo = False
-# ThemeName = Clean
-# PauseOnFocusLost = False
-# DisableTooltips = False
-# [Display]
-# FullscreenResolution = Auto
-# Fullscreen = False
-# RenderToMain = True
-# RenderWindowXPos = -1
-# RenderWindowYPos = -1
-# RenderWindowWidth = 640
-# RenderWindowHeight = 480
-# RenderWindowAutoSize = False
-# KeepWindowOnTop = False
-# ProgressiveScan = False
-# PAL60 = False
-# DisableScreenSaver = False
-# ForceNTSCJ = False
-# [GameList]
-# ListDrives = False
-# ListWad = True
-# ListElfDol = True
-# ListWii = True
-# ListGC = True
-# ListJap = True
-# ListPal = True
-# ListUsa = True
-# ListAustralia = True
-# ListFrance = True
-# ListGermany = True
-# ListItaly = True
-# ListKorea = True
-# ListNetherlands = True
-# ListRussia = True
-# ListSpain = True
-# ListTaiwan = True
-# ListWorld = True
-# ListUnknown = True
-# ListSort = 3
-# ListSortSecondary = 0
-# ColumnPlatform = True
-# ColumnBanner = True
-# ColumnNotes = True
-# ColumnFileName = False
-# ColumnID = False
-# ColumnRegion = True
-# ColumnSize = True
-# ColumnState = True
-# [Core]
-# HLE_BS2 = True
-# TimingVariance = 40
-# CPUCore = 1
-# Fastmem = True
-# CPUThread = True
-# DSPHLE = True
-# SyncOnSkipIdle = True
-# SyncGPU = True
-# SyncGpuMaxDistance = 200000
-# SyncGpuMinDistance = -200000
-# SyncGpuOverclock = 1.00000000
-# FPRF = False
-# AccurateNaNs = False
-# DefaultISO = 
-# DVDRoot = 
-# Apploader = 
-# EnableCheats = False
-# SelectedLanguage = 0
-# OverrideGCLang = False
-# DPL2Decoder = False
-# Latency = 2
-# AudioStretch = False
-# AudioStretchMaxLatency = 80
-# MemcardAPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardA.USA.raw
-# MemcardBPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardB.USA.raw
-# AgpCartAPath = 
-# AgpCartBPath = 
-# SlotA = 1
-# SlotB = 255
-# SerialPort1 = 255
-# BBA_MAC = 
-# SIDevice0 = 6
-# AdapterRumble0 = True
-# SimulateKonga0 = False
-# SIDevice1 = 0
-# AdapterRumble1 = True
-# SimulateKonga1 = False
-# SIDevice2 = 0
-# AdapterRumble2 = True
-# SimulateKonga2 = False
-# SIDevice3 = 0
-# AdapterRumble3 = True
-# SimulateKonga3 = False
-# WiiSDCard = False
-# WiiKeyboard = False
-# WiimoteContinuousScanning = False
-# WiimoteEnableSpeaker = False
-# RunCompareServer = False
-# RunCompareClient = False
-# EmulationSpeed = 1.00000000
-# FrameSkip = 0x00000000
-# Overclock = 1.00000000
-# OverclockEnable = False
-# GFXBackend = OGL
-# GPUDeterminismMode = auto
-# PerfMapDir = 
-# EnableCustomRTC = False
-# CustomRTCValue = 0x386d4380
-# [Movie]
-# PauseMovie = False
-# Author = 
-# DumpFrames = False
-# DumpFramesSilent = False
-# ShowInputDisplay = False
-# ShowRTC = False
-# [DSP]
-# EnableJIT = False
-# DumpAudio = False
-# DumpAudioSilent = False
-# DumpUCode = False
-# Backend = Libretro
-# Volume = 100
-# CaptureLog = False
-# [Input]
-# BackgroundInput = False
-# [FifoPlayer]
-# LoopReplay = False
-# [Analytics]
-# ID = 
-# Enabled = False
-# PermissionAsked = False
-# [Network]
-# SSLDumpRead = False
-# SSLDumpWrite = False
-# SSLVerifyCertificates = True
-# SSLDumpRootCA = False
-# SSLDumpPeerCert = False
-# [BluetoothPassthrough]
-# Enabled = False
-# VID = -1
-# PID = -1
-# LinkKeys = 
-# [USBPassthrough]
-# Devices = 
-# [Sysconf]
-# SensorBarPosition = 1
-# SensorBarSensitivity = 50331648
-# SpeakerVolume = 88
-# WiimoteMotor = True
-# WiiLanguage = 1
-# AspectRatio = 1
-# Screensaver = 0
+Write-Host "INFO: Genrating Dolphin Config"
+$dolphinConfigFile = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
+$dolphinConfigFolder = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\"
+$dolphinConfigFileContent = "[General]
+LastFilename = 
+ShowLag = False
+ShowFrameCount = False
+ISOPaths = 0
+RecursiveISOPaths = False
+NANDRootPath = 
+DumpPath = 
+WirelessMac = 
+WiiSDCardPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\Wii\sd.raw
+[Interface]
+ConfirmStop = True
+UsePanicHandlers = True
+OnScreenDisplayMessages = True
+HideCursor = False
+AutoHideCursor = False
+MainWindowPosX = -2147483648
+MainWindowPosY = -2147483648
+MainWindowWidth = -1
+MainWindowHeight = -1
+LanguageCode = 
+ShowToolbar = True
+ShowStatusbar = True
+ShowLogWindow = False
+ShowLogConfigWindow = False
+ExtendedFPSInfo = False
+ThemeName = Clean
+PauseOnFocusLost = False
+DisableTooltips = False
+[Display]
+FullscreenResolution = Auto
+Fullscreen = False
+RenderToMain = True
+RenderWindowXPos = -1
+RenderWindowYPos = -1
+RenderWindowWidth = 640
+RenderWindowHeight = 480
+RenderWindowAutoSize = False
+KeepWindowOnTop = False
+ProgressiveScan = False
+PAL60 = False
+DisableScreenSaver = False
+ForceNTSCJ = False
+[GameList]
+ListDrives = False
+ListWad = True
+ListElfDol = True
+ListWii = True
+ListGC = True
+ListJap = True
+ListPal = True
+ListUsa = True
+ListAustralia = True
+ListFrance = True
+ListGermany = True
+ListItaly = True
+ListKorea = True
+ListNetherlands = True
+ListRussia = True
+ListSpain = True
+ListTaiwan = True
+ListWorld = True
+ListUnknown = True
+ListSort = 3
+ListSortSecondary = 0
+ColumnPlatform = True
+ColumnBanner = True
+ColumnNotes = True
+ColumnFileName = False
+ColumnID = False
+ColumnRegion = True
+ColumnSize = True
+ColumnState = True
+[Core]
+HLE_BS2 = True
+TimingVariance = 40
+CPUCore = 1
+Fastmem = True
+CPUThread = True
+DSPHLE = True
+SyncOnSkipIdle = True
+SyncGPU = True
+SyncGpuMaxDistance = 200000
+SyncGpuMinDistance = -200000
+SyncGpuOverclock = 1.00000000
+FPRF = False
+AccurateNaNs = False
+DefaultISO = 
+DVDRoot = 
+Apploader = 
+EnableCheats = False
+SelectedLanguage = 0
+OverrideGCLang = False
+DPL2Decoder = False
+Latency = 2
+AudioStretch = False
+AudioStretchMaxLatency = 80
+MemcardAPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardA.USA.raw
+MemcardBPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardB.USA.raw
+AgpCartAPath = 
+AgpCartBPath = 
+SlotA = 1
+SlotB = 255
+SerialPort1 = 255
+BBA_MAC = 
+SIDevice0 = 6
+AdapterRumble0 = True
+SimulateKonga0 = False
+SIDevice1 = 0
+AdapterRumble1 = True
+SimulateKonga1 = False
+SIDevice2 = 0
+AdapterRumble2 = True
+SimulateKonga2 = False
+SIDevice3 = 0
+AdapterRumble3 = True
+SimulateKonga3 = False
+WiiSDCard = False
+WiiKeyboard = False
+WiimoteContinuousScanning = False
+WiimoteEnableSpeaker = False
+RunCompareServer = False
+RunCompareClient = False
+EmulationSpeed = 1.00000000
+FrameSkip = 0x00000000
+Overclock = 1.00000000
+OverclockEnable = False
+GFXBackend = OGL
+GPUDeterminismMode = auto
+PerfMapDir = 
+EnableCustomRTC = False
+CustomRTCValue = 0x386d4380
+[Movie]
+PauseMovie = False
+Author = 
+DumpFrames = False
+DumpFramesSilent = False
+ShowInputDisplay = False
+ShowRTC = False
+[DSP]
+EnableJIT = False
+DumpAudio = False
+DumpAudioSilent = False
+DumpUCode = False
+Backend = Libretro
+Volume = 100
+CaptureLog = False
+[Input]
+BackgroundInput = False
+[FifoPlayer]
+LoopReplay = False
+[Analytics]
+ID = 
+Enabled = False
+PermissionAsked = False
+[Network]
+SSLDumpRead = False
+SSLDumpWrite = False
+SSLVerifyCertificates = True
+SSLDumpRootCA = False
+SSLDumpPeerCert = False
+[BluetoothPassthrough]
+Enabled = False
+VID = -1
+PID = -1
+LinkKeys = 
+[USBPassthrough]
+Devices = 
+[Sysconf]
+SensorBarPosition = 1
+SensorBarSensitivity = 50331648
+SpeakerVolume = 88
+WiimoteMotor = True
+WiiLanguage = 1
+AspectRatio = 1
+Screensaver = 0
 
-# "
-# New-Item $dolphinConfigFolder -ItemType directory
-# Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
+"
+New-Item $dolphinConfigFolder -ItemType directory | Out-Null
+Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
 # TO-DO: Review if this is still needed or not
 # # https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
 # # https://www.youtube.com/watch?v=fY89H8fLFSc
-# # 
 # $path = 'HKCU:\SOFTWARE\epsxe\config'
 # New-Item -Path $path -Force | Out-Null
 # Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
