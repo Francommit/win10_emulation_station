@@ -244,6 +244,7 @@ if (Test-Path $retroarchExecutable) {
             $retroarchProcess | Stop-Process -Force
         }
     }
+    Stop-Process -Name "retroarch" -ErrorAction SilentlyContinue
 
 } else {
     Write-Host "ERROR: Could not find retroarch.exe"
