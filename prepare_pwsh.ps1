@@ -166,21 +166,32 @@ $retroarchExecutable = "$retroArchPath\retroarch.exe"
 $retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 
 if (Test-Path $retroarchExecutable) {
+    
     Write-Host "INFO: Retroarch executable found, launching"
-    # Start-Process $retroarchExecutable
+    Start-Process $retroarchExecutable
+    
+    while (!(Test-Path $retroarchConfigPath)) { 
+        Write-Host "INFO: Checking for retroarch config file"
+        Start-Sleep 5
+    }
+
+    $retroarchProcess = Get-Process retroarch.exe -ErrorAction SilentlyContinue
+    if ($retroarchProcess) {
+        $retroarchProcess.CloseMainWindow()
+        Start-sleep 5
+        if (!$retroarchProcess.HasExited) {
+            $retroarchProcess | Stop-Process -Force
+        }
+    }
+
 } else {
     Write-Host "ERROR: Could not find retroarch.exe"
     exit -1
 }
 
-while (!(Test-Path $retroarchConfigPath)) { 
-    Write-Host "INFO: Checking for retroarch config file"
-    Start-Sleep 5
-}
 
-Stop-Process -Name "retroarch.exe"
-
-# Tweak config!
+# Tweak retroarch config!
+Write-Host "INFO: Replacing retroarch config"
 $settingToFind = 'video_fullscreen = "false"'
 $settingToSet = 'video_fullscreen = "true"'
 (Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
