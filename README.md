@@ -13,7 +13,7 @@ Features
 - Auto populates emulators with public domain roms
 - Auto installs a popular theme with support for adding 'Favorites'
 - Add multiple useful shortcuts to the user's Desktop
-- Adds in a quick game content scraper which lives in the rom folder (run %UserProfile%\\.emulationstation\roms\scraper.exe)
+- Adds in a game content scraper which lives in (run %UserProfile%\\.emulationstation\roms\scraper.exe)
 
 Steps
 ------
