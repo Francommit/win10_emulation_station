@@ -15,28 +15,19 @@ Features
 - Add multiple useful shortcuts to the user's Desktop
 - Adds in a game content scraper which lives in (run %UserProfile%\\.emulationstation\roms\scraper.exe)
 
+
 Steps
 ------
 - Single one liner to install everything:
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/1.1.0.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
 ```
-Installation GIF:
+#### Installation GIF:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/install.gif?raw=true)
 
-Old Steps
-------
-1. Run prepare.ps1 in an admin session of Powershell:
-- Powershell might restart your computer as some libraries require a restart, if so, simply re-run after your PC restarts)
-- You might need to change your Powershell execution policy, so run this __instead__ of JUST prepare.ps1
-- ``Set-ExecutionPolicy Bypass -Scope Process -Force; .\prepare.ps1``
+#### Execution GIF:
+![alt text](https://github.com/Francommit/github_gif_dump/blob/master/es_windowed.gif?raw=true)
 
-2. Launch Emulation Station and Enjoy
-
-3. Access your ROMS here %UserProfile%\\.emulationstation\roms
-
-Installation GIF old:
-![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
 
 Troubleshooting
 ------
@@ -58,6 +49,21 @@ Optional Features and Tips
 - If you use OneDrive to store your ROMs and saves, you can run the script onedrive.ps1 or you can modifify it to any other specific folder. Further instructions in comments
 - Some new themes shows videos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
 - Script for easy scraping included. Just run and it will backup your gamefile.xml for each ROM folder and produce a new one with data from scrap services (if you have modified your ROM folder, please check before run)
+
+Old Steps
+------
+1. Run prepare.ps1 in an admin session of Powershell:
+- Powershell might restart your computer as some libraries require a restart, if so, simply re-run after your PC restarts)
+- You might need to change your Powershell execution policy, so run this __instead__ of JUST prepare.ps1
+- ``Set-ExecutionPolicy Bypass -Scope Process -Force; .\prepare.ps1``
+
+2. Launch Emulation Station and Enjoy
+
+3. Access your ROMS here %UserProfile%\\.emulationstation\roms
+
+Installation GIF old:
+![alt text](https://github.com/Francommit/github_gif_dump/blob/master/installation-instructions.gif?raw=true)
+
 
 Translations
 ------
