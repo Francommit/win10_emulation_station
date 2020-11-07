@@ -3,6 +3,8 @@
 EmulationStation configured for Windows 10
 ======
 
+![Script working](https://github.com/Francommit/win10_emulation_station/workflows/Build/badge.svg)
+
 An auto-installer to set up Emulation Station correctly on a 64-bit version of Windows 10.
 
 Features
@@ -51,9 +53,6 @@ Troubleshooting
 - If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 - If you are unable to run script from context menu (right mouse button), revert default "Open with" to Notepad
 
-Translations
-------
-[Portuguese](README.pt-br.md)
 
 Optional Features and Tips
 ------
@@ -61,6 +60,10 @@ Optional Features and Tips
 - If you use OneDrive to store your ROMs and saves, you can run the script onedrive.ps1 or you can modifify it to any other specific folder. Further instructions in comments
 - Some new themes shows videos: [es-theme-crt](https://github.com/PRElias/es-theme-crt)
 - Script for easy scraping included. Just run and it will backup your gamefile.xml for each ROM folder and produce a new one with data from scrap services (if you have modified your ROM folder, please check before run)
+
+Translations
+------
+[Portuguese](README.pt-br.md)
 
 Special Thanks
 ------
