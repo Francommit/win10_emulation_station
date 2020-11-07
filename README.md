@@ -25,10 +25,6 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::Secu
 #### Installation GIF:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/install.gif?raw=true)
 
-#### Execution GIF:
-![alt text](https://github.com/Francommit/github_gif_dump/blob/master/es_windowed.gif?raw=true)
-
-
 Troubleshooting
 ------
 - If the controller is not working in game, configure Input in Retroarch (%UserProfile%\\.emulationstation\systems\retroarch\retroarch.exe)
@@ -42,6 +38,8 @@ Troubleshooting
 - If you are using Xbox controllers and having trouble setting the guide button as hotkey, locate the file (%UserProfile%\\.emulationstation\es_input.cfg and change the line for hotkeyenable to ```<input id="5" name="hotkeyenable" type="button" value="10" />```
 - If you are unable to run script from context menu (right mouse button), revert default "Open with" to Notepad
 
+#### Windowed Mode Execution:
+![alt text](https://github.com/Francommit/github_gif_dump/blob/master/es_windowed.gif?raw=true)
 
 Optional Features and Tips
 ------
