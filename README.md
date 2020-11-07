@@ -24,8 +24,6 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::Secu
 Installation GIF:
 ![alt text](https://github.com/Francommit/github_gif_dump/blob/master/instructions_v2.gif?raw=true)
 
-- Bonus Website - https://francommit.com/emulationstation/
-
 Old Steps
 ------
 1. Run prepare.ps1 in an admin session of Powershell:
