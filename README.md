@@ -63,7 +63,7 @@ Optional Features and Tips
 
 Translations
 ------
-[Portuguese](README.pt-br.md)
+[Portuguese](https://github.com/Francommit/win10_emulation_station/blob/master/misc/translations/README.pt-br.md)
 
 Special Thanks
 ------
