@@ -76,6 +76,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 # Install and setup scoop
 Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+scoop install citra-nightly
 
 choco install 7zip --no-progress -y 
 choco install dolphin --pre --no-progress -y 
