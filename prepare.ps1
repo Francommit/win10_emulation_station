@@ -72,6 +72,11 @@ $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+# Install and setup scoop
+Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+
 choco install 7zip --no-progress -y 
 choco install dolphin --pre --no-progress -y 
 choco install cemu --no-progress -y 
@@ -294,6 +299,19 @@ if(Test-Path $n64Rom){
     Expand-Archive -Path $n64Rom -Destination $n64Path | Out-Null
 } else {
     Write-Host "ERROR: $n64Rom not found."
+    exit -1
+}
+
+Write-Host "INFO: Setup 3DS"
+$3dsPath = "$romPath\3ds"
+
+# $3dsRom = "$requirementsFolder\find_me"
+if (Test-Path $3dsRom) {
+    New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
+    Expand-Archive -Path $3dsRom -Destination $3dsPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $3dsRom not found."
     exit -1
 }
 
