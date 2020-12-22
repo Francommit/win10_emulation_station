@@ -74,8 +74,11 @@ Write-Host "INFO: Script directory is: $scriptDir"
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 # Install and setup scoop
+Write-Host "INFO: Installing scoop"
 Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+Write-Host "INFO: Installing Citra Nightly"
 scoop install citra-nightly
 
 dir "$env:userprofile\scoop\apps\"
