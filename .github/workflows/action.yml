@@ -2,7 +2,7 @@ name: 'Build'
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 3ds ]
   schedule:
     - cron: "0 0 * * *"
     
