@@ -306,14 +306,14 @@ Write-Host "INFO: Setup 3DS"
 $3dsPath = "$romPath\3ds"
 
 # $3dsRom = "$requirementsFolder\find_me"
-if (Test-Path $3dsRom) {
-    New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
-    Expand-Archive -Path $3dsRom -Destination $3dsPath | Out-Null
-}
-else {
-    Write-Host "ERROR: $3dsRom not found."
-    exit -1
-}
+# if (Test-Path $3dsRom) {
+#     New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
+#     Expand-Archive -Path $3dsRom -Destination $3dsPath | Out-Null
+# }
+# else {
+#     Write-Host "ERROR: $3dsRom not found."
+#     exit -1
+# }
 
 Write-Host "INFO: Setup GBA"
 $gbaPath =  "$romPath\gba"
