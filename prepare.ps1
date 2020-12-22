@@ -81,8 +81,8 @@ scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Citra Nightly"
 scoop install citra-nightly
 
-dir "$env:userprofile\scoop\apps\"
 $scoopInstallationDir = "$env:userprofile\scoop\apps\citra-nightly\current"
+dir "$scoopInstallationDir"
 
 choco install 7zip --no-progress -y 
 choco install dolphin --pre --no-progress -y 
