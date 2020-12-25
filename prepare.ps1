@@ -35,8 +35,8 @@ function GithubReleaseFiles {
         $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
     
         $url = "https://github.com/$repo/releases/download/$tag/$file"
-        $name = $file.Split(".")[0]
-        $output = "$requirementsFolder\$name-$tag"
+        # $name = $file.Split(".")[0]
+        $output = "$requirementsFolder\$file"
 
         if(![System.IO.File]::Exists($output)) {
     
