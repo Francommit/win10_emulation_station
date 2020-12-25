@@ -48,6 +48,9 @@ function GithubReleaseFiles {
     
             Write-Host $file "INFO: Already exists...Skipping download."
         }
+
+        "DEBUG: Spitting out requirements directory... "
+        Get-ChildItem $requirementsFolder
     
     }
 
