@@ -36,9 +36,7 @@ function GithubReleaseFiles {
     
         $url = "https://github.com/$repo/releases/download/$tag/$file"
         $name = $file.Split(".")[0]
-    
-        $zip = "$name-$tag.zip"
-        $output = "$requirementsFolder\$zip"
+        $output = "$requirementsFolder\$name-$tag"
 
         if(![System.IO.File]::Exists($output)) {
     
