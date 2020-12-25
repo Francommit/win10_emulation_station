@@ -35,7 +35,6 @@ function GithubReleaseFiles {
         $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
     
         $url = "https://github.com/$repo/releases/download/$tag/$file"
-        # $name = $file.Split(".")[0]
         $output = "$requirementsFolder\$file"
 
         if(![System.IO.File]::Exists($output)) {
@@ -728,7 +727,7 @@ Set-Content $esConfigFile -Value $newConfig
 
 Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$requirementsFolder\recalbox-backport-v2-recalbox-backport-v2.1.zip"
+$themesFile = "$requirementsFolder\recalbox-backport-v2.1.zip"
 if(Test-Path $themesFile){
     Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
     $themesFolder = "$requirementsFolder\recalbox-backport\"
@@ -740,7 +739,7 @@ if(Test-Path $themesFile){
 
 Write-Host "INFO: Update EmulationStation binaries"
 $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
-$updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32-continuous-master.zip"
+$updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32.zip"
 if(Test-Path $updatedEmulationStatonBinaries){
     Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder | Out-Null
 } else {
@@ -991,7 +990,7 @@ Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 # Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 
 Write-Host "INFO: Adding scraper in"
-$scraperZip = "$requirementsFolder\scraper_windows_amd64*.zip"
+$scraperZip = "$requirementsFolder\scraper_windows_amd64.zip"
 if(Test-Path $scraperZip){
     Expand-Archive -Path $scraperZip -Destination $romPath | Out-Null
 } else {
