@@ -311,16 +311,15 @@ if(Test-Path $n64Rom){
 
 Write-Host "INFO: Setup 3DS"
 $3dsPath = "$romPath\3ds"
-
-# $3dsRom = "$requirementsFolder\find_me"
-# if (Test-Path $3dsRom) {
-#     New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
-#     Expand-Archive -Path $3dsRom -Destination $3dsPath | Out-Null
-# }
-# else {
-#     Write-Host "ERROR: $3dsRom not found."
-#     exit -1
-# }
+$3dsRom = "$requirementsFolder\ccleste.3dsx"
+if (Test-Path $3dsRom) {
+    New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
+    Move-Item -Path $3dsRom -Destination $3dsPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $3dsRom not found."
+    exit -1
+}
 
 Write-Host "INFO: Setup GBA"
 $gbaPath =  "$romPath\gba"
@@ -506,6 +505,15 @@ if(Test-Path $wiiRom){
 Write-Host "INFO: Setting up Emulation Station Config"
 $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
 $newConfig = "<systemList>
+    <system>
+        <name>n3ds</name>
+        <fullname>Nintendo 3DS</fullname>
+        <path>$3dsPath</path>
+        <extension>.3ds .3DS .3dsx .3DSX</extension>
+        <command>$retroarchExecutable -f -L $coresPath\citra_libretro.dll %ROM_RAW%</command>
+        <platform>n3ds</platform>
+        <theme>3ds</theme>
+    </system>
     <system>
         <name>nes</name>
         <fullname>Nintendo Entertainment System</fullname>

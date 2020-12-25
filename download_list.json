@@ -129,6 +129,10 @@
 		{
 			"file": "recalbox-backport-v2.1.zip",
 			"repo": "fonic/recalbox-backport"
+		},
+		{
+			"file": "ccleste.3dsx",
+			"repo": "lemon-sherbet/ccleste"
 		}
 	],
 	"other_downloads": [
