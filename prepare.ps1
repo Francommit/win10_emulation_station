@@ -180,7 +180,7 @@ if(Test-Path $atari2600Core){
 }
 
 # MAME Setup
-$mameCore = "$requirementsFolder\hbmame_libretro.dll.zip"
+$mameCore = "$requirementsFolder\mame2010_libretro.dll.zip"
 if(Test-Path $mameCore){
     Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
 } else {
@@ -576,7 +576,7 @@ $newConfig = "<systemList>
         <name>mame</name>
         <path>$mamePath</path>
         <extension>.zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\hbmame_libretro.dll %ROM%</command>
+        <command>$retroarchExecutable -L $coresPath\mame2010_libretro.dll %ROM%</command>
         <platform>mame</platform>
         <theme>mame</theme>
     </system>
