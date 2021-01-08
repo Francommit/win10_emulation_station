@@ -33,8 +33,8 @@
 			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/fceumm_libretro.dll.zip"
 		},
 		{
-			"file": "hbmame_libretro.dll.zip",
-			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/hbmame_libretro.dll.zip"
+			"file": "mame2010_libretro.dll.zip",
+			"url": "http://buildbot.libretro.com/nightly/windows/x86_64/latest/mame2010_libretro.dll.zip"
 		},
 		{
 			"file": "parallel_n64_libretro.dll.zip",
