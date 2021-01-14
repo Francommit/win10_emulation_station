@@ -75,6 +75,7 @@ Translations
 Special Thanks
 ------
 - jrassa for his up to date compiled version of Emulation Station - https://github.com/jrassa/EmulationStation
+- borger for his scoop emulator setup https://github.com/borger/scoop-emulators
 - Nesworld for their open-source NES roms - http://www.nesworld.com/
 - Libretro for their retroarch version - https://www.libretro.com/
 - dtgm for maintaining the Emulation Station chocolatey package https://chocolatey.org/packages/emulationstation

@@ -85,8 +85,12 @@ Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Citra Nightly"
 scoop install citra-nightly
+scoop install ppsspp
+scoop install yuzu
 
 $citraInstallDir = "$env:userprofile\scoop\apps\citra-nightly\current"
+$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+$yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
 
 choco install 7zip --no-progress -y 
 choco install dolphin --pre --no-progress -y 
@@ -313,6 +317,30 @@ if(Test-Path $n64Rom){
     exit -1
 }
 
+Write-Host "INFO: Setup psp"
+$pspPath = "$romPath\psp"
+$pspRom = "$requirementsFolder\cube.elf"
+if (Test-Path $pspRom) {
+    New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
+    Move-Item -Path $pspRom -Destination $pspPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $pspRom not found."
+    exit -1
+}
+
+Write-Host "INFO: Setup Nintendo Switch"
+$switchPath = "$romPath\switch"
+$switchRom = "$requirementsFolder\tetriswitch.nro"
+if (Test-Path $switchRom) {
+    New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
+    Move-Item -Path $switchRom -Destination $switchPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $switchRom not found."
+    exit -1
+}
+
 Write-Host "INFO: Setup 3DS"
 $3dsPath = "$romPath\3ds"
 $3dsRom = "$requirementsFolder\ccleste.3dsx"
@@ -508,8 +536,28 @@ if(Test-Path $wiiRom){
 
 Write-Host "INFO: Setting up Emulation Station Config"
 $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
-# <command>$retroarchExecutable -f -L $coresPath\citra_libretro.dll %ROM_RAW%</command>
+
+# Wait until we get a theme
+# <system>
+#     <name>switch</name>
+#     <fullname>Switch</fullname>
+#     <path>$switchPath</path>
+#     <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
+#     <command>$yuzuInstallDir\yuzu.exe %ROM%</command>
+#     <platform>switch</platform>
+#     <theme>switch</theme>
+# </system>
+
 $newConfig = "<systemList>
+    <system>
+        <name>psp</name>
+        <fullname>Playstation Portable</fullname>
+        <path>$pspPath</path>
+        <extension>.iso .ISO .cso .CSO .elf</extension>
+        <command>$ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
+        <platform>psp</platform>
+        <theme>psp</theme>
+        </system>
     <system>
         <name>n3ds</name>
         <fullname>Nintendo 3DS</fullname>
