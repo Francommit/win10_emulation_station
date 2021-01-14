@@ -48,7 +48,6 @@ function GithubReleaseFiles {
             Write-Host $file "INFO: Already exists...Skipping download."
         }
 
-        "DEBUG: Spitting out requirements directory... "
         Get-ChildItem $requirementsFolder
     
     }
@@ -73,16 +72,21 @@ Write-Host "INFO: Script directory is: $scriptDir"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
+
 # Install and setup scoop
-Write-Host "INFO: Installing scoop"
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+if($env:path -match "scoop"){
+    Write-Host "INFO: Scoop appears to be installed, skipping installation"
+} else {
+    Write-Host "INFO: Scoop not detected, installing scoop"
+    Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+}
+
 Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Citra Nightly"
 scoop install citra-nightly
 
-$scoopInstallationDir = "$env:userprofile\scoop\apps\citra-nightly\current"
-dir "$scoopInstallationDir"
+$citraInstallDir = "$env:userprofile\scoop\apps\citra-nightly\current"
 
 choco install 7zip --no-progress -y 
 choco install dolphin --pre --no-progress -y 
@@ -504,13 +508,14 @@ if(Test-Path $wiiRom){
 
 Write-Host "INFO: Setting up Emulation Station Config"
 $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
+# <command>$retroarchExecutable -f -L $coresPath\citra_libretro.dll %ROM_RAW%</command>
 $newConfig = "<systemList>
     <system>
         <name>n3ds</name>
         <fullname>Nintendo 3DS</fullname>
         <path>$3dsPath</path>
         <extension>.3ds .3DS .3dsx .3DSX</extension>
-        <command>$retroarchExecutable -f -L $coresPath\citra_libretro.dll %ROM_RAW%</command>
+        <command>$citraInstallDir\citra.exe %ROM%</command>
         <platform>n3ds</platform>
         <theme>3ds</theme>
     </system>
