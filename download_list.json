@@ -115,6 +115,10 @@
 		{
 			"file": "neopocket.zip",
 			"url": "https://github.com/PublicDomainRoms/public-domain-roms/raw/master/ngp/neopocket.zip"
+		},
+		{
+			"file": "cube.elf",
+			"url": "https://www.ppsspp.org/files/cube.elf"
 		}
 	],
 	"releases": [
@@ -129,6 +133,14 @@
 		{
 			"file": "recalbox-backport-v2.1.zip",
 			"repo": "fonic/recalbox-backport"
+		},
+		{
+			"file": "ccleste.3dsx",
+			"repo": "lemon-sherbet/ccleste"
+		},
+		{
+			"file": "tetriswitch.nro",
+			"repo": "Ryuzaki-MrL/tetriswitch"
 		}
 	],
 	"other_downloads": [

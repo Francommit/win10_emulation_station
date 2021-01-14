@@ -35,10 +35,7 @@ function GithubReleaseFiles {
         $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
     
         $url = "https://github.com/$repo/releases/download/$tag/$file"
-        $name = $file.Split(".")[0]
-    
-        $zip = "$name-$tag.zip"
-        $output = "$requirementsFolder\$zip"
+        $output = "$requirementsFolder\$file"
 
         if(![System.IO.File]::Exists($output)) {
     
@@ -50,6 +47,8 @@ function GithubReleaseFiles {
     
             Write-Host $file "INFO: Already exists...Skipping download."
         }
+
+        Get-ChildItem $requirementsFolder
     
     }
 
@@ -72,6 +71,27 @@ $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+
+# Install and setup scoop
+if($env:path -match "scoop"){
+    Write-Host "INFO: Scoop appears to be installed, skipping installation"
+} else {
+    Write-Host "INFO: Scoop not detected, installing scoop"
+    Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+}
+
+Write-Host "INFO: Adding scoop bucket"
+scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+Write-Host "INFO: Installing Citra Nightly"
+scoop install citra-nightly
+scoop install ppsspp
+scoop install yuzu
+
+$citraInstallDir = "$env:userprofile\scoop\apps\citra-nightly\current"
+$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+$yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+
 choco install 7zip --no-progress -y 
 choco install dolphin --pre --no-progress -y 
 choco install cemu --no-progress -y 
@@ -297,6 +317,42 @@ if(Test-Path $n64Rom){
     exit -1
 }
 
+Write-Host "INFO: Setup psp"
+$pspPath = "$romPath\psp"
+$pspRom = "$requirementsFolder\cube.elf"
+if (Test-Path $pspRom) {
+    New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
+    Move-Item -Path $pspRom -Destination $pspPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $pspRom not found."
+    exit -1
+}
+
+Write-Host "INFO: Setup Nintendo Switch"
+$switchPath = "$romPath\switch"
+$switchRom = "$requirementsFolder\tetriswitch.nro"
+if (Test-Path $switchRom) {
+    New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
+    Move-Item -Path $switchRom -Destination $switchPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $switchRom not found."
+    exit -1
+}
+
+Write-Host "INFO: Setup 3DS"
+$3dsPath = "$romPath\3ds"
+$3dsRom = "$requirementsFolder\ccleste.3dsx"
+if (Test-Path $3dsRom) {
+    New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
+    Move-Item -Path $3dsRom -Destination $3dsPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $3dsRom not found."
+    exit -1
+}
+
 Write-Host "INFO: Setup GBA"
 $gbaPath =  "$romPath\gba"
 $gbaRom = "$requirementsFolder\uranus0ev_fix.gba"
@@ -480,7 +536,37 @@ if(Test-Path $wiiRom){
 
 Write-Host "INFO: Setting up Emulation Station Config"
 $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
+
+# Wait until we get a theme
+# <system>
+#     <name>switch</name>
+#     <fullname>Switch</fullname>
+#     <path>$switchPath</path>
+#     <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
+#     <command>$yuzuInstallDir\yuzu.exe %ROM%</command>
+#     <platform>switch</platform>
+#     <theme>switch</theme>
+# </system>
+
 $newConfig = "<systemList>
+    <system>
+        <name>psp</name>
+        <fullname>Playstation Portable</fullname>
+        <path>$pspPath</path>
+        <extension>.iso .ISO .cso .CSO .elf</extension>
+        <command>$ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
+        <platform>psp</platform>
+        <theme>psp</theme>
+        </system>
+    <system>
+        <name>n3ds</name>
+        <fullname>Nintendo 3DS</fullname>
+        <path>$3dsPath</path>
+        <extension>.3ds .3DS .3dsx .3DSX</extension>
+        <command>$citraInstallDir\citra.exe %ROM%</command>
+        <platform>n3ds</platform>
+        <theme>3ds</theme>
+    </system>
     <system>
         <name>nes</name>
         <fullname>Nintendo Entertainment System</fullname>
@@ -694,7 +780,7 @@ Set-Content $esConfigFile -Value $newConfig
 
 Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$requirementsFolder\recalbox-backport-v2-recalbox-backport-v2.1.zip"
+$themesFile = "$requirementsFolder\recalbox-backport-v2.1.zip"
 if(Test-Path $themesFile){
     Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
     $themesFolder = "$requirementsFolder\recalbox-backport\"
@@ -706,7 +792,7 @@ if(Test-Path $themesFile){
 
 Write-Host "INFO: Update EmulationStation binaries"
 $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
-$updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32-continuous-master.zip"
+$updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32.zip"
 if(Test-Path $updatedEmulationStatonBinaries){
     Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder | Out-Null
 } else {
@@ -957,7 +1043,7 @@ Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 # Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 
 Write-Host "INFO: Adding scraper in"
-$scraperZip = "$requirementsFolder\scraper_windows_amd64*.zip"
+$scraperZip = "$requirementsFolder\scraper_windows_amd64.zip"
 if(Test-Path $scraperZip){
     Expand-Archive -Path $scraperZip -Destination $romPath | Out-Null
 } else {
