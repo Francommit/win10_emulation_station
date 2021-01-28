@@ -341,6 +341,18 @@ else {
     exit -1
 }
 
+Write-Host "INFO: Setup PS Vita"
+$vitaPath = "$romPath\vita"
+$vitaRom = "$requirementsFolder\tetriswitch.nro" # TBD
+# if (Test-Path $vitaRom) {
+    New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
+#     Move-Item -Path $vitaRom -Destination $vitaPath | Out-Null
+# }
+# else {
+#     Write-Host "ERROR: $vitaRom not found."
+#     exit -1
+# }
+
 Write-Host "INFO: Setup 3DS"
 $3dsPath = "$romPath\3ds"
 $3dsRom = "$requirementsFolder\ccleste.3dsx"
@@ -538,18 +550,18 @@ Write-Host "INFO: Setting up Emulation Station Config"
 $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
 
 # Wait until we get a theme
-# <system>
-#     <name>switch</name>
-#     <fullname>Switch</fullname>
-#     <path>$switchPath</path>
-#     <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
-#     <command>$yuzuInstallDir\yuzu.exe %ROM%</command>
-#     <platform>switch</platform>
-#     <theme>switch</theme>
-# </system>
 
 $newConfig = "<systemList>
     <system>
+        <name>switch</name>
+        <fullname>Switch</fullname>
+        <path>$switchPath</path>
+        <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
+        <command>$yuzuInstallDir\yuzu.exe %ROM%</command>
+        <platform>switch</platform>
+        <theme>switch</theme>
+    </system>
+        <system>
         <name>psp</name>
         <fullname>Playstation Portable</fullname>
         <path>$pspPath</path>
@@ -557,7 +569,7 @@ $newConfig = "<systemList>
         <command>$ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
         <platform>psp</platform>
         <theme>psp</theme>
-        </system>
+    </system>
     <system>
         <name>n3ds</name>
         <fullname>Nintendo 3DS</fullname>
