@@ -119,6 +119,10 @@
 		{
 			"file": "cube.elf",
 			"url": "https://www.ppsspp.org/files/cube.elf"
+		},
+		{
+			"file": "C4.vpk",
+			"url": "https://dl.coolatoms.org/vitadb/C4.vpk"
 		}
 	],
 	"releases": [
@@ -141,6 +145,10 @@
 		{
 			"file": "tetriswitch.nro",
 			"repo": "Ryuzaki-MrL/tetriswitch"
+		},
+		{
+			"file": "windows-latest.zip",
+			"repo": "Vita3K/Vita3K"
 		}
 	],
 	"other_downloads": [

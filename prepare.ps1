@@ -92,9 +92,9 @@ $citraInstallDir = "$env:userprofile\scoop\apps\citra-nightly\current"
 $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
 $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
 
-choco install 7zip --no-progress -y 
-choco install dolphin --pre --no-progress -y 
-choco install cemu --no-progress -y 
+choco install 7zip --no-progress -y | Out-Null
+choco install dolphin --pre --no-progress -y | Out-Null
+choco install cemu --no-progress -y | Out-Null
 
 # Acquire files 
 $requirementsFolder = "$PSScriptRoot\requirements"
@@ -343,15 +343,29 @@ else {
 
 Write-Host "INFO: Setup PS Vita"
 $vitaPath = "$romPath\vita"
-$vitaRom = "$requirementsFolder\tetriswitch.nro" # TBD
-# if (Test-Path $vitaRom) {
+$vitaRom = "$requirementsFolder\C4.vpk"
+if (Test-Path $vitaRom) {
     New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
-#     Move-Item -Path $vitaRom -Destination $vitaPath | Out-Null
-# }
-# else {
-#     Write-Host "ERROR: $vitaRom not found."
-#     exit -1
-# }
+    Move-Item -Path $vitaRom -Destination $vitaPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $vitaRom not found."
+    exit -1
+}
+
+Write-Host "INFO: Setup Vita3k"
+$vita3kInstallFolder = "${env:ProgramFiles}\Vita3k"
+if(-not(Test-Path $vita3kInstallFolder)){
+    New-Item -ItemType Directory -Force -Path $vita3kInstallFolder | Out-Null
+}
+
+$vita3kLatestBuild = "$requirementsFolder\windows-latest.zip"
+if(Test-Path $vita3kLatestBuild){
+    Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder | Out-Null
+} else {
+    Write-Host "ERROR: $vita3kLatestBuild not found."
+    exit -1
+}
 
 Write-Host "INFO: Setup 3DS"
 $3dsPath = "$romPath\3ds"
@@ -549,9 +563,20 @@ if(Test-Path $wiiRom){
 Write-Host "INFO: Setting up Emulation Station Config"
 $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
 
-# Wait until we get a theme
+# TO-DO
+# Vita Launching is a BIT hacky, works in powershell
+#  .\Vita3K.exe --vpk-path "%ROM% | .\Vita3K.exe
 
 $newConfig = "<systemList>
+    <system>
+        <name>vita</name>
+        <fullname>Vita</fullname>
+        <path>$vitaPath</path>
+        <extension>.vpk .VPK</extension>
+        <command>C:\Program Files\Vita3k\Vita3K.exe --vpk-path %ROM%</command>
+        <platform>vita</platform>
+        <theme>vita</theme>
+        </system>
     <system>
         <name>switch</name>
         <fullname>Switch</fullname>
