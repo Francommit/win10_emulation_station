@@ -818,7 +818,7 @@ Set-Content $esConfigFile -Value $newConfig
 
 Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$requirementsFolder\recalbox-backport-v2.1.zip"
+$themesFile = "$requirementsFolder\recalbox-backport-v2.2.zip"
 if(Test-Path $themesFile){
     Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
     $themesFolder = "$requirementsFolder\recalbox-backport\"
