@@ -149,6 +149,10 @@
 		{
 			"file": "windows-latest.zip",
 			"repo": "Vita3K/Vita3K"
+		},
+		{
+			"file": "xemu-win-release.zip",
+			"repo": "mborgerson/xemu"
 		}
 	],
 	"other_downloads": [
