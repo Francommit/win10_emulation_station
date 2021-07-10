@@ -1,11 +1,24 @@
 <img src="icon.png" align="right" />
 
-EmulationStation configured for Windows 10
+EmulationStation configured for Windows
 ======
 
 ![Script working](https://github.com/Francommit/win10_emulation_station/workflows/Build/badge.svg)
 
-An auto-installer to set up Emulation Station correctly on a 64-bit version of Windows 10.
+An auto-installer to set up Emulation Station correctly on a 64-bit version of Windows 10/11
+
+TO-DO
+-----
+- Test setup on Windows 11
+- Fix scraper with . in path name
+- Add Switch homebrew game
+- Add Vita Switch game
+- Re-do GIF with Switch emulator in it
+- Add Xbox Emulator
+- Add Xbox art
+- Add Xbox 360 emulator
+- Add Xbox 360 art
+
 
 Features
 ------
