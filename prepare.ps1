@@ -346,6 +346,22 @@ else {
     exit -1
 }
 
+Write-Host "INFO: Setup Xbox"
+$xboxEmuZip = "$requirementsFolder\xemu-win-release.zip"
+if (Test-Path $xboxEmuZip) {
+    $xboxEmuPath = "$env:userprofile\.emulationstation\systems\xbox\"
+    New-Item -ItemType Directory -Force -Path $xboxEmuPath | Out-Null
+    Expand-Archive -Path $xboxEmuZip -Destination $xboxEmuPath | Out-Null
+}
+else {
+    Write-Host "ERROR: $xboxEmuZip not found."
+    exit -1
+}
+
+# TO-DO: Deal with roms
+$xboxRomPath = "$romPath\xbox" 
+
+
 Write-Host "INFO: Setup PS Vita"
 $vitaPath = "$romPath\vita"
 $vitaRom = "$requirementsFolder\C4.vpk"
