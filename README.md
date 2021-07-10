@@ -11,8 +11,6 @@ TO-DO
 -----
 - Test setup on Windows 11
 - Fix scraper with . in path name
-- Add Switch homebrew game
-- Add Vita Switch game
 - Re-do GIF with Switch emulator in it
 - Add Xbox Emulator
 - Add Xbox art
