@@ -1,17 +1,3 @@
-add-type @"
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-public class TrustAllCertsPolicy : ICertificatePolicy {
-    public bool CheckValidationResult(
-        ServicePoint srvPoint, X509Certificate certificate,
-        WebRequest request, int certificateProblem) {
-        return true;
-    }
-}
-"@
-$AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
-[System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
-[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
@@ -27,7 +13,7 @@ function DownloadFiles {
         if(![System.IO.File]::Exists($output)){
             
             Write-Host "INFO: Downloading $file"
-            Invoke-WebRequest $url -Out $output
+            Invoke-WebRequest $url -Out $output -SkipCertificateCheck
             Write-Host "INFO: Finished Downloading $file successfully"
     
         } else {
