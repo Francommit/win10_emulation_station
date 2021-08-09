@@ -1,3 +1,4 @@
+
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
     
@@ -10,9 +11,28 @@ function DownloadFiles {
         $output = "$requirementsFolder\$file"
 
         if(![System.IO.File]::Exists($output)){
-    
+            
             Write-Host "INFO: Downloading $file"
-            Invoke-WebRequest $url -Out $output
+            if($PSVersionTable.PSEdition -eq "Core"){
+                Invoke-WebRequest $url -Out $output -SkipCertificateCheck
+            } else {
+
+                add-type @"
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    public class TrustAllCertsPolicy : ICertificatePolicy {
+        public bool CheckValidationResult(
+            ServicePoint srvPoint, X509Certificate certificate,
+            WebRequest request, int certificateProblem) {
+            return true;
+        }
+    }
+"@
+                [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+
+                Invoke-WebRequest $url -Out $output 
+                
+            }
             Write-Host "INFO: Finished Downloading $file successfully"
     
         } else {
