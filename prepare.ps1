@@ -1,5 +1,3 @@
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
-
 
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
@@ -18,6 +16,20 @@ function DownloadFiles {
             if($PSVersionTable.PSEdition -eq "Core"){
                 Invoke-WebRequest $url -Out $output -SkipCertificateCheck
             } else {
+
+                add-type @"
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    public class TrustAllCertsPolicy : ICertificatePolicy {
+        public bool CheckValidationResult(
+            ServicePoint srvPoint, X509Certificate certificate,
+            WebRequest request, int certificateProblem) {
+            return true;
+        }
+    }
+"@
+                [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+
                 Invoke-WebRequest $url -Out $output 
                 
             }
