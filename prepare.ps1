@@ -1,3 +1,5 @@
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
@@ -13,7 +15,12 @@ function DownloadFiles {
         if(![System.IO.File]::Exists($output)){
             
             Write-Host "INFO: Downloading $file"
-            Invoke-WebRequest $url -Out $output -SkipCertificateCheck
+            if($PSVersionTable.PSEdition -eq "Core"){
+                Invoke-WebRequest $url -Out $output -SkipCertificateCheck
+            } else {
+                Invoke-WebRequest $url -Out $output 
+                
+            }
             Write-Host "INFO: Finished Downloading $file successfully"
     
         } else {
