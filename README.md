@@ -9,7 +9,6 @@ An auto-installer to set up Emulation Station correctly on a 64-bit version of W
 
 TO-DO
 -----
-- Test setup on Windows 11
 - Fix scraper with . in path name
 - Re-do GIF with Switch emulator in it
 - Add Xbox Emulator
