@@ -8,7 +8,7 @@ function DownloadFiles {
     
         $url = $_.url
         $file = $_.file
-        $output = "$requirementsFolder\$file"
+        $output = "$requirementsFolder\$file" 
 
         if(![System.IO.File]::Exists($output)){
             
@@ -68,8 +68,6 @@ function GithubReleaseFiles {
             Write-Host $file "INFO: Already exists...Skipping download."
         }
 
-        Get-ChildItem $requirementsFolder
-    
     }
 
 }
@@ -108,10 +106,12 @@ Write-Host "INFO: Installing Citra Nightly"
 scoop install citra-nightly
 scoop install ppsspp
 scoop install yuzu
+scoop install rpcs3
 
 $citraInstallDir = "$env:userprofile\scoop\apps\citra-nightly\current"
 $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
 $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+$rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
 choco install 7zip --no-progress -y | Out-Null
 choco install dolphin --pre --no-progress -y | Out-Null
@@ -125,13 +125,14 @@ DownloadFiles("other_downloads")
 GithubReleaseFiles
 
 # Install Emulation Station
+Write-Host "INFO: Starting Emulation station to generate config"
 Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
 
 # Generate Emulation Station config file
 & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
     Write-Host "INFO: Checking for config file..."
-    Start-Sleep 5
+    Start-Sleep 10
 }
 Write-Host "INFO: Config file generated"
 Stop-Process -Name "emulationstation"
@@ -142,7 +143,11 @@ $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
 if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath | Out-Null
-    Expand-Archive -Path $retroArchBinary -Destination $retroArchPath | Out-Null
+    Expand-Archive -Path $retroArchBinary -Destination . | Out-Null
+        # TO-DO - add an Out-Null when this has been tested
+    Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+        # New path - $retroArchPath\RetroArch-Win64
+    
 } else {
     Write-Host "ERROR: $retroArchBinary not found."
     exit -1
@@ -343,7 +348,7 @@ $pspPath = "$romPath\psp"
 $pspRom = "$requirementsFolder\cube.elf"
 if (Test-Path $pspRom) {
     New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
-    Move-Item -Path $pspRom -Destination $pspPath | Out-Null
+    Move-Item -Path $pspRom -Destination $pspPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $pspRom not found."
@@ -355,10 +360,22 @@ $switchPath = "$romPath\switch"
 $switchRom = "$requirementsFolder\tetriswitch.nro"
 if (Test-Path $switchRom) {
     New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
-    Move-Item -Path $switchRom -Destination $switchPath | Out-Null
+    Move-Item -Path $switchRom -Destination $switchPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $switchRom not found."
+    exit -1
+}
+
+Write-Host "INFO: Setup PS3"
+$ps3Path = "$romPath\ps3"
+$ps3Rom = "$requirementsFolder\UP0001-THATOPONG_00-0000000000000000-A0100-V0100-RE.pkg"
+if (Test-Path $ps3Rom) {
+    New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
+    Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
+}
+else {
+    Write-Host "ERROR: $ps3Rom not found."
     exit -1
 }
 
@@ -367,7 +384,7 @@ $vitaPath = "$romPath\vita"
 $vitaRom = "$requirementsFolder\C4.vpk"
 if (Test-Path $vitaRom) {
     New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
-    Move-Item -Path $vitaRom -Destination $vitaPath | Out-Null
+    Move-Item -Path $vitaRom -Destination $vitaPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $vitaRom not found."
@@ -382,7 +399,7 @@ if(-not(Test-Path $vita3kInstallFolder)){
 
 $vita3kLatestBuild = "$requirementsFolder\windows-latest.zip"
 if(Test-Path $vita3kLatestBuild){
-    Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder | Out-Null
+    Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder -force | Out-Null
 } else {
     Write-Host "ERROR: $vita3kLatestBuild not found."
     exit -1
@@ -393,7 +410,7 @@ $3dsPath = "$romPath\3ds"
 $3dsRom = "$requirementsFolder\ccleste.3dsx"
 if (Test-Path $3dsRom) {
     New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
-    Move-Item -Path $3dsRom -Destination $3dsPath | Out-Null
+    Move-Item -Path $3dsRom -Destination $3dsPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $3dsRom not found."
@@ -597,7 +614,7 @@ $newConfig = "<systemList>
         <command>C:\Program Files\Vita3k\Vita3K.exe --vpk-path %ROM%</command>
         <platform>vita</platform>
         <theme>vita</theme>
-        </system>
+    </system>
     <system>
         <name>switch</name>
         <fullname>Switch</fullname>
@@ -607,7 +624,16 @@ $newConfig = "<systemList>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
-        <system>
+    <system>
+        <name>ps3</name>
+        <fullname>PS3</fullname>
+        <path>$ps3Path</path>
+        <extension>.iso .ISO .zip .ZIP .7z .pkg .PKG</extension>
+        <command>$rpcs3InstallDir\yuzu.exe %ROM%</command>
+        <platform>ps3</platform>
+        <theme>ps3</theme>
+    </system>
+    <system>
         <name>psp</name>
         <fullname>Playstation Portable</fullname>
         <path>$pspPath</path>
@@ -838,9 +864,9 @@ Set-Content $esConfigFile -Value $newConfig
 
 Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$requirementsFolder\recalbox-backport-v2.1.zip"
+$themesFile = "$requirementsFolder\recalbox-backport-v2.2.zip"
 if(Test-Path $themesFile){
-    Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
+    Expand-Archive -Path $themesFile -Destination $requirementsFolder -Force | Out-Null
     $themesFolder = "$requirementsFolder\recalbox-backport\"
     robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
 } else {
@@ -852,7 +878,7 @@ Write-Host "INFO: Update EmulationStation binaries"
 $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
 $updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32.zip"
 if(Test-Path $updatedEmulationStatonBinaries){
-    Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder | Out-Null
+    Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder -Force | Out-Null
 } else {
     Write-Host "ERROR: $updatedEmulationStatonBinaries not found."
     exit -1
@@ -1090,7 +1116,7 @@ AspectRatio = 1
 Screensaver = 0
 
 "
-New-Item $dolphinConfigFolder -ItemType directory | Out-Null
+New-Item $dolphinConfigFolder -ItemType directory -Force | Out-Null
 Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
 # TO-DO: Review if this is still needed or not

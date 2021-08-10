@@ -22,7 +22,7 @@
 		},
 		{
 			"file": "RetroArch.7z",
-			"url": "https://buildbot.libretro.com/stable/1.9.0/windows/x86_64/RetroArch.7z"
+			"url": "https://buildbot.libretro.com/stable/1.9.6/windows/x86_64/RetroArch.7z"
 		},
 		{
 			"file": "assimilate_full.zip",
@@ -123,6 +123,10 @@
 		{
 			"file": "C4.vpk",
 			"url": "https://dl.coolatoms.org/vitadb/C4.vpk"
+		},
+		{
+			"file": "UP0001-THATOPONG_00-0000000000000000-A0100-V0100-RE.pkg",
+			"url": "https://www.psx-place.com/resources/that-other-pong.479/download?version=645"
 		}
 	],
 	"releases": [
@@ -135,8 +139,8 @@
 			"repo": "Francommit/emulationstation"
 		},
 		{
-			"file": "recalbox-backport-v2.1.zip",
-			"repo": "fonic/recalbox-backport"
+			"file": "recalbox-backport-v2.2.zip",
+			"repo": "Francommit/recalbox-backport"
 		},
 		{
 			"file": "ccleste.3dsx",
@@ -149,6 +153,10 @@
 		{
 			"file": "windows-latest.zip",
 			"repo": "Vita3K/Vita3K"
+		},
+		{
+			"file": "xemu-win-release.zip",
+			"repo": "mborgerson/xemu"
 		}
 	],
 	"other_downloads": [
