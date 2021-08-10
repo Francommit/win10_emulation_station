@@ -415,7 +415,7 @@ if(-not(Test-Path $vita3kInstallFolder)){
 
 $vita3kLatestBuild = "$requirementsFolder\windows-latest.zip"
 if(Test-Path $vita3kLatestBuild){
-    Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder | Out-Null
+    Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder -force | Out-Null
 } else {
     Write-Host "ERROR: $vita3kLatestBuild not found."
     exit -1
@@ -882,7 +882,7 @@ Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
 $themesFile = "$requirementsFolder\recalbox-backport-v2.2.zip"
 if(Test-Path $themesFile){
-    Expand-Archive -Path $themesFile -Destination $requirementsFolder | Out-Null
+    Expand-Archive -Path $themesFile -Destination $requirementsFolder -Force | Out-Null
     $themesFolder = "$requirementsFolder\recalbox-backport\"
     robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
 } else {
