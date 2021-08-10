@@ -143,9 +143,9 @@ $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
 if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath | Out-Null
-    Expand-Archive -Path $retroArchBinary -Destination $retroArchPath | Out-Null
+    Expand-Archive -Path $retroArchBinary -Destination . | Out-Null
         # TO-DO - add an Out-Null when this has been tested
-    # Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+    Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
         # New path - $retroArchPath\RetroArch-Win64
     
 } else {
