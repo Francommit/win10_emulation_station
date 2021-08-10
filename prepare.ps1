@@ -8,7 +8,7 @@ function DownloadFiles {
     
         $url = $_.url
         $file = $_.file
-        $output = "$requirementsFolder\$file"
+        $output = "$requirementsFolder\$file" 
 
         if(![System.IO.File]::Exists($output)){
             
@@ -68,8 +68,6 @@ function GithubReleaseFiles {
             Write-Host $file "INFO: Already exists...Skipping download."
         }
 
-        Get-ChildItem $requirementsFolder
-    
     }
 
 }
@@ -127,6 +125,7 @@ DownloadFiles("other_downloads")
 GithubReleaseFiles
 
 # Install Emulation Station
+Write-Host "INFO: Starting Emulation station to generate config"
 Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
 
 # Generate Emulation Station config file
@@ -144,9 +143,9 @@ $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
 if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath | Out-Null
-    Expand-Archive -Path $retroArchBinary -Destination . | Out-Null
+    Expand-Archive -Path $retroArchBinary -Destination $retroArchPath | Out-Null
         # TO-DO - add an Out-Null when this has been tested
-    Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+    # Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
         # New path - $retroArchPath\RetroArch-Win64
     
 } else {
@@ -349,7 +348,7 @@ $pspPath = "$romPath\psp"
 $pspRom = "$requirementsFolder\cube.elf"
 if (Test-Path $pspRom) {
     New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
-    Move-Item -Path $pspRom -Destination $pspPath | Out-Null
+    Move-Item -Path $pspRom -Destination $pspPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $pspRom not found."
@@ -361,7 +360,7 @@ $switchPath = "$romPath\switch"
 $switchRom = "$requirementsFolder\tetriswitch.nro"
 if (Test-Path $switchRom) {
     New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
-    Move-Item -Path $switchRom -Destination $switchPath | Out-Null
+    Move-Item -Path $switchRom -Destination $switchPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $switchRom not found."
@@ -401,7 +400,7 @@ $vitaPath = "$romPath\vita"
 $vitaRom = "$requirementsFolder\C4.vpk"
 if (Test-Path $vitaRom) {
     New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
-    Move-Item -Path $vitaRom -Destination $vitaPath | Out-Null
+    Move-Item -Path $vitaRom -Destination $vitaPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $vitaRom not found."
@@ -427,7 +426,7 @@ $3dsPath = "$romPath\3ds"
 $3dsRom = "$requirementsFolder\ccleste.3dsx"
 if (Test-Path $3dsRom) {
     New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
-    Move-Item -Path $3dsRom -Destination $3dsPath | Out-Null
+    Move-Item -Path $3dsRom -Destination $3dsPath -Force | Out-Null
 }
 else {
     Write-Host "ERROR: $3dsRom not found."
@@ -895,7 +894,7 @@ Write-Host "INFO: Update EmulationStation binaries"
 $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
 $updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32.zip"
 if(Test-Path $updatedEmulationStatonBinaries){
-    Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder | Out-Null
+    Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder -Force | Out-Null
 } else {
     Write-Host "ERROR: $updatedEmulationStatonBinaries not found."
     exit -1
@@ -1133,7 +1132,7 @@ AspectRatio = 1
 Screensaver = 0
 
 "
-New-Item $dolphinConfigFolder -ItemType directory | Out-Null
+New-Item $dolphinConfigFolder -ItemType directory -Force | Out-Null
 Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 
 # TO-DO: Review if this is still needed or not
