@@ -108,10 +108,12 @@ Write-Host "INFO: Installing Citra Nightly"
 scoop install citra-nightly
 scoop install ppsspp
 scoop install yuzu
+scoop install rpcs3
 
 $citraInstallDir = "$env:userprofile\scoop\apps\citra-nightly\current"
 $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
 $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+$rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
 choco install 7zip --no-progress -y | Out-Null
 choco install dolphin --pre --no-progress -y | Out-Null
@@ -366,6 +368,18 @@ else {
     exit -1
 }
 
+Write-Host "INFO: Setup PS3"
+$ps3Path = "$romPath\ps3"
+# $ps3Rom = "$requirementsFolder\to-do.nro"
+if (Test-Path $ps3Rom) {
+    New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
+    Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
+}
+else {
+    Write-Host "ERROR: $ps3Rom not found."
+    exit -1
+}
+
 Write-Host "INFO: Setup Xbox"
 $xboxEmuZip = "$requirementsFolder\xemu-win-release.zip"
 if (Test-Path $xboxEmuZip) {
@@ -617,7 +631,7 @@ $newConfig = "<systemList>
         <command>C:\Program Files\Vita3k\Vita3K.exe --vpk-path %ROM%</command>
         <platform>vita</platform>
         <theme>vita</theme>
-        </system>
+    </system>
     <system>
         <name>switch</name>
         <fullname>Switch</fullname>
@@ -627,7 +641,16 @@ $newConfig = "<systemList>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
-        <system>
+    <system>
+        <name>ps3</name>
+        <fullname>PS3</fullname>
+        <path>$ps3Path</path>
+        <extension>.iso .ISO .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
+        <command>$rpcs3InstallDir\yuzu.exe %ROM%</command>
+        <platform>switch</platform>
+        <theme>switch</theme>
+    </system>
+    <system>
         <name>psp</name>
         <fullname>Playstation Portable</fullname>
         <path>$pspPath</path>
