@@ -133,7 +133,7 @@ Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentL
 & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
 while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
     Write-Host "INFO: Checking for config file..."
-    Start-Sleep 5
+    Start-Sleep 10
 }
 Write-Host "INFO: Config file generated"
 Stop-Process -Name "emulationstation"
@@ -371,14 +371,14 @@ else {
 Write-Host "INFO: Setup PS3"
 $ps3Path = "$romPath\ps3"
 # $ps3Rom = "$requirementsFolder\to-do.nro"
-if (Test-Path $ps3Rom) {
-    New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
-    Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
-}
-else {
-    Write-Host "ERROR: $ps3Rom not found."
-    exit -1
-}
+# if (Test-Path $ps3Rom) {
+#     New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
+#     Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
+# }
+# else {
+#     Write-Host "ERROR: $ps3Rom not found."
+#     exit -1
+# }
 
 Write-Host "INFO: Setup Xbox"
 $xboxEmuZip = "$requirementsFolder\xemu-win-release.zip"
