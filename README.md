@@ -11,11 +11,6 @@ TO-DO
 -----
 - Fix scraper with . in path name
 - Re-do GIF with Switch emulator in it
-- Add Xbox Emulator
-- Add Xbox art
-- Add Xbox 360 emulator
-- Add Xbox 360 art
-
 
 Features
 ------

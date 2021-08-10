@@ -369,31 +369,15 @@ else {
 
 Write-Host "INFO: Setup PS3"
 $ps3Path = "$romPath\ps3"
-# $ps3Rom = "$requirementsFolder\to-do.nro"
-# if (Test-Path $ps3Rom) {
-#     New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
-#     Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
-# }
-# else {
-#     Write-Host "ERROR: $ps3Rom not found."
-#     exit -1
-# }
-
-Write-Host "INFO: Setup Xbox"
-$xboxEmuZip = "$requirementsFolder\xemu-win-release.zip"
-if (Test-Path $xboxEmuZip) {
-    $xboxEmuPath = "$env:userprofile\.emulationstation\systems\xbox\"
-    New-Item -ItemType Directory -Force -Path $xboxEmuPath | Out-Null
-    Expand-Archive -Path $xboxEmuZip -Destination $xboxEmuPath | Out-Null
+$ps3Rom = "$requirementsFolder\UP0001-THATOPONG_00-0000000000000000-A0100-V0100-RE.pkg"
+if (Test-Path $ps3Rom) {
+    New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
+    Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
 }
 else {
-    Write-Host "ERROR: $xboxEmuZip not found."
+    Write-Host "ERROR: $ps3Rom not found."
     exit -1
 }
-
-# TO-DO: Deal with roms
-$xboxRomPath = "$romPath\xbox" 
-
 
 Write-Host "INFO: Setup PS Vita"
 $vitaPath = "$romPath\vita"
@@ -644,10 +628,10 @@ $newConfig = "<systemList>
         <name>ps3</name>
         <fullname>PS3</fullname>
         <path>$ps3Path</path>
-        <extension>.iso .ISO .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
+        <extension>.iso .ISO .zip .ZIP .7z .pkg .PKG</extension>
         <command>$rpcs3InstallDir\yuzu.exe %ROM%</command>
-        <platform>switch</platform>
-        <theme>switch</theme>
+        <platform>ps3</platform>
+        <theme>ps3</theme>
     </system>
     <system>
         <name>psp</name>
