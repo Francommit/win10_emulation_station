@@ -34,6 +34,7 @@ INFO: Setup completed
 
 Troubleshooting
 ------
+- If you get an error saying "msvcr100.dll was not found" run `choco install vcredist2010` from Powershell as admin
 - If the controller is not working in game, configure Input in Retroarch (%UserProfile%\\.emulationstation\systems\retroarch\retroarch.exe)
 - PSX, PS2 and PS3 Homebrew Games won't load unless you acquire the bios's and add them to the bios folder (%UserProfile%\\.emulationstation\systems\epsxe\bios and %UserProfile%\\.emulationstation\systems\pcsx2\bios)
 - PSX, PS2 and PS3 also require manual configuration for controllers (%UserProfile%\\.emulationstation\systems\epsxe\ePSXe.exe and %UserProfile%\\.emulationstation\systems\pcsx2\pcsx2.exe and %UserProfile%\\scoop\apps\rpcs3\current)
