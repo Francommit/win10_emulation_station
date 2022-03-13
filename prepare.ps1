@@ -97,9 +97,11 @@ if($env:path -match "scoop"){
     Write-Host "INFO: Scoop appears to be installed, skipping installation"
 } else {
     Write-Host "INFO: Scoop not detected, installing scoop"
-    Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+    Write-Host "DEBUG: test not installing scoop in action"
+#    Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
 }
 
+Write-Host "DEBUG: Got past scoop installer"
 Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Citra Nightly"
