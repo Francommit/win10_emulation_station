@@ -96,9 +96,9 @@ choco install git -y | Out-Null
 if($env:path -match "scoop"){
     Write-Host "INFO: Scoop appears to be installed, skipping installation"
 } else {
-    Write-Host "INFO: Scoop not detected, installing scoop"    
-    Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')    
-
+    Write-Host "INFO: Scoop not detected, installing scoop"            
+    iwr -useb get.scoop.sh -outfile 'installScoop.ps1'
+    .\installScoop.ps1 -RunAsAdmin    
 }
 
 Write-Host "INFO: Adding scoop bucket"
