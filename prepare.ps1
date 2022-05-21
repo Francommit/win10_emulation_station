@@ -101,6 +101,11 @@ if($env:path -match "scoop"){
     .\installScoop.ps1 -RunAsAdmin    
 }
 
+Write-Host "INFO: Running Scoop Bucket Workaround"
+# https://github.com/ScoopInstaller/Scoop/issues/4917#issuecomment-1125400640
+scoop bucket rm main
+scoop bucket add main
+
 Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Citra Nightly"
