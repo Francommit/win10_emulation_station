@@ -467,16 +467,16 @@ if(Test-Path $psxRom){
     exit -1
 }
 
-Write-Host "INFO: Setup PS2"
-$ps2Path = "$romPath\ps2"
-$ps2Rom = "$requirementsFolder\hermes-v.latest-ps2.zip"
-if(Test-Path $ps2Rom){
-    New-Item -ItemType Directory -Force -Path $ps2Path | Out-Null
-    Expand-Archive -Path $ps2Rom -Destination $ps2Path | Out-Null
-} else {
-    Write-Host "ERROR: $ps2Rom not found."
-    exit -1
-}
+# Write-Host "INFO: Setup PS2"
+# $ps2Path = "$romPath\ps2"
+# $ps2Rom = "$requirementsFolder\hermes-v.latest-ps2.zip"
+# if(Test-Path $ps2Rom){
+    # New-Item -ItemType Directory -Force -Path $ps2Path | Out-Null
+    # Expand-Archive -Path $ps2Rom -Destination $ps2Path | Out-Null
+    # } else {
+    # Write-Host "ERROR: $ps2Rom not found."
+    # exit -1
+# }
 
 Write-Host "INFO: Setup Gameboy"
 $gbPath = "$romPath\gb"
