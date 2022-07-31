@@ -375,7 +375,7 @@ else {
 
 Write-Host "INFO: Setup PS3"
 $ps3Path = "$romPath\ps3"
-$ps3Rom = "$requirementsFolder\UP0001-THATOPONG_00-0000000000000000-A0100-V0100-RE.pkg"
+$ps3Rom = "$requirementsFolder\Avoidance_v1.3.pkg"
 if (Test-Path $ps3Rom) {
     New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
     Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
