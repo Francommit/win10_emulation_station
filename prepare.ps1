@@ -108,13 +108,13 @@ scoop bucket add main
 
 Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
-Write-Host "INFO: Installing Citra Nightly"
-scoop install citra-nightly
+Write-Host "INFO: Installing Citra"
+scoop install citra
 scoop install ppsspp
 scoop install yuzu
 scoop install rpcs3
 
-$citraInstallDir = "$env:userprofile\scoop\apps\citra-nightly\current"
+$citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
 $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
 $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
