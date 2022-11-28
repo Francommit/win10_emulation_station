@@ -110,7 +110,7 @@ Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Citra"
 scoop install citra
-scoop install ppsspp
+scoop install ppsspp-dev
 scoop install yuzu
 scoop install rpcs3
 
