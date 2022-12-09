@@ -13,21 +13,26 @@ function DownloadFiles {
         if(![System.IO.File]::Exists($output)){
             
             Write-Host "INFO: Downloading $file"
-            # Create a TrustAllCertsPolicy object and set it as the default certificate policy
-            add-type @"
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-public class TrustAllCertsPolicy : ICertificatePolicy {
-    public bool CheckValidationResult(
-        ServicePoint srvPoint, X509Certificate certificate,
-        WebRequest request, int certificateProblem) {
-        return true;
+            if($PSVersionTable.PSEdition -eq "Core"){
+                Invoke-WebRequest $url -Out $output -SkipCertificateCheck
+            } else {
+
+                add-type @"
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    public class TrustAllCertsPolicy : ICertificatePolicy {
+        public bool CheckValidationResult(
+            ServicePoint srvPoint, X509Certificate certificate,
+            WebRequest request, int certificateProblem) {
+            return true;
+        }
     }
-}
 "@
-            [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
-            # Use Invoke-WebRequest to download the file
-            Invoke-WebRequest $url -Out $output 
+                [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+
+                Invoke-WebRequest $url -Out $output 
+                
+            }
             Write-Host "INFO: Finished Downloading $file successfully"
     
         } else {
@@ -39,7 +44,6 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
     }
 
 }
-
 
 function GithubReleaseFiles {
 
