@@ -689,7 +689,7 @@ $newConfig = "<systemList>
         <name>gc</name>
         <path>$gcPath</path>
         <extension>.iso .ISO</extension>
-        <command>C:\tools\Dolphin-x64\Dolphin.exe -e `"%ROM_RAW%`"</command>
+        <command>C:\tools\Dolphin-Beta\Dolphin.exe -e `"%ROM_RAW%`"</command>
         <platform>gc</platform>
         <theme>gc</theme>
     </system>
@@ -698,7 +698,7 @@ $newConfig = "<systemList>
         <fullname>Nintendo Wii</fullname>
         <path>$wiiPath</path>
         <extension>.iso .ISO .wad .WAD</extension>
-        <command>C:\tools\Dolphin-x64\Dolphin.exe -e `"%ROM_RAW%`"</command>
+        <command>C:\tools\Dolphin-Beta\Dolphin.exe -e `"%ROM_RAW%`"</command>
         <platform>wii</platform>
         <theme>wii</theme>  
     </system>
