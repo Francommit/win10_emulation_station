@@ -611,6 +611,26 @@ $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
 # Vita Launching is a BIT hacky, works in powershell
 #  .\Vita3K.exe --vpk-path "%ROM% | .\Vita3K.exe
 
+
+<#
+----------------------------------
+File extension supported by systems
+----------------------------------
+Sources for getting compatible file extension:
+Vita3K: https://vita3k.org/faq.html
+Yuzu: https://yuzu-emu.org/wiki/overview-of-switch-game-formats/
+RPCS3: NOT FOUND
+PPSSPP: https://www.ppsspp.org/faq.html
+Citra: https://community.citra-emu.org/t/3ds-vs-cci-rom-file-formats/191/4
+FCEUmm: https://docs.libretro.com/library/fceumm/
+Snes9x: https://docs.libretro.com/library/snes9x/
+ParaLLEl_n64: https://wiki.recalbox.com/en/emulators/consoles/nintendo-64/libretro-parallel_n64
+Dolphine: https://wiki.dolphin-emu.org/index.php?title=Installing_Dolphin#Post-Installation_Quick_Guide
+Gambatte: https://docs.libretro.com/library/gambatte/
+VBA Next: https://docs.libretro.com/library/vba_next/
+ePSXe: https://fantasyanime.com/emuhelp/epsxe#dumping-your-psx-games-to-iso (NOT OFFICIAL)
+PCSX2: https://fantasyanime.com/emuhelp/pcsx2#loading-a-ps2-iso (NOT OFFICIAL)
+#>
 $newConfig = "<systemList>
     <system>
         <name>vita</name>
@@ -635,7 +655,7 @@ $newConfig = "<systemList>
         <fullname>PS3</fullname>
         <path>$ps3Path</path>
         <extension>.iso .ISO .zip .ZIP .7z .pkg .PKG</extension>
-        <command>$rpcs3InstallDir\yuzu.exe %ROM%</command>
+        <command>$rpcs3InstallDir\rpcs3.exe %ROM%</command>
         <platform>ps3</platform>
         <theme>ps3</theme>
     </system>
@@ -643,7 +663,7 @@ $newConfig = "<systemList>
         <name>psp</name>
         <fullname>Playstation Portable</fullname>
         <path>$pspPath</path>
-        <extension>.iso .ISO .cso .CSO .elf</extension>
+        <extension>.iso .ISO .cso .CSO .elf .ELF .pbp .PBP</extension>
         <command>$ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
         <platform>psp</platform>
         <theme>psp</theme>
@@ -652,7 +672,7 @@ $newConfig = "<systemList>
         <name>n3ds</name>
         <fullname>Nintendo 3DS</fullname>
         <path>$3dsPath</path>
-        <extension>.3ds .3DS .3dsx .3DSX</extension>
+        <extension>.3ds .3DS .3dsx .3DSX .cci .CCI .cxi .CXI .elf .ELF</extension>
         <command>$citraInstallDir\citra.exe %ROM%</command>
         <platform>n3ds</platform>
         <theme>3ds</theme>
@@ -661,7 +681,7 @@ $newConfig = "<systemList>
         <name>nes</name>
         <fullname>Nintendo Entertainment System</fullname>
         <path>$nesPath</path>
-        <extension>.nes .NES</extension>
+        <extension>.nes .NES .fds .FDS .unif .UNIF .unf .UNF</extension>
         <command>$retroarchExecutable -L $coresPath\fceumm_libretro.dll %ROM%</command>
         <platform>nes</platform>
         <theme>nes</theme>
@@ -670,7 +690,7 @@ $newConfig = "<systemList>
         <fullname>Super Nintendo</fullname>
         <name>snes</name>
         <path>$snesPath</path>
-        <extension>.smc .sfc .fig .swc .SMC .SFC .FIG .SWC</extension>
+        <extension>.smc .SMC .sfc .SFC .fig .FIG .swc .SWC .bs .BS .st .ST</extension>
         <command>$retroarchExecutable -L $coresPath\snes9x_libretro.dll %ROM%</command>
         <platform>snes</platform>
         <theme>snes</theme>
@@ -679,7 +699,7 @@ $newConfig = "<systemList>
         <fullname>Nintendo 64</fullname>
         <name>n64</name>
         <path>$n64Path</path>
-        <extension>.z64 .Z64 .n64 .N64 .v64 .V64</extension>
+        <extension>.z64 .Z64 .n64 .N64 .v64 .V64 .zip .ZIP .7z .7Z</extension>
         <command>$retroarchExecutable -L $coresPath\parallel_n64_libretro.dll %ROM%</command>
         <platform>n64</platform>
         <theme>n64</theme>
@@ -688,7 +708,7 @@ $newConfig = "<systemList>
         <fullname>Gamecube</fullname>
         <name>gc</name>
         <path>$gcPath</path>
-        <extension>.iso .ISO</extension>
+        <extension>.iso .ISO .gxm .GCM .gcz .GCZ .rvz .RVZ .dol .DOL .elf .ELF</extension>
         <command>C:\tools\Dolphin-Beta\Dolphin.exe -e `"%ROM_RAW%`"</command>
         <platform>gc</platform>
         <theme>gc</theme>
@@ -697,7 +717,7 @@ $newConfig = "<systemList>
         <name>wii</name>
         <fullname>Nintendo Wii</fullname>
         <path>$wiiPath</path>
-        <extension>.iso .ISO .wad .WAD</extension>
+        <extension>.iso .ISO .wad .WAD .wbfs .WBFS .wia .WIA .dol .DOL .elf .ELF</extension>
         <command>C:\tools\Dolphin-Beta\Dolphin.exe -e `"%ROM_RAW%`"</command>
         <platform>wii</platform>
         <theme>wii</theme>  
@@ -706,7 +726,7 @@ $newConfig = "<systemList>
         <fullname>Game Boy</fullname>
         <name>gb</name>
         <path>$gbPath</path>
-        <extension>.gb .zip .ZIP .7z</extension>
+        <extension>.gb .GB .dmg .DMG .zip .ZIP .7z .7Z</extension>
         <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
         <platform>gb</platform>
         <theme>gb</theme>
@@ -715,7 +735,7 @@ $newConfig = "<systemList>
         <fullname>Game Boy Color</fullname>
         <name>gbc</name>
         <path>$gbcPath</path>
-        <extension>.gbc .GBC .zip .ZIP</extension>
+        <extension>.gbc .GBC .dmg .DMG .zip .ZIP</extension>
         <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
         <platform>gbc</platform>
         <theme>gbc</theme>
@@ -733,7 +753,7 @@ $newConfig = "<systemList>
         <fullname>Playstation</fullname>
         <name>psx</name>
         <path>$psxPath</path>
-        <extension>.cue .iso .pbp .CUE .ISO .PBP</extension>
+        <extension>.cue .CUE .iso .ISO .pbp .PBP</extension>
         <command>${psxEmulatorPath}ePSXe.exe -bios ${psxBiosPath}SCPH1001.BIN -nogui -loadbin %ROM%</command>
         <platform>psx</platform>
         <theme>psx</theme>
