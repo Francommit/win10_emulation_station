@@ -33,7 +33,7 @@ function DownloadFiles {
                 Invoke-WebRequest $url -Out $output 
                 
             }
-            Write-Host "INFO: Finished Downloading $file successfully"
+            Write-Host "INFO: Finished Downloading $file successfully to: $output"
     
         } else {
     
@@ -61,7 +61,7 @@ function GithubReleaseFiles {
     
             Write-Host "INFO: Downloading $file"
             Invoke-WebRequest $url -Out $output
-            Write-Host "INFO: Finished Downloading $file successfully"
+            Write-Host "INFO: Finished Downloading $file successfully to: $output"
     
         } else {
     
