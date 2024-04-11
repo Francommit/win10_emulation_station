@@ -74,15 +74,25 @@ function GithubReleaseFiles {
 
 }
 
-function Expand-Archive([string]$Path, [string]$Destination) {
+function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLogging = $false) {
     $7z_Application = "C:\Program Files\7-Zip\7z.exe"
     $7z_Arguments = @(
-        'x'                         ## eXtract files with full paths
-        '-y'                        ## assume Yes on all queries
-        "`"-o$($Destination)`""     ## set Output directory
-        "`"$($Path)`""              ## <archive_name>
+        'x',                         # eXtract files with full paths
+        '-y',                        # assume Yes on all queries
+        "`"-o$($Destination)`"",     # set Output directory
+        "`"$($Path)`""               # <archive_name>
     )
-    & $7z_Application $7z_Arguments | Out-Null
+
+    Write-Output "Extracting file: $Path to destination: $Destination"
+    
+    if ($VerboseLogging) {
+        & $7z_Application $7z_Arguments
+        if ($LASTEXITCODE -ne 0) {
+            throw "7-Zip exited with code $LASTEXITCODE"
+        }
+    } else {
+        & $7z_Application $7z_Arguments | Out-Null
+    }
 }
 
 # Get script path
@@ -154,7 +164,7 @@ $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
 if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath 
-    Expand-Archive -Path $retroArchBinary -Destination . -Verbose
+    Expand-Archive -Path $retroArchBinary -Destination . -VerboseLogging $true
         # TO-DO - add an Out-Null when this has been tested
     Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
         # New path - $retroArchPath\RetroArch-Win64
