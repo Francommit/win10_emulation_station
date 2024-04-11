@@ -147,27 +147,18 @@ Stop-Process -Name "emulationstation"
 # Retroarch
 #####
 # Prepare Retroarch
-$baseDirectory = Get-Location
-$requirementsFolder = Join-Path -Path $baseDirectory -ChildPath "requirements"
 $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
 $coresPath = "$retroArchPath\cores"
-$retroArchBinary = Get-ChildItem -Path $requirementsFolder -Filter "RetroArch.7z" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+$retroArchBinary = "$requirementsFolder\RetroArch.7z"
+if(Test-Path $retroArchBinary){
+    New-Item -ItemType Directory -Force -Path $retroArchPath 
+    Expand-Archive -Path $retroArchBinary -Destination . 
+        # TO-DO - add an Out-Null when this has been tested
+    Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+        # New path - $retroArchPath\RetroArch-Win64
 
-if ($retroArchBinary -and (Test-Path $retroArchBinary)) {
-    New-Item -ItemType Directory -Force -Path $retroArchPath
-    # Ensure the destination path in Expand-Archive is correctly set
-    Expand-Archive -Path $retroArchBinary -DestinationPath $retroArchPath
-
-    # Determine the exact path where RetroArch was extracted
-    $extractedPath = Join-Path -Path $retroArchPath -ChildPath "RetroArch-Win64"
-    if (Test-Path $extractedPath) {
-        Copy-Item -Path "$extractedPath\*" -Destination $retroArchPath -Recurse -Force
-    } else {
-        Write-Host "ERROR: Extracted RetroArch not found in $extractedPath."
-        exit -1
-    }
 } else {
-    Write-Host "ERROR: RetroArch.7z not found in $requirementsFolder."
+    Write-Host "ERROR: $retroArchBinary not found."
     exit -1
 }
 
