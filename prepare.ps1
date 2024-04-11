@@ -143,21 +143,37 @@ while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) {
 Write-Host "INFO: Config file generated"
 Stop-Process -Name "emulationstation"
 
-# Prepare Retroarch
-$retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
-$coresPath = "$retroArchPath\cores"
-$retroArchBinary = "$requirementsFolder\RetroArch.7z"
+#####
+# Retroarch
+#####
+# Define paths relative to the current working directory
+$requirementsFolder = Join-Path -Path (Get-Location) -ChildPath "requirements"
+$retroArchPath = Join-Path -Path (Get-Location) -ChildPath ".emulationstation\systems\retroarch"
+$coresPath = Join-Path -Path $retroArchPath -ChildPath "cores"
 
-if(Test-Path $retroArchBinary){
+# Find the RetroArch.7z file dynamically in the requirements folder
+$retroArchBinary = Get-ChildItem -Path $requirementsFolder -Filter "RetroArch.7z" -File | Select-Object -ExpandProperty FullName
+
+# Check if RetroArch binary exists and proceed
+if ($retroArchBinary -and (Test-Path $retroArchBinary)) {
     New-Item -ItemType Directory -Force -Path $retroArchPath
     Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
-    # Assuming the structure inside the .7z is RetroArch-Win64\* and you want to move its contents to $retroArchPath
-    $extractedRetroArchPath = Join-Path -Path $retroArchPath -ChildPath "RetroArch-Win64"
-    Copy-Item -Path "$extractedRetroArchPath\*" -Destination $retroArchPath -Recurse -Force
+
+    # Find the extracted folder, assuming there is only one directory extracted
+    $extractedFolder = Get-ChildItem -Path $retroArchPath -Directory | Select-Object -First 1
+
+    if ($extractedFolder -ne $null) {
+        $extractedRetroArchPath = $extractedFolder.FullName
+        Copy-Item -Path "$extractedRetroArchPath\*" -Destination $retroArchPath -Recurse -Force
+    } else {
+        Write-Host "ERROR: No directories found after extraction in $retroArchPath."
+        exit -1
+    }
 } else {
-    Write-Host "ERROR: $retroArchBinary not found."
+    Write-Host "ERROR: RetroArch.7z not found in $requirementsFolder."
     exit -1
 }
+
 
 # NES Setup
 $nesCore = "$requirementsFolder\fceumm_libretro.dll.zip"
