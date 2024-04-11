@@ -147,13 +147,13 @@ Stop-Process -Name "emulationstation"
 $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
 $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$requirementsFolder\RetroArch.7z"
+
 if(Test-Path $retroArchBinary){
-    New-Item -ItemType Directory -Force -Path $retroArchPath 
-    Expand-Archive -Path $retroArchBinary -Destination . 
-        # TO-DO - add an Out-Null when this has been tested
-    Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
-        # New path - $retroArchPath\RetroArch-Win64
-    
+    New-Item -ItemType Directory -Force -Path $retroArchPath
+    Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
+    # Assuming the structure inside the .7z is RetroArch-Win64\* and you want to move its contents to $retroArchPath
+    $extractedRetroArchPath = Join-Path -Path $retroArchPath -ChildPath "RetroArch-Win64"
+    Copy-Item -Path "$extractedRetroArchPath\*" -Destination $retroArchPath -Recurse -Force
 } else {
     Write-Host "ERROR: $retroArchBinary not found."
     exit -1
