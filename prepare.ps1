@@ -34,6 +34,7 @@ function DownloadFiles {
                 
             }
             Write-Host "INFO: Finished Downloading $file successfully to: $output"
+            Write-Host "INFO: Size of the downloaded file is $((Get-Item $output).Length / 1MB) MB"
     
         } else {
     
@@ -62,6 +63,7 @@ function GithubReleaseFiles {
             Write-Host "INFO: Downloading $file"
             Invoke-WebRequest $url -Out $output
             Write-Host "INFO: Finished Downloading $file successfully to: $output"
+            Write-Host "INFO: Size of the downloaded file is $((Get-Item $output).Length / 1MB) MB"
     
         } else {
     
