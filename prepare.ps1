@@ -146,27 +146,24 @@ Stop-Process -Name "emulationstation"
 #####
 # Retroarch
 #####
-# Define paths relative to the current working directory
-$requirementsFolder = Join-Path -Path (Get-Location) -ChildPath "requirements"
-$retroArchPath = Join-Path -Path (Get-Location) -ChildPath ".emulationstation\systems\retroarch"
-$coresPath = Join-Path -Path $retroArchPath -ChildPath "cores"
+# Prepare Retroarch
+$baseDirectory = Get-Location
+$requirementsFolder = Join-Path -Path $baseDirectory -ChildPath "requirements"
+$retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
+$coresPath = "$retroArchPath\cores"
+$retroArchBinary = Get-ChildItem -Path $requirementsFolder -Filter "RetroArch.7z" -Recurse | Select-Object -First 1 -ExpandProperty FullName
 
-# Find the RetroArch.7z file dynamically in the requirements folder
-$retroArchBinary = Get-ChildItem -Path $requirementsFolder -Filter "RetroArch.7z" -File | Select-Object -ExpandProperty FullName
-
-# Check if RetroArch binary exists and proceed
 if ($retroArchBinary -and (Test-Path $retroArchBinary)) {
     New-Item -ItemType Directory -Force -Path $retroArchPath
-    Expand-Archive -Path $retroArchBinary -Destination $retroArchPath
+    # Ensure the destination path in Expand-Archive is correctly set
+    Expand-Archive -Path $retroArchBinary -DestinationPath $retroArchPath
 
-    # Find the extracted folder, assuming there is only one directory extracted
-    $extractedFolder = Get-ChildItem -Path $retroArchPath -Directory | Select-Object -First 1
-
-    if ($extractedFolder -ne $null) {
-        $extractedRetroArchPath = $extractedFolder.FullName
-        Copy-Item -Path "$extractedRetroArchPath\*" -Destination $retroArchPath -Recurse -Force
+    # Determine the exact path where RetroArch was extracted
+    $extractedPath = Join-Path -Path $retroArchPath -ChildPath "RetroArch-Win64"
+    if (Test-Path $extractedPath) {
+        Copy-Item -Path "$extractedPath\*" -Destination $retroArchPath -Recurse -Force
     } else {
-        Write-Host "ERROR: No directories found after extraction in $retroArchPath."
+        Write-Host "ERROR: Extracted RetroArch not found in $extractedPath."
         exit -1
     }
 } else {
