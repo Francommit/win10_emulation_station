@@ -1,20 +1,20 @@
 # Set vars
-$scriptPath = $null
-$scriptDir = $null
-$citraInstallDir = $null
-$ppssppInstallDir = $null
-$yuzuInstallDir = $null
-$rpcs3InstallDir = $null
-$requirementsFolder = $null
+$global:scriptPath = $null
+$global:scriptDir = $null
+$global:citraInstallDir = $null
+$global:ppssppInstallDir = $null
+$global:yuzuInstallDir = $null
+$global:rpcs3InstallDir = $null
+$global:requirementsFolder = $null
 
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
     
     Write-Host "Starting downloading of $jsonDownloadOption"
 
-    Write-Host "DEBUG: Script directory is: $scriptDir"
+    Write-Host "DEBUG: Script directory is: $global:scriptDir"
 
-    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
+    Get-Content "$global:scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
     
         $url = $_.url
         $file = $_.file
@@ -58,7 +58,7 @@ function DownloadFiles {
 
 function GithubReleaseFiles {
 
-    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
+    Get-Content "$global:scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
         $repo = $_.repo
         $file = $_.file
@@ -105,12 +105,12 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     }
 }
 
-function Get-ScriptPath {
+function Get-global:ScriptPath {
     param (
-        [string]$ScriptPath
+        [string]$global:ScriptPath
     )
-    $scriptDir = Split-Path $ScriptPath
-    Write-Host "INFO: Script directory is: $scriptDir"
+    $global:scriptDir = Split-Path $global:ScriptPath
+    Write-Host "INFO: Script directory is: $global:scriptDir"
 }
 
 function Install-Chocolatey {
@@ -142,11 +142,11 @@ function Configure-Scoop {
     scoop install yuzu
     scoop install rpcs3
 
-    $citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
-    $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-    $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
-    $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
-}
+    $global:citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
+    $global:ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+    $global:yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+    $global:rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
+global:}
 
 function Install-AdditionalSoftware {
     choco install 7zip --no-progress -y | Out-Null
@@ -180,7 +180,7 @@ function Install-EmulationStation {
 
 
 # Main script
-Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
+Get-global:ScriptPath -global:ScriptPath $MyInvocation.MyCommand.Path
 Install-Chocolatey
 Install-Scoop
 Configure-Scoop
@@ -713,16 +713,16 @@ $newConfig = "<systemList>
         <fullname>Playstation Portable</fullname>
         <path>$pspPath</path>
         <extension>.iso .ISO .cso .CSO .elf .ELF .pbp .PBP</extension>
-        <command>$ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
-        <platform>psp</platform>
+        <command>$global:ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
+        <platform>psp</global:platform>
         <theme>psp</theme>
-    </system>
-    <system>
+    global:</system>
+    <global:system>
         <name>n3ds</name>
         <fullname>Nintendo 3DS</fullname>
         <path>$3dsPath</path>
         <extension>.3ds .3DS .3dsx .3DSX .cci .CCI .cxi .CXI .elf .ELF</extension>
-        <command>$citraInstallDir\citra.exe %ROM%</command>
+        <command>$global:citraInstallDir\citra.exe %ROM%</command>
         <platform>n3ds</platform>
         <theme>3ds</theme>
     </system>
