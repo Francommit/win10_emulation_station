@@ -12,15 +12,13 @@ function DownloadFiles {
     
     Write-Host "Starting downloading of $jsonDownloadOption"
 
-    $scriptDir = $script:scriptDir  # Accessing the scriptDir variable from the script scope
-    
     Write-Host "DEBUG: Script directory is: $scriptDir"
 
     Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
     
         $url = $_.url
         $file = $_.file
-        $output = "$script:requirementsFolder\$file" 
+        $output = "$requirementsFolder\$file" 
 
         if(![System.IO.File]::Exists($output)){
             
@@ -57,7 +55,6 @@ function DownloadFiles {
     }
 
 }
-
 
 function GithubReleaseFiles {
 
