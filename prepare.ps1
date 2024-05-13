@@ -149,6 +149,7 @@ function ConfigureScoop {
 
 function Install-AdditionalSoftware {
     choco install 7zip --no-progress -y | Out-Null
+    choco install winrar --no-progress -y | Out-Null
     choco install dolphin --pre --no-progress -y | Out-Null
     choco install cemu --no-progress -y | Out-Null
 }
