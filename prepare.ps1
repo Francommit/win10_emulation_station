@@ -4,7 +4,7 @@ function DownloadFiles {
     
     Write-Host "Starting downloading of $jsonDownloadOption"
 
-    Write-Host "DEBUG: $scriptDir"
+    Write-Host "DEBUG: Script directory is: $scriptDir"
 
     Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
     
