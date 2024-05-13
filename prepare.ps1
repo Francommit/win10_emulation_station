@@ -1,3 +1,11 @@
+# Set vars
+$scriptPath = $null
+$scriptDir = $null
+$citraInstallDir = $null
+$ppssppInstallDir = $null
+$yuzuInstallDir = $null
+$rpcs3InstallDir = $null
+$requirementsFolder = $null
 
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
@@ -169,14 +177,7 @@ function Install-EmulationStation {
 
 }
 
-# Set vars
-$scriptPath = $null
-$scriptDir = $null
-$citraInstallDir = $null
-$ppssppInstallDir = $null
-$yuzuInstallDir = $null
-$rpcs3InstallDir = $null
-$requirementsFolder = $null
+
 
 # Main script
 Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
