@@ -17,7 +17,7 @@ function DownloadFiles {
     
         $url = $_.url
         $file = $_.file
-        $output = "$requirementsFolder\$file" 
+        $output = "$global:requirementsFolder\$file" 
 
         if(![System.IO.File]::Exists($output)){
             
@@ -65,7 +65,7 @@ function GithubReleaseFiles {
         $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
     
         $url = "https://github.com/$repo/releases/download/$tag/$file"
-        $output = "$requirementsFolder\$file"
+        $output = "$global:requirementsFolder\$file"
 
         if(![System.IO.File]::Exists($output)) {
     
@@ -154,8 +154,8 @@ function Install-AdditionalSoftware {
 }
 
 function AcquireFiles {
-    $requirementsFolder = "$PSScriptRoot\requirements"
-    New-Item -ItemType Directory -Force -Path $requirementsFolder
+    $global:requirementsFolder = "$PSScriptRoot\requirements"
+    New-Item -ItemType Directory -Force -Path $global:requirementsFolder
     DownloadFiles("downloads")
     DownloadFiles("other_downloads")
     GithubReleaseFiles
@@ -163,7 +163,7 @@ function AcquireFiles {
 
 function Install-EmulationStation {
     Write-Host "INFO: Starting Emulation station to generate config"
-    Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
+    Start-Process "$global:requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
 
     # Generate Emulation Station config file
     & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
@@ -193,10 +193,10 @@ Install-EmulationStation
 # Prepare Retroarch
 $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
 $coresPath = "$retroArchPath\cores"
-$retroArchBinary = "$requirementsFolder\RetroArch.7z"
+$retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
 if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath 
-    Expand-Archive -Path $retroArchBinary -Destination $requirementsFolder -VerboseLogging $true
+    Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
         # TO-DO - add an Out-Null when this has been tested
     Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
         # New path - $retroArchPath\RetroArch-Win64
@@ -208,7 +208,7 @@ if(Test-Path $retroArchBinary){
 
 
 # NES Setup
-$nesCore = "$requirementsFolder\fceumm_libretro.dll.zip"
+$nesCore = "$global:requirementsFolder\fceumm_libretro.dll.zip"
 if(Test-Path $nesCore){
     Expand-Archive -Path $nesCore -Destination $coresPath | Out-Null
 } else {
@@ -217,7 +217,7 @@ if(Test-Path $nesCore){
 }
 
 # N64 Setup
-$n64Core = "$requirementsFolder\parallel_n64_libretro.dll.zip"
+$n64Core = "$global:requirementsFolder\parallel_n64_libretro.dll.zip"
 if(Test-Path $n64Core){
     Expand-Archive -Path $n64Core -Destination $coresPath | Out-Null
 } else {
@@ -226,7 +226,7 @@ if(Test-Path $n64Core){
 }
 
 # FBA Setup
-$fbaCore = "$requirementsFolder\fbalpha2012_libretro.dll.zip"
+$fbaCore = "$global:requirementsFolder\fbalpha2012_libretro.dll.zip"
 if(Test-Path $fbaCore){
     Expand-Archive -Path $fbaCore -Destination $coresPath | Out-Null
 } else {
@@ -235,7 +235,7 @@ if(Test-Path $fbaCore){
 }
 
 # GBA Setup
-$gbaCore = "$requirementsFolder\vba_next_libretro.dll.zip"
+$gbaCore = "$global:requirementsFolder\vba_next_libretro.dll.zip"
 if(Test-Path $gbaCore){
     Expand-Archive -Path $gbaCore -Destination $coresPath | Out-Null
 } else {
@@ -244,7 +244,7 @@ if(Test-Path $gbaCore){
 }
 
 # SNES Setup
-$snesCore = "$requirementsFolder\snes9x_libretro.dll.zip"
+$snesCore = "$global:requirementsFolder\snes9x_libretro.dll.zip"
 if(Test-Path $snesCore){
     Expand-Archive -Path $snesCore -Destination $coresPath | Out-Null
 } else {
@@ -253,7 +253,7 @@ if(Test-Path $snesCore){
 }
 
 # Genesis GX Setup
-$mdCore = "$requirementsFolder\genesis_plus_gx_libretro.dll.zip"
+$mdCore = "$global:requirementsFolder\genesis_plus_gx_libretro.dll.zip"
 if(Test-Path $mdCore){
     Expand-Archive -Path $mdCore -Destination $coresPath | Out-Null
 } else {
@@ -262,7 +262,7 @@ if(Test-Path $mdCore){
 }
 
 # Game boy Colour Setup
-$gbcCore = "$requirementsFolder\gambatte_libretro.dll.zip"
+$gbcCore = "$global:requirementsFolder\gambatte_libretro.dll.zip"
 if(Test-Path $gbcCore){
     Expand-Archive -Path $gbcCore -Destination $coresPath | Out-Null
 } else {
@@ -271,7 +271,7 @@ if(Test-Path $gbcCore){
 }
 
 # Atari2600 Setup
-$atari2600Core = "$requirementsFolder\stella_libretro.dll.zip"
+$atari2600Core = "$global:requirementsFolder\stella_libretro.dll.zip"
 if(Test-Path $atari2600Core){
     Expand-Archive -Path $atari2600Core -Destination $coresPath | Out-Null
 } else {
@@ -280,7 +280,7 @@ if(Test-Path $atari2600Core){
 }
 
 # MAME Setup
-$mameCore = "$requirementsFolder\mame2010_libretro.dll.zip"
+$mameCore = "$global:requirementsFolder\mame2010_libretro.dll.zip"
 if(Test-Path $mameCore){
     Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
 } else {
@@ -289,7 +289,7 @@ if(Test-Path $mameCore){
 }
 
 # PSX Setup
-$psxEmulator = "$requirementsFolder\ePSXe205.zip"
+$psxEmulator = "$global:requirementsFolder\ePSXe205.zip"
 if(Test-Path $psxEmulator){
     $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
     $psxBiosPath = $psxEmulatorPath + "bios\"
@@ -301,7 +301,7 @@ if(Test-Path $psxEmulator){
 }
 
 # PS2 Setup
-$ps2EmulatorMsi = "$requirementsFolder\pcsx2-1.6.0-setup.exe"
+$ps2EmulatorMsi = "$global:requirementsFolder\pcsx2-1.6.0-setup.exe"
 if(Test-Path $ps2EmulatorMsi){
     $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
     $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
@@ -314,7 +314,7 @@ if(Test-Path $ps2EmulatorMsi){
 }
 
 # NeoGeo Pocket Setup
-$ngpCore = "$requirementsFolder\race_libretro.dll.zip"
+$ngpCore = "$global:requirementsFolder\race_libretro.dll.zip"
 if(Test-Path $ngpCore){
     Expand-Archive -Path $ngpCore -Destination $coresPath | Out-Null
 } else {
@@ -377,7 +377,7 @@ New-Item -ItemType Directory -Force -Path $romPath | Out-Null
 # Path creation + Open-Source / Freeware Rom population
 Write-Host "INFO: Setup NES"
 $nesPath =  "$romPath\nes"
-$nesRom = "$requirementsFolder\assimilate_full.zip" 
+$nesRom = "$global:requirementsFolder\assimilate_full.zip" 
 if(Test-Path $nesRom){
     New-Item -ItemType Directory -Force -Path $nesPath | Out-Null
     Expand-Archive -Path $nesRom -Destination $nesPath | Out-Null
@@ -388,7 +388,7 @@ if(Test-Path $nesRom){
 
 Write-Host "INFO: Setup N64"
 $n64Path =  "$romPath\n64"
-$n64Rom = "$requirementsFolder\pom-twin.zip"
+$n64Rom = "$global:requirementsFolder\pom-twin.zip"
 if(Test-Path $n64Rom){
     New-Item -ItemType Directory -Force -Path $n64Path | Out-Null
     Expand-Archive -Path $n64Rom -Destination $n64Path | Out-Null
@@ -399,7 +399,7 @@ if(Test-Path $n64Rom){
 
 Write-Host "INFO: Setup psp"
 $pspPath = "$romPath\psp"
-$pspRom = "$requirementsFolder\cube.elf"
+$pspRom = "$global:requirementsFolder\cube.elf"
 if (Test-Path $pspRom) {
     New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
     Move-Item -Path $pspRom -Destination $pspPath -Force | Out-Null
@@ -411,7 +411,7 @@ else {
 
 Write-Host "INFO: Setup Nintendo Switch"
 $switchPath = "$romPath\switch"
-$switchRom = "$requirementsFolder\tetriswitch.nro"
+$switchRom = "$global:requirementsFolder\tetriswitch.nro"
 if (Test-Path $switchRom) {
     New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
     Move-Item -Path $switchRom -Destination $switchPath -Force | Out-Null
@@ -423,7 +423,7 @@ else {
 
 Write-Host "INFO: Setup PS3"
 $ps3Path = "$romPath\ps3"
-$ps3Rom = "$requirementsFolder\Avoidance_v1.3.pkg"
+$ps3Rom = "$global:requirementsFolder\Avoidance_v1.3.pkg"
 if (Test-Path $ps3Rom) {
     New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
     Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
@@ -435,7 +435,7 @@ else {
 
 Write-Host "INFO: Setup PS Vita"
 $vitaPath = "$romPath\vita"
-$vitaRom = "$requirementsFolder\C4.vpk"
+$vitaRom = "$global:requirementsFolder\C4.vpk"
 if (Test-Path $vitaRom) {
     New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
     Move-Item -Path $vitaRom -Destination $vitaPath -Force | Out-Null
@@ -451,7 +451,7 @@ if(-not(Test-Path $vita3kInstallFolder)){
     New-Item -ItemType Directory -Force -Path $vita3kInstallFolder | Out-Null
 }
 
-$vita3kLatestBuild = "$requirementsFolder\windows-latest.zip"
+$vita3kLatestBuild = "$global:requirementsFolder\windows-latest.zip"
 if(Test-Path $vita3kLatestBuild){
     Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder -force | Out-Null
 } else {
@@ -461,7 +461,7 @@ if(Test-Path $vita3kLatestBuild){
 
 Write-Host "INFO: Setup 3DS"
 $3dsPath = "$romPath\3ds"
-$3dsRom = "$requirementsFolder\ccleste.3dsx"
+$3dsRom = "$global:requirementsFolder\ccleste.3dsx"
 if (Test-Path $3dsRom) {
     New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
     Move-Item -Path $3dsRom -Destination $3dsPath -Force | Out-Null
@@ -473,7 +473,7 @@ else {
 
 Write-Host "INFO: Setup GBA"
 $gbaPath =  "$romPath\gba"
-$gbaRom = "$requirementsFolder\uranus0ev_fix.gba"
+$gbaRom = "$global:requirementsFolder\uranus0ev_fix.gba"
 if(Test-Path $gbaRom){
     New-Item -ItemType Directory -Force -Path $gbaPath | Out-Null
     Copy-Item -Path $gbaRom -Destination $gbaPath | Out-Null
@@ -484,7 +484,7 @@ if(Test-Path $gbaRom){
 
 Write-Host "INFO: Setup Megadrive"
 $mdPath = "$romPath\megadrive"
-$mdRom = "$requirementsFolder\rickdangerous.gen"
+$mdRom = "$global:requirementsFolder\rickdangerous.gen"
 if(Test-Path $mdRom){
     New-Item -ItemType Directory -Force -Path $mdPath | Out-Null
     Copy-Item -Path $mdRom -Destination $mdPath | Out-Null
@@ -495,7 +495,7 @@ if(Test-Path $mdRom){
 
 Write-Host "INFO: Setup SNES"
 $snesPath = "$romPath\snes"
-$snesRom = "$requirementsFolder\N-Warp Daisakusen V1.1.smc"
+$snesRom = "$global:requirementsFolder\N-Warp Daisakusen V1.1.smc"
 if(Test-Path $snesRom){
     New-Item -ItemType Directory -Force -Path $snesPath | Out-Null
     Copy-Item -Path $snesRom -Destination $snesPath | Out-Null
@@ -506,7 +506,7 @@ if(Test-Path $snesRom){
 
 Write-Host "INFO: Setup PSX"
 $psxPath = "$romPath\psx"
-$psxRom = "$requirementsFolder\Marilyn_In_the_Magic_World_(010a).7z"
+$psxRom = "$global:requirementsFolder\Marilyn_In_the_Magic_World_(010a).7z"
 if(Test-Path $psxRom){
     New-Item -ItemType Directory -Force -Path $psxPath | Out-Null
     Expand-Archive -Path $psxRom -Destination $psxPath | Out-Null
@@ -517,7 +517,7 @@ if(Test-Path $psxRom){
 
 # Write-Host "INFO: Setup PS2"
 # $ps2Path = "$romPath\ps2"
-# $ps2Rom = "$requirementsFolder\hermes-v.latest-ps2.zip"
+# $ps2Rom = "$global:requirementsFolder\hermes-v.latest-ps2.zip"
 # if(Test-Path $ps2Rom){
     # New-Item -ItemType Directory -Force -Path $ps2Path | Out-Null
     # Expand-Archive -Path $ps2Rom -Destination $ps2Path | Out-Null
@@ -532,7 +532,7 @@ New-Item -ItemType Directory -Force -Path $gbPath | Out-Null
 
 Write-Host "INFO: Setup Gameboy Colour"
 $gbcPath = "$romPath\gbc"
-$gbcRom = "$requirementsFolder\star_heritage.zip" 
+$gbcRom = "$global:requirementsFolder\star_heritage.zip" 
 if(Test-Path $gbcRom){
     New-Item -ItemType Directory -Force -Path $gbcPath | Out-Null
     Expand-Archive -Path $gbcRom -Destination $gbcPath | Out-Null
@@ -543,7 +543,7 @@ if(Test-Path $gbcRom){
 
 Write-Host "INFO: Setup Mastersystem"
 $masterSystemPath =  "$romPath\mastersystem"
-$masterSystemRom = "$requirementsFolder\WahMunchers-SMS-R2.zip" 
+$masterSystemRom = "$global:requirementsFolder\WahMunchers-SMS-R2.zip" 
 if(Test-Path $masterSystemRom){
     New-Item -ItemType Directory -Force -Path $masterSystemPath | Out-Null
     Expand-Archive -Path $masterSystemRom -Destination $masterSystemPath | Out-Null
@@ -558,7 +558,7 @@ New-Item -ItemType Directory -Force -Path $fbaPath | Out-Null
 
 Write-Host "INFO: Atari2600 Setup"
 $atari2600Path =  "$romPath\atari2600"
-$atari2600Rom = "$requirementsFolder\ramless_pong.bin"
+$atari2600Rom = "$global:requirementsFolder\ramless_pong.bin"
 if(Test-Path $atari2600Rom){
     New-Item -ItemType Directory -Force -Path $atari2600Path | Out-Null
     Copy-Item -Path $atari2600Rom -Destination $atari2600Path | Out-Null
@@ -582,7 +582,7 @@ New-Item -ItemType Directory -Force -Path $wiiuPath | Out-Null
 
 Write-Host "INFO: NeogeoPocket Setup"
 $neogeoPocketPath =  "$romPath\ngp"
-$ngpRom = "$requirementsFolder\neopocket.zip"
+$ngpRom = "$global:requirementsFolder\neopocket.zip"
 if(Test-Path $ngpRom){
     New-Item -ItemType Directory -Force -Path $neogeoPocketPath | Out-Null
     Expand-Archive -Path $ngpRom -Destination $neogeoPocketPath | Out-Null
@@ -597,7 +597,7 @@ New-Item -ItemType Directory -Force -Path $neogeoPath | Out-Null
 
 Write-Host "INFO: MSX Setup"
 $msxPath =  "$romPath\msx"
-$msxCore = "$requirementsFolder\fmsx_libretro.dll.zip"
+$msxCore = "$global:requirementsFolder\fmsx_libretro.dll.zip"
 if(Test-Path $msxCore){
     Expand-Archive -Path $msxCore -Destination $coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $msxPath | Out-Null
@@ -608,7 +608,7 @@ if(Test-Path $msxCore){
 
 Write-Host "INFO: Commodore 64 Setup"
 $commodore64Path =  "$romPath\c64"
-$commodore64Core = "$requirementsFolder\vice_x64_libretro.dll.zip"
+$commodore64Core = "$global:requirementsFolder\vice_x64_libretro.dll.zip"
 if(Test-Path $commodore64Core){
     Expand-Archive -Path $commodore64Core -Destination $coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $commodore64Path | Out-Null
@@ -619,7 +619,7 @@ if(Test-Path $commodore64Core){
 
 Write-Host "INFO: Amiga Setup"
 $amigaPath =  "$romPath\amiga"
-$amigaCore = "$requirementsFolder\puae_libretro.dll.zip"
+$amigaCore = "$global:requirementsFolder\puae_libretro.dll.zip"
 if(Test-Path $amigaCore){
     Expand-Archive -Path $amigaCore -Destination $coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $amigaPath | Out-Null
@@ -630,7 +630,7 @@ if(Test-Path $amigaCore){
 
 Write-Host "INFO: Setup Atari7800"
 $atari7800Path =  "$romPath\atari7800"
-$atari7800Core = "$requirementsFolder\prosystem_libretro.dll.zip"
+$atari7800Core = "$global:requirementsFolder\prosystem_libretro.dll.zip"
 if(Test-Path $atari7800Core){
     Expand-Archive -Path $atari7800Core -Destination $coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $atari7800Path | Out-Null
@@ -642,7 +642,7 @@ if(Test-Path $atari7800Core){
 Write-Host "INFO: Setup Wii/Gaemcube"
 $gcPath =  "$romPath\gc"
 $wiiPath = "$romPath\wii"
-$wiiRom = "$requirementsFolder\Homebrew.Channel.-.OHBC.wad"
+$wiiRom = "$global:requirementsFolder\Homebrew.Channel.-.OHBC.wad"
 New-Item -ItemType Directory -Force -Path $gcPath | Out-Null
 New-Item -ItemType Directory -Force -Path $wiiPath | Out-Null
 if(Test-Path $wiiRom){
@@ -938,10 +938,10 @@ Set-Content $esConfigFile -Value $newConfig
 
 Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
 $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$requirementsFolder\recalbox-backport-v2.2.zip"
+$themesFile = "$global:requirementsFolder\recalbox-backport-v2.2.zip"
 if(Test-Path $themesFile){
-    Expand-Archive -Path $themesFile -Destination $requirementsFolder -Force | Out-Null
-    $themesFolder = "$requirementsFolder\recalbox-backport\"
+    Expand-Archive -Path $themesFile -Destination $global:requirementsFolder -Force | Out-Null
+    $themesFolder = "$global:requirementsFolder\recalbox-backport\"
     robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
 } else {
     Write-Host "ERROR: $themesFile not found."
@@ -950,7 +950,7 @@ if(Test-Path $themesFile){
 
 Write-Host "INFO: Update EmulationStation binaries"
 $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
-$updatedEmulationStatonBinaries = "$requirementsFolder\EmulationStation-Win32.zip"
+$updatedEmulationStatonBinaries = "$global:requirementsFolder\EmulationStation-Win32.zip"
 if(Test-Path $updatedEmulationStatonBinaries){
     Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder -Force | Out-Null
 } else {
@@ -1201,7 +1201,7 @@ Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 # Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
 
 Write-Host "INFO: Adding scraper in"
-$scraperZip = "$requirementsFolder\scraper_windows_amd64.zip"
+$scraperZip = "$global:requirementsFolder\scraper_windows_amd64.zip"
 if(Test-Path $scraperZip){
     Expand-Archive -Path $scraperZip -Destination $romPath | Out-Null
 } else {
