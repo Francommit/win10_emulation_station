@@ -114,21 +114,21 @@ function Get-ScriptPath {
 }
 
 function Install-Chocolatey {
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     choco install git -y | Out-Null
 }
 
-function Install-Scoop {
+function InstallScoop {
     if($env:path -match "scoop"){
         Write-Host "INFO: Scoop appears to be installed, skipping installation"
     } else {
         Write-Host "INFO: Scoop not detected, installing scoop"            
-        iwr -useb get.scoop.sh -outfile 'installScoop.ps1'
+        Invoke-WebRequest -useb get.scoop.sh -outfile 'installScoop.ps1'
         .\installScoop.ps1 -RunAsAdmin    
     }
 
 }
-function Configure-Scoop {
+function ConfigureScoop {
     Write-Host "INFO: Running Scoop Bucket Workaround"
     # https://github.com/ScoopInstaller/Scoop/issues/4917#issuecomment-1125400640
     scoop bucket rm main
@@ -142,10 +142,10 @@ function Configure-Scoop {
     scoop install yuzu
     scoop install rpcs3
 
-    $citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
-    $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-    $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
-    $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
+    # $citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
+    # $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+    # $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+    # $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 }
 
 function Install-AdditionalSoftware {
@@ -154,7 +154,7 @@ function Install-AdditionalSoftware {
     choco install cemu --no-progress -y | Out-Null
 }
 
-function Acquire-Files {
+function AcquireFiles {
     $requirementsFolder = "$PSScriptRoot\requirements"
     New-Item -ItemType Directory -Force -Path $requirementsFolder
     DownloadFiles("downloads")
@@ -182,10 +182,10 @@ function Install-EmulationStation {
 # Main script
 Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
 Install-Chocolatey
-Install-Scoop
-Configure-Scoop
+InstallScoop
+ConfigureScoop
 Install-AdditionalSoftware
-Acquire-Files
+AcquireFiles
 Install-EmulationStation
 
 #####
