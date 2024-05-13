@@ -2,9 +2,9 @@ name: 'Build'
 
 on:
   push:
-    branches: [master, dev]
-  schedule:
-    - cron: "0 0 */2 * *"
+    branches: [master, dev, test]
+  # schedule:
+  #   - cron: "0 0 */2 * *"
 
     
 jobs:
