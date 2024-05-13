@@ -96,8 +96,10 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
 }
 
 function Get-ScriptPath {
-    $scriptPath = $MyInvocation.MyCommand.Path
-    $scriptDir = Split-Path $scriptPath
+    param (
+        [string]$ScriptPath
+    )
+    $scriptDir = Split-Path $ScriptPath
     Write-Host "INFO: Script directory is: $scriptDir"
 }
 
@@ -166,7 +168,7 @@ function Install-EmulationStation {
 }
 
 # Main script
-Get-ScriptPath
+Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
 Install-Chocolatey
 Install-Scoop
 Configure-Scoop
