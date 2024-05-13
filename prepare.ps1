@@ -1,5 +1,4 @@
 # Set vars
-$global:scriptPath = $null
 $global:scriptDir = $null
 $global:citraInstallDir = $null
 $global:ppssppInstallDir = $null
@@ -12,9 +11,9 @@ function DownloadFiles {
     
     Write-Host "Starting downloading of $jsonDownloadOption"
 
-    Write-Host "DEBUG: Script directory is: $scriptDir"
+    Write-Host "DEBUG: Script directory is: $global:scriptDir"
 
-    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
+    Get-Content "$global:scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
     
         $url = $_.url
         $file = $_.file
@@ -58,7 +57,7 @@ function DownloadFiles {
 
 function GithubReleaseFiles {
 
-    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
+    Get-Content "$global:scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand releases | ForEach-Object {
 
         $repo = $_.repo
         $file = $_.file
@@ -109,8 +108,8 @@ function Get-ScriptPath {
     param (
         [string]$ScriptPath
     )
-    $scriptDir = Split-Path $ScriptPath
-    Write-Host "INFO: Script directory is: $scriptDir"
+    $global:scriptDir = Split-Path $ScriptPath
+    Write-Host "INFO: Script directory is: $global:scriptDir"
 }
 
 function Install-Chocolatey {
