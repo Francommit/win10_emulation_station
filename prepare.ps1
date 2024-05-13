@@ -95,65 +95,84 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     }
 }
 
-# Get script path
-$scriptPath = $MyInvocation.MyCommand.Path
-$scriptDir = Split-Path $scriptPath
-Write-Host "INFO: Script directory is: $scriptDir"
-
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-choco install git -y | Out-Null
-
-# Install and setup scoop
-if($env:path -match "scoop"){
-    Write-Host "INFO: Scoop appears to be installed, skipping installation"
-} else {
-    Write-Host "INFO: Scoop not detected, installing scoop"            
-    iwr -useb get.scoop.sh -outfile 'installScoop.ps1'
-    .\installScoop.ps1 -RunAsAdmin    
+function Get-ScriptPath {
+    $scriptPath = $MyInvocation.MyCommand.Path
+    $scriptDir = Split-Path $scriptPath
+    Write-Host "INFO: Script directory is: $scriptDir"
 }
 
-Write-Host "INFO: Running Scoop Bucket Workaround"
-# https://github.com/ScoopInstaller/Scoop/issues/4917#issuecomment-1125400640
-scoop bucket rm main
-scoop bucket add main
-
-Write-Host "INFO: Adding scoop bucket"
-scoop bucket add emulators https://github.com/borger/scoop-emulators.git
-Write-Host "INFO: Installing Citra"
-scoop install citra
-scoop install ppsspp-dev
-scoop install yuzu
-scoop install rpcs3
-
-$citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
-$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-$yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
-$rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
-
-choco install 7zip --no-progress -y | Out-Null
-choco install dolphin --pre --no-progress -y | Out-Null
-choco install cemu --no-progress -y | Out-Null
-
-# Acquire files 
-$requirementsFolder = "$PSScriptRoot\requirements"
-New-Item -ItemType Directory -Force -Path $requirementsFolder
-DownloadFiles("downloads")
-DownloadFiles("other_downloads")
-GithubReleaseFiles
-
-# Install Emulation Station
-Write-Host "INFO: Starting Emulation station to generate config"
-Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
-
-# Generate Emulation Station config file
-& "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
-while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
-    Write-Host "INFO: Checking for config file..."
-    Start-Sleep 10
+function Install-Chocolatey {
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    choco install git -y | Out-Null
 }
-Write-Host "INFO: Config file generated"
-Stop-Process -Name "emulationstation"
+
+function Install-Scoop {
+    if($env:path -match "scoop"){
+        Write-Host "INFO: Scoop appears to be installed, skipping installation"
+    } else {
+        Write-Host "INFO: Scoop not detected, installing scoop"            
+        iwr -useb get.scoop.sh -outfile 'installScoop.ps1'
+        .\installScoop.ps1 -RunAsAdmin    
+    }
+
+}
+function Configure-Scoop {
+    Write-Host "INFO: Running Scoop Bucket Workaround"
+    # https://github.com/ScoopInstaller/Scoop/issues/4917#issuecomment-1125400640
+    scoop bucket rm main
+    scoop bucket add main
+
+    Write-Host "INFO: Adding scoop bucket"
+    scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+    Write-Host "INFO: Installing Citra"
+    scoop install citra
+    scoop install ppsspp-dev
+    scoop install yuzu
+    scoop install rpcs3
+
+    $citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
+    $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+    $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+    $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
+}
+
+function Install-AdditionalSoftware {
+    choco install 7zip --no-progress -y | Out-Null
+    choco install dolphin --pre --no-progress -y | Out-Null
+    choco install cemu --no-progress -y | Out-Null
+}
+
+function Acquire-Files {
+    $requirementsFolder = "$PSScriptRoot\requirements"
+    New-Item -ItemType Directory -Force -Path $requirementsFolder
+    DownloadFiles("downloads")
+    DownloadFiles("other_downloads")
+    GithubReleaseFiles
+}
+
+function Install-EmulationStation {
+    Write-Host "INFO: Starting Emulation station to generate config"
+    Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
+
+    # Generate Emulation Station config file
+    & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
+    while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
+        Write-Host "INFO: Checking for config file..."
+        Start-Sleep 10
+    }
+    Write-Host "INFO: Config file generated"
+    Stop-Process -Name "emulationstation"
+
+}
+
+# Main script
+Get-ScriptPath
+Install-Chocolatey
+Install-Scoop
+Configure-Scoop
+Install-AdditionalSoftware
+Acquire-Files
+Install-EmulationStation
 
 #####
 # Retroarch
