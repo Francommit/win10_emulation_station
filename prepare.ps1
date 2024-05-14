@@ -87,14 +87,20 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     $WinRar_Application = "C:\Program Files\WinRAR\WinRAR.exe"
     $WinRar_Arguments = @(
         'x',                        # eXtract files with full paths
-        "-ad $Destination",         # set Output directory
+        "-ad",                      # set Output directory
+        "'$Destination'",           # <archive_name>
         "'$Path'"                   # <archive_name>
     )
 
     Write-Output "Extracting file: $Path to destination: $Destination"
     Write-Output "DEBUG: $Path contains:"
     dir $Path
-    
+
+    if (-not (Test-Path -Path $Destination -PathType Container)) {
+        Write-Output "Destination path does not exist, creating: $Destination"
+        New-Item -ItemType Directory -Path $Destination -Force
+    }
+
     Write-Output "DEBUG: Command is: $WinRar_Application $WinRar_Arguments"
     & $WinRar_Application $WinRar_Arguments
     if ($LASTEXITCODE -ne 0) {
