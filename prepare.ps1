@@ -89,7 +89,6 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
         'x',                        # eXtract files with full paths
         "-y",                       # Say Yes to all queries (overwrite)
         "-ad $Destination",         # set Output directory
-        "-ilogcon",                 # log to console
         "'$Path'"                   # <archive_name>
     )
 
