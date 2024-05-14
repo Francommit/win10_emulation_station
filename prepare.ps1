@@ -113,16 +113,13 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     )
 
     Write-Output "Extracting file: $Path to destination: $Destination"
+    Write-Output "DEBUG: $Path contains:"
+    dir $Path
     
-    if ($VerboseLogging) {
-        Write-Output $WinRar_Application $WinRar_Arguments
-        & $WinRar_Application $WinRar_Arguments
-        if ($LASTEXITCODE -ne 0) {
-            throw "WinRAR exited with code $LASTEXITCODE"
-        }
-    } else {
-      Write-Output $WinRar_Application $WinRar_Arguments
-        & $WinRar_Application $WinRar_Arguments
+    Write-Output "DEBUG: Command is: $WinRar_Application $WinRar_Arguments"
+    & $WinRar_Application $WinRar_Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "WinRAR exited with code $LASTEXITCODE"
     }
 }
 
