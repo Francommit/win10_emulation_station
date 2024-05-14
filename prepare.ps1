@@ -209,6 +209,10 @@ Install-AdditionalSoftware
 AcquireFiles
 Install-EmulationStation
 
+
+Write-Host "DEBUG: Checking if winrar lives here"
+dir 'C:\Program Files\WinRAR\'
+
 #####
 # Retroarch
 #####
