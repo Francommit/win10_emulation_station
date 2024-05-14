@@ -91,9 +91,9 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
         "'$Path'"                   # <archive_name>
     )
 
-    Write-Output "Extracting file: $Path to destination: $Destination"
-    Write-Output "DEBUG: $Path contains:"
-    dir $Path
+    Write-Output "INFO: Extracting file: $Path to destination: $Destination"
+    # Write-Output "DEBUG: $Path contains:"
+    # dir $Path
     
     if (-not (Test-Path -Path $Destination -PathType Container)) {
         Write-Output "INFO: Destination path does not exist, creating: $Destination"
@@ -106,6 +106,8 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     if ($LASTEXITCODE -ne 0) {
         throw "WinRAR exited with code $LASTEXITCODE"
     }
+    
+    Write-Output "INFO: Expansion completed"
     
 }
 
