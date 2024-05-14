@@ -87,30 +87,29 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     $WinRar_Application = "C:\Program Files\WinRAR\WinRAR.exe"
     $WinRar_Arguments = @(
         'x',                        # eXtract files with full paths
+        "-y",                       # Say Yes to all queries (overwrite)
+        "-idq",                     # Disable all messages
         "-ad $Destination",         # set Output directory
         "'$Path'"                   # <archive_name>
     )
 
     Write-Output "INFO: Extracting file: $Path to destination: $Destination"
-    # Write-Output "DEBUG: $Path contains:"
-    # dir $Path
-    
+
     if (-not (Test-Path -Path $Destination -PathType Container)) {
         Write-Output "INFO: Destination path does not exist, creating: $Destination"
         New-Item -ItemType Directory -Path $Destination -Force
-    } else{
-      Write-Output "INFO: Destination path already exists"
+    } else {
+        Write-Output "INFO: Destination path already exists"
     }
 
     & $WinRar_Application $WinRar_Arguments
     if ($LASTEXITCODE -ne 0) {
         throw "WinRAR exited with code $LASTEXITCODE"
     }
-    
-    Write-Output "INFO: Expansion completed"
-    
-}
 
+    Write-Output "INFO: Expansion completed"
+
+}
 function Get-ScriptPath {
     param (
         [string]$ScriptPath
