@@ -83,24 +83,44 @@ function GithubReleaseFiles {
 
 }
 
+# function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLogging = $false) {
+#     $7z_Application = "C:\Program Files\7-Zip\7z.exe"
+#     $7z_Arguments = @(
+#         'x',                         # eXtract files with full paths
+#         '-y',                        # assume Yes on all queries
+#         "`"-o$($Destination)`"",     # set Output directory
+#         "`"$($Path)`""               # <archive_name>
+#     )
+
+#     Write-Output "Extracting file: $Path to destination: $Destination"
+    
+#     if ($VerboseLogging) {
+#         & $7z_Application $7z_Arguments
+#         if ($LASTEXITCODE -ne 0) {
+#             throw "7-Zip exited with code $LASTEXITCODE"
+#         }
+#     } else {
+#         & $7z_Application $7z_Arguments | Out-Null
+#     }
+# }
+
 function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLogging = $false) {
-    $7z_Application = "C:\Program Files\7-Zip\7z.exe"
-    $7z_Arguments = @(
+    $WinRar_Application = "C:\Program Files\WinRAR\WinRAR.exe"
+    $WinRar_Arguments = @(
         'x',                         # eXtract files with full paths
-        '-y',                        # assume Yes on all queries
-        "`"-o$($Destination)`"",     # set Output directory
+        "-o$($Destination)",         # set Output directory
         "`"$($Path)`""               # <archive_name>
     )
 
     Write-Output "Extracting file: $Path to destination: $Destination"
     
     if ($VerboseLogging) {
-        & $7z_Application $7z_Arguments
+        & $WinRar_Application $WinRar_Arguments
         if ($LASTEXITCODE -ne 0) {
-            throw "7-Zip exited with code $LASTEXITCODE"
+            throw "WinRAR exited with code $LASTEXITCODE"
         }
     } else {
-        & $7z_Application $7z_Arguments | Out-Null
+        & $WinRar_Application $WinRar_Arguments | Out-Null
     }
 }
 
