@@ -211,6 +211,9 @@ if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath 
     
     Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
+        
+      Write-Output "DEBUG: See what is in this location"
+      dir $global:requirementsFolder
         # TO-DO - add an Out-Null when this has been tested
     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
         # New path - $retroArchPath\RetroArch-Win64
