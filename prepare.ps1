@@ -108,8 +108,8 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     $WinRar_Application = "C:\Program Files\WinRAR\Rar.exe"
     $WinRar_Arguments = @(
         'x',                        # eXtract files with full paths
-        "-ad $Destination",          # set Output directory
-        "`"$($Path)`""              # <archive_name>
+        "-ad $Destination",         # set Output directory
+        "'$Path'"                   # <archive_name>
     )
 
     Write-Output "Extracting file: $Path to destination: $Destination"
@@ -120,8 +120,7 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
             throw "WinRAR exited with code $LASTEXITCODE"
         }
     } else {
-        # & $WinRar_Application $WinRar_Arguments | Out-Null
-        & $WinRar_Application $WinRar_Arguments
+        & $WinRar_Application $WinRar_Arguments | Out-Null
     }
 }
 
