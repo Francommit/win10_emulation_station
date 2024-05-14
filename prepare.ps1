@@ -105,7 +105,7 @@ function GithubReleaseFiles {
 # }
 
 function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLogging = $false) {
-    $WinRar_Application = "C:\Program Files\WinRAR\WinRAR.exe"
+    $WinRar_Application = "C:\Program Files\WinRAR\Rar.exe"
     $WinRar_Arguments = @(
         'x',                         # eXtract files with full paths
         "-o$($Destination)",         # set Output directory
