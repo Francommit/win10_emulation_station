@@ -88,8 +88,8 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     $WinRar_Arguments = @(
         'x',                        # eXtract files with full paths
         "-y",                       # Say Yes to all queries (overwrite)
-        "-idq",                     # Disable all messages
         "-ad $Destination",         # set Output directory
+        "-ilogcon",                 # log to console
         "'$Path'"                   # <archive_name>
     )
 
@@ -110,6 +110,7 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     Write-Output "INFO: Expansion completed"
 
 }
+
 function Get-ScriptPath {
     param (
         [string]$ScriptPath
@@ -194,10 +195,6 @@ ConfigureScoop
 Install-AdditionalSoftware
 AcquireFiles
 Install-EmulationStation
-
-
-Write-Host "DEBUG: Checking if winrar lives here"
-dir 'C:\Program Files\WinRAR\'
 
 #####
 # Retroarch
