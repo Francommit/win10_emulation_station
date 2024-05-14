@@ -120,7 +120,8 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
             throw "WinRAR exited with code $LASTEXITCODE"
         }
     } else {
-        & $WinRar_Application $WinRar_Arguments | Out-Null
+        # & $WinRar_Application $WinRar_Arguments | Out-Null
+        & $WinRar_Application $WinRar_Arguments
     }
 }
 
