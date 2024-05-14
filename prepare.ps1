@@ -146,6 +146,7 @@ function InstallScoop {
     }
 
 }
+
 function ConfigureScoop {
     Write-Host "INFO: Running Scoop Bucket Workaround"
     # https://github.com/ScoopInstaller/Scoop/issues/4917#issuecomment-1125400640
@@ -167,7 +168,7 @@ function ConfigureScoop {
 }
 
 function Install-AdditionalSoftware {
-    choco install 7zip --no-progress -y | Out-Null
+    # choco install 7zip --no-progress -y | Out-Null
     choco install winrar --no-progress -y | Out-Null
     choco install dolphin --pre --no-progress -y | Out-Null
     choco install cemu --no-progress -y | Out-Null
@@ -221,13 +222,8 @@ $retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
 if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath 
     
-            write-host "DEBUG: doing a dir 1"
-        dir $global:requirementsFolder\
-    
     Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
         # TO-DO - add an Out-Null when this has been tested
-        write-host "DEBUG: doing a dir 2"
-        dir $global:requirementsFolder\
     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
         # New path - $retroArchPath\RetroArch-Win64
 
