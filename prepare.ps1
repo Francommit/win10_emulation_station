@@ -411,7 +411,7 @@ Setup-EmulatorCores
 
 # Start Retroarch and generate a config.
 $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
-$global:retroarchConfigPath = "$global:rglobal:etroArchPath\retroarch.cfg"
+$global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
 
 if (Test-Path $global:retroarchExecutable) {
     
