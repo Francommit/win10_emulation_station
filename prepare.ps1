@@ -85,13 +85,6 @@ function GithubReleaseFiles {
 
 function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLogging = $false) {
     $7z_Application = "C:\Program Files\7-Zip\7z.exe"
-    # $7z_Arguments = @(
-    #     'x',                         # eXtract files with full paths
-    #     '-y',                        # assume Yes on all queries
-    #     "`"-o$($Destination)`"",     # set Output directory
-    #     "`"$($Path)`""               # <archive_name>
-    # )
-
     $7z_Arguments = @(
     'x',                         # eXtract files with full paths
     '-y',                        # assume Yes on all queries
@@ -99,9 +92,7 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     "$Path"                      # <archive_name>
     )
 
-
     Write-Output "INFO: Extracting file: $Path to destination: $Destination"
-    
 
     if (-not (Test-Path -Path $Destination -PathType Container)) {
         Write-Output "INFO: Destination path does not exist, creating: $Destination"
@@ -155,10 +146,10 @@ function ConfigureScoop {
     scoop install yuzu
     scoop install rpcs3
 
-    # $citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
-    # $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-    # $yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
-    # $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
+    $global:citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
+    $global:ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+    $global:yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+    global:rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 }
 
 function Install-AdditionalSoftware {
@@ -712,7 +703,7 @@ $newConfig = "<systemList>
         <fullname>Switch</fullname>
         <path>$switchPath</path>
         <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
-        <command>$yuzuInstallDir\yuzu.exe %ROM%</command>
+        <command>$global:yuzuInstallDir\yuzu.exe %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
@@ -721,7 +712,7 @@ $newConfig = "<systemList>
         <fullname>PS3</fullname>
         <path>$ps3Path</path>
         <extension>.iso .ISO .zip .ZIP .7z .pkg .PKG</extension>
-        <command>$rpcs3InstallDir\rpcs3.exe %ROM%</command>
+        <commandglobal:rpcs3InstallDir\rpcs3.exe %ROM%</command>
         <platform>ps3</platform>
         <theme>ps3</theme>
     </system>
@@ -730,7 +721,7 @@ $newConfig = "<systemList>
         <fullname>Playstation Portable</fullname>
         <path>$pspPath</path>
         <extension>.iso .ISO .cso .CSO .elf .ELF .pbp .PBP</extension>
-        <command>$ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
+        <command>$global:ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
         <platform>psp</platform>
         <theme>psp</theme>
     </system>
@@ -739,7 +730,7 @@ $newConfig = "<systemList>
         <fullname>Nintendo 3DS</fullname>
         <path>$3dsPath</path>
         <extension>.3ds .3DS .3dsx .3DSX .cci .CCI .cxi .CXI .elf .ELF</extension>
-        <command>$citraInstallDir\citra.exe %ROM%</command>
+        <command>$global:citraInstallDir\citra.exe %ROM%</command>
         <platform>n3ds</platform>
         <theme>3ds</theme>
     </system>
