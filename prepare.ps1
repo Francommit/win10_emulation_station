@@ -101,12 +101,14 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
         Write-Output "INFO: Destination path already exists"
     }
 
-    & $WinRar_Application $WinRar_Arguments
+    # & $WinRar_Application $WinRar_Arguments
+    Write-Output "INFO: Attempting expansion"
+    & $WinRar_Application x $Path $Destination
     if ($LASTEXITCODE -ne 0) {
         throw "WinRAR exited with code $LASTEXITCODE"
+    } else {
+      Write-Output "INFO: Expansion completed without error"
     }
-
-    Write-Output "INFO: Expansion completed"
 
 }
 
