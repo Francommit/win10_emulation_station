@@ -413,7 +413,7 @@ Setup-EmulatorCores
 $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
 $global:retroarchConfigPath = "$global:rglobal:etroArchPath\retroarch.cfg"
 
-iglobal:f (Test-Path $global:retroarchExecutable) {
+if (Test-Path $global:retroarchExecutable) {
     
     Write-Host "INFO: Retroarch executable found, launching"
     Start-Process $global:retroarchExecutable
