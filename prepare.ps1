@@ -85,12 +85,20 @@ function GithubReleaseFiles {
 
 function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLogging = $false) {
     $7z_Application = "C:\Program Files\7-Zip\7z.exe"
+    # $7z_Arguments = @(
+    #     'x',                         # eXtract files with full paths
+    #     '-y',                        # assume Yes on all queries
+    #     "`"-o$($Destination)`"",     # set Output directory
+    #     "`"$($Path)`""               # <archive_name>
+    # )
+
     $7z_Arguments = @(
-        'x',                         # eXtract files with full paths
-        '-y',                        # assume Yes on all queries
-        "`"-o$($Destination)`"",     # set Output directory
-        "`"$($Path)`""               # <archive_name>
+    'x',                         # eXtract files with full paths
+    '-y',                        # assume Yes on all queries
+    "-o$($Destination)",         # set Output directory
+    "$Path"                      # <archive_name>
     )
+
 
     Write-Output "INFO: Extracting file: $Path to destination: $Destination"
     
@@ -106,7 +114,7 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     if ($LASTEXITCODE -ne 0) {
         throw "7-Zip exited with code $LASTEXITCODE"
     }
-    
+
 }
 
 function Get-ScriptPath {
