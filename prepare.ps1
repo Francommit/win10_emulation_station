@@ -179,7 +179,6 @@ function Install-EmulationStation {
 }
 
 
-
 # Main script
 Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
 Install-Chocolatey
@@ -703,7 +702,7 @@ $newConfig = "<systemList>
         <fullname>PS3</fullname>
         <path>$ps3Path</path>
         <extension>.iso .ISO .zip .ZIP .7z .pkg .PKG</extension>
-        <commandglobal:rpcs3InstallDir\rpcs3.exe %ROM%</command>
+        <command>$global:rpcs3InstallDir\rpcs3.exe %ROM%</command>
         <platform>ps3</platform>
         <theme>ps3</theme>
     </system>
