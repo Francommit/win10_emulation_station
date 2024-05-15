@@ -84,35 +84,24 @@ function GithubReleaseFiles {
 }
 
 function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLogging = $false) {
-    $WinRar_Application = "C:\Program Files\WinRAR\WinRAR.exe"
-    $WinRar_Arguments = @(
-        'x',                        # eXtract files with full paths
-        "-y",                       # Say Yes to all queries (overwrite)
-        "-ad $Destination",         # set Output directory
-        "'$Path'"                   # <archive_name>
+    $7z_Application = "C:\Program Files\7-Zip\7z.exe"
+    $7z_Arguments = @(
+        'x',                         # eXtract files with full paths
+        '-y',                        # assume Yes on all queries
+        "`"-o$($Destination)`"",     # set Output directory
+        "`"$($Path)`""               # <archive_name>
     )
 
-    Write-Output "INFO: Extracting file: $Path to destination: $Destination"
-
-    if (-not (Test-Path -Path $Destination -PathType Container)) {
-        Write-Output "INFO: Destination path does not exist, creating: $Destination"
-        New-Item -ItemType Directory -Path $Destination -Force
-    } else {
-        Write-Output "INFO: Destination path already exists"
-    }
-
-    # & $WinRar_Application $WinRar_Arguments
-    Write-Output "INFO: Attempting expansion"
-    # & $WinRar_Application -help
-    & $WinRar_Application x $Path $Destination
-    Get-Process winrar | Wait-Process
+    Write-Output "Extracting file: $Path to destination: $Destination"
     
-    if ($LASTEXITCODE -ne 0) {
-        throw "WinRAR exited with code $LASTEXITCODE"
+    if ($VerboseLogging) {
+        & $7z_Application $7z_Arguments
+        if ($LASTEXITCODE -ne 0) {
+            throw "7-Zip exited with code $LASTEXITCODE"
+        }
     } else {
-      Write-Output "INFO: Expansion completed without error"
+        & $7z_Application $7z_Arguments | Out-Null
     }
-
 }
 
 function Get-ScriptPath {
@@ -160,8 +149,7 @@ function ConfigureScoop {
 }
 
 function Install-AdditionalSoftware {
-    # choco install 7zip --no-progress -y | Out-Null
-    choco install winrar --no-progress -y | Out-Null
+    choco install 7zip --no-progress -y | Out-Null
     choco install dolphin --pre --no-progress -y | Out-Null
     choco install cemu --no-progress -y | Out-Null
 }
