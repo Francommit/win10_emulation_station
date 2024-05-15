@@ -146,7 +146,7 @@ function ConfigureScoop {
     $global:citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
     $global:ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
     $global:yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
-    global:rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
+    $global:rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 }
 
 function Install-AdditionalSoftware {
