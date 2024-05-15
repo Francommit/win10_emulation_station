@@ -92,16 +92,21 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
         "`"$($Path)`""               # <archive_name>
     )
 
-    Write-Output "Extracting file: $Path to destination: $Destination"
+    Write-Output "INFO: Extracting file: $Path to destination: $Destination"
     
-    if ($VerboseLogging) {
-        & $7z_Application $7z_Arguments
-        if ($LASTEXITCODE -ne 0) {
-            throw "7-Zip exited with code $LASTEXITCODE"
-        }
+
+    if (-not (Test-Path -Path $Destination -PathType Container)) {
+        Write-Output "INFO: Destination path does not exist, creating: $Destination"
+        New-Item -ItemType Directory -Path $Destination -Force
     } else {
-        & $7z_Application $7z_Arguments | Out-Null
+        Write-Output "INFO: Destination path already exists"
     }
+
+    & $7z_Application $7z_Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "7-Zip exited with code $LASTEXITCODE"
+    }
+    
 }
 
 function Get-ScriptPath {
