@@ -189,12 +189,11 @@ function Setup-EmulatorCores {
     # Retroarch Setup
     $global:retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
     $global:coresPath = "$global:retroArchPath\cores"
-    $global:retroArchBinary = "$global:global:requirementsFolder\RetroArch.7z"
     $global:retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
   
     if(Test-Path $global:retroArchBinary){
         New-Item -ItemType Directory -Force -Path $global:retroArchPath 
-        Expand-Archive -Path $global:retroArchBinary -Destination $global:global:requirementsFolder -VerboseLogging $true
+        Expand-Archive -Path $global:retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
         Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $global:retroArchPath -recurse -Force
     } else {
         Write-Host "ERROR: $global:retroArchBinary not found."
@@ -286,7 +285,7 @@ Setup-EmulatorCores
 # # Prepare Retroarch
 # if(Test-Path $global:retroArchBinary){
 #     New-Item -ItemType Directory -Force -Path $global:retroArchPath 
-#     Expand-Archive -Path $global:retroArchBinary -Destination $global:global:requirementsFolder -VerboseLogging $true
+#     Expand-Archive -Path $global:retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
 #     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $global:retroArchPath -recurse -Force
 global:
 # } else {
