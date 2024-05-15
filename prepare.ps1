@@ -178,6 +178,85 @@ function Install-EmulationStation {
 
 }
 
+function Setup-EmulatorCores {
+    # Retroarch Setup
+    $retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
+    if(Test-Path $retroArchBinary){
+        New-Item -ItemType Directory -Force -Path $retroArchPath 
+        Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
+        Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+
+    } else {
+        Write-Host "ERROR: $retroArchBinary not found."
+        exit -1
+    }
+
+    # NES Setup
+    Setup-EmulatorCore "fceumm_libretro.dll.zip" "fceumm_libretro.dll.zip"
+
+    # N64 Setup
+    Setup-EmulatorCore "parallel_n64_libretro.dll.zip" "parallel_n64_libretro.dll.zip"
+
+    # FBA Setup
+    Setup-EmulatorCore "fbalpha2012_libretro.dll.zip" "fbalpha2012_libretro.dll.zip"
+
+    # GBA Setup
+    Setup-EmulatorCore "vba_next_libretro.dll.zip" "vba_next_libretro.dll.zip"
+
+    # SNES Setup
+    Setup-EmulatorCore "snes9x_libretro.dll.zip" "snes9x_libretro.dll.zip"
+
+    # Genesis GX Setup
+    Setup-EmulatorCore "genesis_plus_gx_libretro.dll.zip" "genesis_plus_gx_libretro.dll.zip"
+
+    # Game boy Colour Setup
+    Setup-EmulatorCore "gambatte_libretro.dll.zip" "gambatte_libretro.dll.zip"
+
+    # Atari2600 Setup
+    Setup-EmulatorCore "stella_libretro.dll.zip" "stella_libretro.dll.zip"
+
+    # MAME Setup
+    Setup-EmulatorCore "mame2010_libretro.dll.zip" "mame2010_libretro.dll.zip"
+
+    # NeoGeo Pocket Setup
+    Setup-EmulatorCore "race_libretro.dll.zip" "race_libretro.dll.zip"
+
+    # PSX Setup
+    $psxEmulator = "$global:requirementsFolder\ePSXe205.zip"
+    if(Test-Path $psxEmulator){
+        $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
+        $psxBiosPath = $psxEmulatorPath + "bios\"
+        New-Item -ItemType Directory -Force -Path $psxEmulatorPath | Out-Null
+        Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath | Out-Null
+    } else {
+        Write-Host "ERROR: $psxEmulator not found."
+        exit -1
+    }
+
+    # PS2 Setup
+    $ps2EmulatorMsi = "$global:requirementsFolder\pcsx2-1.6.0-setup.exe"
+    if(Test-Path $ps2EmulatorMsi){
+        $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
+        $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
+        $ps2BiosPath = "$ps2EmulatorPath\bios\"
+        Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath | Out-Null
+        New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
+    } else {
+        Write-Host "ERROR: $ps2EmulatorMsi not found."
+        exit -1
+    }
+}
+
+function Setup-EmulatorCore([string]$coreName, [string]$zipFileName) {
+    $corePath = "$global:requirementsFolder\$zipFileName"
+    if(Test-Path $corePath){
+        Expand-Archive -Path $corePath -Destination $coresPath | Out-Null
+    } else {
+        Write-Host "ERROR: $corePath not found."
+        exit -1
+    }
+}
+
 
 # Main script
 Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
@@ -188,138 +267,141 @@ Install-AdditionalSoftware
 AcquireFiles
 Install-EmulationStation
 
-#####
-# Retroarch
-#####
-# Prepare Retroarch
-$retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
-$coresPath = "$retroArchPath\cores"
-$retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
-if(Test-Path $retroArchBinary){
-    New-Item -ItemType Directory -Force -Path $retroArchPath 
-    Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
-    Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+# Set up Retroarch and emulator cores
+Setup-EmulatorCores
 
-} else {
-    Write-Host "ERROR: $retroArchBinary not found."
-    exit -1
-}
+# #####
+# # Retroarch
+# #####
+# # Prepare Retroarch
+# $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
+# $coresPath = "$retroArchPath\cores"
+# $retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
+# if(Test-Path $retroArchBinary){
+#     New-Item -ItemType Directory -Force -Path $retroArchPath 
+#     Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
+#     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+
+# } else {
+#     Write-Host "ERROR: $retroArchBinary not found."
+#     exit -1
+# }
 
 
-# NES Setup
-$nesCore = "$global:requirementsFolder\fceumm_libretro.dll.zip"
-if(Test-Path $nesCore){
-    Expand-Archive -Path $nesCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $nesCore not found."
-    exit -1
-}
+# # NES Setup
+# $nesCore = "$global:requirementsFolder\fceumm_libretro.dll.zip"
+# if(Test-Path $nesCore){
+#     Expand-Archive -Path $nesCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $nesCore not found."
+#     exit -1
+# }
 
-# N64 Setup
-$n64Core = "$global:requirementsFolder\parallel_n64_libretro.dll.zip"
-if(Test-Path $n64Core){
-    Expand-Archive -Path $n64Core -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $n64Core not found."
-    exit -1
-}
+# # N64 Setup
+# $n64Core = "$global:requirementsFolder\parallel_n64_libretro.dll.zip"
+# if(Test-Path $n64Core){
+#     Expand-Archive -Path $n64Core -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $n64Core not found."
+#     exit -1
+# }
 
-# FBA Setup
-$fbaCore = "$global:requirementsFolder\fbalpha2012_libretro.dll.zip"
-if(Test-Path $fbaCore){
-    Expand-Archive -Path $fbaCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $fbaCore not found."
-    exit -1
-}
+# # FBA Setup
+# $fbaCore = "$global:requirementsFolder\fbalpha2012_libretro.dll.zip"
+# if(Test-Path $fbaCore){
+#     Expand-Archive -Path $fbaCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $fbaCore not found."
+#     exit -1
+# }
 
-# GBA Setup
-$gbaCore = "$global:requirementsFolder\vba_next_libretro.dll.zip"
-if(Test-Path $gbaCore){
-    Expand-Archive -Path $gbaCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $gbaCore not found."
-    exit -1
-}
+# # GBA Setup
+# $gbaCore = "$global:requirementsFolder\vba_next_libretro.dll.zip"
+# if(Test-Path $gbaCore){
+#     Expand-Archive -Path $gbaCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $gbaCore not found."
+#     exit -1
+# }
 
-# SNES Setup
-$snesCore = "$global:requirementsFolder\snes9x_libretro.dll.zip"
-if(Test-Path $snesCore){
-    Expand-Archive -Path $snesCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $snesCore not found."
-    exit -1
-}
+# # SNES Setup
+# $snesCore = "$global:requirementsFolder\snes9x_libretro.dll.zip"
+# if(Test-Path $snesCore){
+#     Expand-Archive -Path $snesCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $snesCore not found."
+#     exit -1
+# }
 
-# Genesis GX Setup
-$mdCore = "$global:requirementsFolder\genesis_plus_gx_libretro.dll.zip"
-if(Test-Path $mdCore){
-    Expand-Archive -Path $mdCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $mdCore not found."
-    exit -1
-}
+# # Genesis GX Setup
+# $mdCore = "$global:requirementsFolder\genesis_plus_gx_libretro.dll.zip"
+# if(Test-Path $mdCore){
+#     Expand-Archive -Path $mdCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $mdCore not found."
+#     exit -1
+# }
 
-# Game boy Colour Setup
-$gbcCore = "$global:requirementsFolder\gambatte_libretro.dll.zip"
-if(Test-Path $gbcCore){
-    Expand-Archive -Path $gbcCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $gbcCore not found."
-    exit -1
-}
+# # Game boy Colour Setup
+# $gbcCore = "$global:requirementsFolder\gambatte_libretro.dll.zip"
+# if(Test-Path $gbcCore){
+#     Expand-Archive -Path $gbcCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $gbcCore not found."
+#     exit -1
+# }
 
-# Atari2600 Setup
-$atari2600Core = "$global:requirementsFolder\stella_libretro.dll.zip"
-if(Test-Path $atari2600Core){
-    Expand-Archive -Path $atari2600Core -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $atari2600Core not found."
-    exit -1
-}
+# # Atari2600 Setup
+# $atari2600Core = "$global:requirementsFolder\stella_libretro.dll.zip"
+# if(Test-Path $atari2600Core){
+#     Expand-Archive -Path $atari2600Core -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $atari2600Core not found."
+#     exit -1
+# }
 
-# MAME Setup
-$mameCore = "$global:requirementsFolder\mame2010_libretro.dll.zip"
-if(Test-Path $mameCore){
-    Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $mameCore not found."
-    exit -1
-}
+# # MAME Setup
+# $mameCore = "$global:requirementsFolder\mame2010_libretro.dll.zip"
+# if(Test-Path $mameCore){
+#     Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $mameCore not found."
+#     exit -1
+# }
 
-# PSX Setup
-$psxEmulator = "$global:requirementsFolder\ePSXe205.zip"
-if(Test-Path $psxEmulator){
-    $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
-    $psxBiosPath = $psxEmulatorPath + "bios\"
-    New-Item -ItemType Directory -Force -Path $psxEmulatorPath | Out-Null
-    Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath | Out-Null
-} else {
-    Write-Host "ERROR: $psxEmulator not found."
-    exit -1
-}
+# # PSX Setup
+# $psxEmulator = "$global:requirementsFolder\ePSXe205.zip"
+# if(Test-Path $psxEmulator){
+#     $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
+#     $psxBiosPath = $psxEmulatorPath + "bios\"
+#     New-Item -ItemType Directory -Force -Path $psxEmulatorPath | Out-Null
+#     Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $psxEmulator not found."
+#     exit -1
+# }
 
-# PS2 Setup
-$ps2EmulatorMsi = "$global:requirementsFolder\pcsx2-1.6.0-setup.exe"
-if(Test-Path $ps2EmulatorMsi){
-    $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
-    $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
-    $ps2BiosPath = "$ps2EmulatorPath\bios\"
-    Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath | Out-Null
-    New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
-} else {
-    Write-Host "ERROR: $ps2EmulatorMsi not found."
-    exit -1
-}
+# # PS2 Setup
+# $ps2EmulatorMsi = "$global:requirementsFolder\pcsx2-1.6.0-setup.exe"
+# if(Test-Path $ps2EmulatorMsi){
+#     $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
+#     $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
+#     $ps2BiosPath = "$ps2EmulatorPath\bios\"
+#     Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath | Out-Null
+#     New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $ps2EmulatorMsi not found."
+#     exit -1
+# }
 
-# NeoGeo Pocket Setup
-$ngpCore = "$global:requirementsFolder\race_libretro.dll.zip"
-if(Test-Path $ngpCore){
-    Expand-Archive -Path $ngpCore -Destination $coresPath | Out-Null
-} else {
-    Write-Host "ERROR: $ngpCore not found."
-    exit -1
-}
+# # NeoGeo Pocket Setup
+# $ngpCore = "$global:requirementsFolder\race_libretro.dll.zip"
+# if(Test-Path $ngpCore){
+#     Expand-Archive -Path $ngpCore -Destination $coresPath | Out-Null
+# } else {
+#     Write-Host "ERROR: $ngpCore not found."
+#     exit -1
+# }
 
 # Start Retroarch and generate a config.
 $retroarchExecutable = "$retroArchPath\retroarch.exe"
