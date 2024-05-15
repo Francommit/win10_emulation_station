@@ -287,7 +287,7 @@ Setup-EmulatorCores
 #     New-Item -ItemType Directory -Force -Path $global:retroArchPath 
 #     Expand-Archive -Path $global:retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
 #     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $global:retroArchPath -recurse -Force
-global:
+# global:
 # } else {
 #     Write-Host "ERROR: $global:retroArchBinary not found."
 #     exit -1
