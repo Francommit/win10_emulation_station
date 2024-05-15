@@ -8,6 +8,9 @@ $global:requirementsFolder = $null
 $global:retroarchExecutable = $null
 $global:retroarchConfigPath = $null
 
+$global:retroArchPath = $null
+$global:coresPath = $null
+$global:retroArchBinary = $null
 
 
 function DownloadFiles {
@@ -184,14 +187,17 @@ function Install-EmulationStation {
 
 function Setup-EmulatorCores {
     # Retroarch Setup
-    $retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
-    if(Test-Path $retroArchBinary){
-        New-Item -ItemType Directory -Force -Path $retroArchPath 
-        Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
-        Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
-
+    $global:retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
+    $global:coresPath = "$global:retroArchPath\cores"
+    $global:retroArchBinary = "$global:global:requirementsFolder\RetroArch.7z"
+    $global:retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
+  
+    if(Test-Path $global:retroArchBinary){
+        New-Item -ItemType Directory -Force -Path $global:retroArchPath 
+        Expand-Archive -Path $global:retroArchBinary -Destination $global:global:requirementsFolder -VerboseLogging $true
+        Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $global:retroArchPath -recurse -Force
     } else {
-        Write-Host "ERROR: $retroArchBinary not found."
+        Write-Host "ERROR: $global:retroArchBinary not found."
         exit -1
     }
 
@@ -254,7 +260,7 @@ function Setup-EmulatorCores {
 function Setup-EmulatorCore([string]$coreName, [string]$zipFileName) {
     $corePath = "$global:requirementsFolder\$zipFileName"
     if(Test-Path $corePath){
-        Expand-Archive -Path $corePath -Destination $coresPath | Out-Null
+        Expand-Archive -Path $corePath -Destination $global:coresPath | Out-Null
     } else {
         Write-Host "ERROR: $corePath not found."
         exit -1
@@ -278,16 +284,13 @@ Setup-EmulatorCores
 # # Retroarch
 # #####
 # # Prepare Retroarch
-# $retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
-# $coresPath = "$retroArchPath\cores"
-# $retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
-# if(Test-Path $retroArchBinary){
-#     New-Item -ItemType Directory -Force -Path $retroArchPath 
-#     Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
-#     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
-
+# if(Test-Path $global:retroArchBinary){
+#     New-Item -ItemType Directory -Force -Path $global:retroArchPath 
+#     Expand-Archive -Path $global:retroArchBinary -Destination $global:global:requirementsFolder -VerboseLogging $true
+#     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $global:retroArchPath -recurse -Force
+global:
 # } else {
-#     Write-Host "ERROR: $retroArchBinary not found."
+#     Write-Host "ERROR: $global:retroArchBinary not found."
 #     exit -1
 # }
 
@@ -295,7 +298,7 @@ Setup-EmulatorCores
 # # NES Setup
 # $nesCore = "$global:requirementsFolder\fceumm_libretro.dll.zip"
 # if(Test-Path $nesCore){
-#     Expand-Archive -Path $nesCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $nesCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $nesCore not found."
 #     exit -1
@@ -304,7 +307,7 @@ Setup-EmulatorCores
 # # N64 Setup
 # $n64Core = "$global:requirementsFolder\parallel_n64_libretro.dll.zip"
 # if(Test-Path $n64Core){
-#     Expand-Archive -Path $n64Core -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $n64Core -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $n64Core not found."
 #     exit -1
@@ -313,7 +316,7 @@ Setup-EmulatorCores
 # # FBA Setup
 # $fbaCore = "$global:requirementsFolder\fbalpha2012_libretro.dll.zip"
 # if(Test-Path $fbaCore){
-#     Expand-Archive -Path $fbaCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $fbaCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $fbaCore not found."
 #     exit -1
@@ -322,7 +325,7 @@ Setup-EmulatorCores
 # # GBA Setup
 # $gbaCore = "$global:requirementsFolder\vba_next_libretro.dll.zip"
 # if(Test-Path $gbaCore){
-#     Expand-Archive -Path $gbaCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $gbaCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $gbaCore not found."
 #     exit -1
@@ -331,7 +334,7 @@ Setup-EmulatorCores
 # # SNES Setup
 # $snesCore = "$global:requirementsFolder\snes9x_libretro.dll.zip"
 # if(Test-Path $snesCore){
-#     Expand-Archive -Path $snesCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $snesCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $snesCore not found."
 #     exit -1
@@ -340,7 +343,7 @@ Setup-EmulatorCores
 # # Genesis GX Setup
 # $mdCore = "$global:requirementsFolder\genesis_plus_gx_libretro.dll.zip"
 # if(Test-Path $mdCore){
-#     Expand-Archive -Path $mdCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $mdCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $mdCore not found."
 #     exit -1
@@ -349,7 +352,7 @@ Setup-EmulatorCores
 # # Game boy Colour Setup
 # $gbcCore = "$global:requirementsFolder\gambatte_libretro.dll.zip"
 # if(Test-Path $gbcCore){
-#     Expand-Archive -Path $gbcCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $gbcCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $gbcCore not found."
 #     exit -1
@@ -358,7 +361,7 @@ Setup-EmulatorCores
 # # Atari2600 Setup
 # $atari2600Core = "$global:requirementsFolder\stella_libretro.dll.zip"
 # if(Test-Path $atari2600Core){
-#     Expand-Archive -Path $atari2600Core -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $atari2600Core -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $atari2600Core not found."
 #     exit -1
@@ -367,7 +370,7 @@ Setup-EmulatorCores
 # # MAME Setup
 # $mameCore = "$global:requirementsFolder\mame2010_libretro.dll.zip"
 # if(Test-Path $mameCore){
-#     Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $mameCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $mameCore not found."
 #     exit -1
@@ -401,17 +404,17 @@ Setup-EmulatorCores
 # # NeoGeo Pocket Setup
 # $ngpCore = "$global:requirementsFolder\race_libretro.dll.zip"
 # if(Test-Path $ngpCore){
-#     Expand-Archive -Path $ngpCore -Destination $coresPath | Out-Null
+#     Expand-Archive -Path $ngpCore -Destination $global:coresPath | Out-Null
 # } else {
 #     Write-Host "ERROR: $ngpCore not found."
 #     exit -1
 # }
 
 # Start Retroarch and generate a config.
-$global:retroarchExecutable = "$retroArchPath\retroarch.exe"
-$global:retroarchConfigPath = "$retroArchPath\retroarch.cfg"
+$global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
+$global:retroarchConfigPath = "$global:rglobal:etroArchPath\retroarch.cfg"
 
-if (Test-Path $global:retroarchExecutable) {
+iglobal:f (Test-Path $global:retroarchExecutable) {
     
     Write-Host "INFO: Retroarch executable found, launching"
     Start-Process $global:retroarchExecutable
@@ -684,7 +687,7 @@ Write-Host "INFO: MSX Setup"
 $msxPath =  "$romPath\msx"
 $msxCore = "$global:requirementsFolder\fmsx_libretro.dll.zip"
 if(Test-Path $msxCore){
-    Expand-Archive -Path $msxCore -Destination $coresPath | Out-Null
+    Expand-Archive -Path $msxCore -Destination $global:coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $msxPath | Out-Null
 } else {
     Write-Host "ERROR: $msxCore not found."
@@ -695,7 +698,7 @@ Write-Host "INFO: Commodore 64 Setup"
 $commodore64Path =  "$romPath\c64"
 $commodore64Core = "$global:requirementsFolder\vice_x64_libretro.dll.zip"
 if(Test-Path $commodore64Core){
-    Expand-Archive -Path $commodore64Core -Destination $coresPath | Out-Null
+    Expand-Archive -Path $commodore64Core -Destination $global:coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $commodore64Path | Out-Null
 } else {
     Write-Host "ERROR: $commodore64Core not found."
@@ -706,7 +709,7 @@ Write-Host "INFO: Amiga Setup"
 $amigaPath =  "$romPath\amiga"
 $amigaCore = "$global:requirementsFolder\puae_libretro.dll.zip"
 if(Test-Path $amigaCore){
-    Expand-Archive -Path $amigaCore -Destination $coresPath | Out-Null
+    Expand-Archive -Path $amigaCore -Destination $global:coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $amigaPath | Out-Null
 } else {
     Write-Host "ERROR: $amigaCore not found."
@@ -717,7 +720,7 @@ Write-Host "INFO: Setup Atari7800"
 $atari7800Path =  "$romPath\atari7800"
 $atari7800Core = "$global:requirementsFolder\prosystem_libretro.dll.zip"
 if(Test-Path $atari7800Core){
-    Expand-Archive -Path $atari7800Core -Destination $coresPath | Out-Null
+    Expand-Archive -Path $atari7800Core -Destination $global:coresPath | Out-Null
     New-Item -ItemType Directory -Force -Path $atari7800Path | Out-Null
 } else {
     Write-Host "ERROR: $atari7800Core not found."
@@ -815,7 +818,7 @@ $newConfig = "<systemList>
         <fullname>Nintendo Entertainment System</fullname>
         <path>$nesPath</path>
         <extension>.nes .NES .fds .FDS .unif .UNIF .unf .UNF</extension>
-        <command>$global:retroarchExecutable -L $coresPath\fceumm_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\fceumm_libretro.dll %ROM%</command>
         <platform>nes</platform>
         <theme>nes</theme>
     </system>
@@ -824,7 +827,7 @@ $newConfig = "<systemList>
         <name>snes</name>
         <path>$snesPath</path>
         <extension>.smc .SMC .sfc .SFC .fig .FIG .swc .SWC .bs .BS .st .ST</extension>
-        <command>$global:retroarchExecutable -L $coresPath\snes9x_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\snes9x_libretro.dll %ROM%</command>
         <platform>snes</platform>
         <theme>snes</theme>
     </system>
@@ -833,7 +836,7 @@ $newConfig = "<systemList>
         <name>n64</name>
         <path>$n64Path</path>
         <extension>.z64 .Z64 .n64 .N64 .v64 .V64 .zip .ZIP .7z .7Z</extension>
-        <command>$global:retroarchExecutable -L $coresPath\parallel_n64_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\parallel_n64_libretro.dll %ROM%</command>
         <platform>n64</platform>
         <theme>n64</theme>
     </system>
@@ -860,7 +863,7 @@ $newConfig = "<systemList>
         <name>gb</name>
         <path>$gbPath</path>
         <extension>.gb .GB .dmg .DMG .zip .ZIP .7z .7Z</extension>
-        <command>$global:retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\gambatte_libretro.dll %ROM%</command>
         <platform>gb</platform>
         <theme>gb</theme>
     </system>
@@ -869,7 +872,7 @@ $newConfig = "<systemList>
         <name>gbc</name>
         <path>$gbcPath</path>
         <extension>.gbc .GBC .dmg .DMG .zip .ZIP</extension>
-        <command>$global:retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\gambatte_libretro.dll %ROM%</command>
         <platform>gbc</platform>
         <theme>gbc</theme>
     </system>
@@ -878,7 +881,7 @@ $newConfig = "<systemList>
         <name>gba</name>
         <path>$gbaPath</path>
         <extension>.gba .GBA</extension>
-        <command>$global:retroarchExecutable -L $coresPath\vba_next_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\vba_next_libretro.dll %ROM%</command>
         <platform>gba</platform>
         <theme>gba</theme>
     </system>
@@ -905,7 +908,7 @@ $newConfig = "<systemList>
         <name>mame</name>
         <path>$mamePath</path>
         <extension>.zip .ZIP</extension>
-        <command>$global:retroarchExecutable -L $coresPath\mame2010_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\mame2010_libretro.dll %ROM%</command>
         <platform>mame</platform>
         <theme>mame</theme>
     </system>
@@ -914,7 +917,7 @@ $newConfig = "<systemList>
         <name>fba</name>
         <path>$fbaPath</path>
         <extension>.zip .ZIP .fba .FBA</extension>
-        <command>$global:retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\fbalpha2012_libretro.dll %ROM%</command>
         <platform>arcade</platform>
         <theme></theme>
     </system>
@@ -923,7 +926,7 @@ $newConfig = "<systemList>
         <name>amiga</name>
         <path>$amigaPath</path>
         <extension>.adf .ADF</extension>
-        <command>$global:retroarchExecutable -L $coresPath\puae_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\puae_libretro.dll %ROM%</command>
         <platform>amiga</platform>
         <theme>amiga</theme>
     </system>
@@ -932,7 +935,7 @@ $newConfig = "<systemList>
         <name>atari2600</name>
         <path>$atari2600Path</path>
         <extension>.a26 .bin .rom .A26 .BIN .ROM</extension>
-        <command>$global:retroarchExecutable -L $coresPath\stella_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\stella_libretro.dll %ROM%</command>
         <platform>atari2600</platform>
         <theme>atari2600</theme>
     </system>
@@ -941,7 +944,7 @@ $newConfig = "<systemList>
         <name>atari7800</name>
         <path>$atari7800Path</path>
         <extension>.a78 .bin .A78 .BIN</extension>
-        <command>$global:retroarchExecutable -L $coresPath\prosystem_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\prosystem_libretro.dll %ROM%</command>
         <platform>atari7800</platform>
         <theme>atari7800</theme>
     </system>
@@ -950,7 +953,7 @@ $newConfig = "<systemList>
         <name>c64</name>
         <path>$commodore64Path</path>
         <extension>.crt .d64 .g64 .t64 .tap .x64 .zip .CRT .D64 .G64 .T64 .TAP .X64 .ZIP</extension>
-        <command>$global:retroarchExecutable -L $coresPath\vice_x64_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\vice_x64_libretro.dll %ROM%</command>
         <platform>c64</platform>
         <theme>c64</theme>
     </system>
@@ -959,7 +962,7 @@ $newConfig = "<systemList>
         <name>megadrive</name>
         <path>$mdPath</path>
         <extension>.smd .SMD .bin .BIN .gen .GEN .md .MD .zip .ZIP</extension>
-        <command>$global:retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
         <platform>genesis,megadrive</platform>
         <theme>megadrive</theme>
     </system>
@@ -968,7 +971,7 @@ $newConfig = "<systemList>
         <name>mastersystem</name>
         <path>$masterSystemPath</path>
         <extension>.bin .sms .zip .BIN .SMS .ZIP</extension>
-        <command>$global:retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
         <platform>mastersystem</platform>
         <theme>mastersystem</theme>
     </system>
@@ -977,7 +980,7 @@ $newConfig = "<systemList>
         <name>msx</name>
         <path>$msxPath</path>
         <extension>.col .dsk .mx1 .mx2 .rom .COL .DSK .MX1 .MX2 .ROM</extension>
-        <command>$global:retroarchExecutable -L $coresPath\fmsx_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $global:coresPath\fmsx_libretro.dll %ROM%</command>
         <platform>msx</platform>
         <theme>msx</theme>
     </system>
@@ -986,7 +989,7 @@ $newConfig = "<systemList>
         <fullname>Neo Geo</fullname>
         <path>$neogeoPath</path>
         <extension>.zip .ZIP</extension>
-        <command>$global:retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>        
+        <command>$global:retroarchExecutable -L $global:coresPath\fbalpha2012_libretro.dll %ROM%</command>        
         <platform>neogeo</platform>
         <theme>neogeo</theme>
     </system>
@@ -995,7 +998,7 @@ $newConfig = "<systemList>
         <name>ngp</name>
         <path>$neogeoPocketPath</path>
         <extension>.ngp .ngc .zip .ZIP</extension>
-        <command>$global:retroarchExecutable -L $coresPath\race_libretro.dll %ROM%</command>        
+        <command>$global:retroarchExecutable -L $global:coresPath\race_libretro.dll %ROM%</command>        
         <platform>ngp</platform>
         <theme>ngp</theme>
     </system>
