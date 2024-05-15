@@ -9,10 +9,7 @@ $global:requirementsFolder = $null
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
     
-    Write-Host "Starting downloading of $jsonDownloadOption"
-
-    Write-Host "DEBUG: Script directory is: $global:scriptDir"
-
+    Write-Output "INFO:Starting downloading of $jsonDownloadOption"
     Get-Content "$global:scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
     
         $url = $_.url
@@ -201,14 +198,8 @@ $coresPath = "$retroArchPath\cores"
 $retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
 if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath 
-    
     Expand-Archive -Path $retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
-        
-      Write-Output "DEBUG: See what is in this location"
-      dir $global:requirementsFolder
-        # TO-DO - add an Out-Null when this has been tested
     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
-        # New path - $retroArchPath\RetroArch-Win64
 
 } else {
     Write-Host "ERROR: $retroArchBinary not found."
