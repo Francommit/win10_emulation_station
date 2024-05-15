@@ -5,6 +5,10 @@ $global:ppssppInstallDir = $null
 $global:yuzuInstallDir = $null
 $global:rpcs3InstallDir = $null
 $global:requirementsFolder = $null
+$global:retroarchExecutable = $null
+$global:retroarchConfigPath = $null
+
+
 
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
@@ -404,15 +408,15 @@ Setup-EmulatorCores
 # }
 
 # Start Retroarch and generate a config.
-$retroarchExecutable = "$retroArchPath\retroarch.exe"
-$retroarchConfigPath = "$retroArchPath\retroarch.cfg"
+$global:retroarchExecutable = "$retroArchPath\retroarch.exe"
+$global:retroarchConfigPath = "$retroArchPath\retroarch.cfg"
 
-if (Test-Path $retroarchExecutable) {
+if (Test-Path $global:retroarchExecutable) {
     
     Write-Host "INFO: Retroarch executable found, launching"
-    Start-Process $retroarchExecutable
+    Start-Process $global:retroarchExecutable
     
-    while (!(Test-Path $retroarchConfigPath)) { 
+    while (!(Test-Path $global:retroarchConfigPath)) { 
         Write-Host "INFO: Checking for retroarch config file"
         Start-Sleep 5
     }
@@ -437,19 +441,19 @@ if (Test-Path $retroarchExecutable) {
 Write-Host "INFO: Replacing retroarch config"
 $settingToFind = 'video_fullscreen = "false"'
 $settingToSet = 'video_fullscreen = "true"'
-(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 
 $settingToFind = 'savestate_auto_load = "false"'
 $settingToSet = 'savestate_auto_load = "true"'
-(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 
 $settingToFind = 'input_player1_analog_dpad_mode = "0"'
 $settingToSet = 'input_player1_analog_dpad_mode = "1"'
-(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 
 $settingToFind = 'input_player2_analog_dpad_mode = "0"'
 $settingToSet = 'input_player2_analog_dpad_mode = "1"'
-(Get-Content $retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $retroarchConfigPath
+(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 
 # Add roms
 $romPath =  "$env:userprofile\.emulationstation\roms"
@@ -811,7 +815,7 @@ $newConfig = "<systemList>
         <fullname>Nintendo Entertainment System</fullname>
         <path>$nesPath</path>
         <extension>.nes .NES .fds .FDS .unif .UNIF .unf .UNF</extension>
-        <command>$retroarchExecutable -L $coresPath\fceumm_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\fceumm_libretro.dll %ROM%</command>
         <platform>nes</platform>
         <theme>nes</theme>
     </system>
@@ -820,7 +824,7 @@ $newConfig = "<systemList>
         <name>snes</name>
         <path>$snesPath</path>
         <extension>.smc .SMC .sfc .SFC .fig .FIG .swc .SWC .bs .BS .st .ST</extension>
-        <command>$retroarchExecutable -L $coresPath\snes9x_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\snes9x_libretro.dll %ROM%</command>
         <platform>snes</platform>
         <theme>snes</theme>
     </system>
@@ -829,7 +833,7 @@ $newConfig = "<systemList>
         <name>n64</name>
         <path>$n64Path</path>
         <extension>.z64 .Z64 .n64 .N64 .v64 .V64 .zip .ZIP .7z .7Z</extension>
-        <command>$retroarchExecutable -L $coresPath\parallel_n64_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\parallel_n64_libretro.dll %ROM%</command>
         <platform>n64</platform>
         <theme>n64</theme>
     </system>
@@ -856,7 +860,7 @@ $newConfig = "<systemList>
         <name>gb</name>
         <path>$gbPath</path>
         <extension>.gb .GB .dmg .DMG .zip .ZIP .7z .7Z</extension>
-        <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
         <platform>gb</platform>
         <theme>gb</theme>
     </system>
@@ -865,7 +869,7 @@ $newConfig = "<systemList>
         <name>gbc</name>
         <path>$gbcPath</path>
         <extension>.gbc .GBC .dmg .DMG .zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\gambatte_libretro.dll %ROM%</command>
         <platform>gbc</platform>
         <theme>gbc</theme>
     </system>
@@ -874,7 +878,7 @@ $newConfig = "<systemList>
         <name>gba</name>
         <path>$gbaPath</path>
         <extension>.gba .GBA</extension>
-        <command>$retroarchExecutable -L $coresPath\vba_next_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\vba_next_libretro.dll %ROM%</command>
         <platform>gba</platform>
         <theme>gba</theme>
     </system>
@@ -901,7 +905,7 @@ $newConfig = "<systemList>
         <name>mame</name>
         <path>$mamePath</path>
         <extension>.zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\mame2010_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\mame2010_libretro.dll %ROM%</command>
         <platform>mame</platform>
         <theme>mame</theme>
     </system>
@@ -910,7 +914,7 @@ $newConfig = "<systemList>
         <name>fba</name>
         <path>$fbaPath</path>
         <extension>.zip .ZIP .fba .FBA</extension>
-        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>
         <platform>arcade</platform>
         <theme></theme>
     </system>
@@ -919,7 +923,7 @@ $newConfig = "<systemList>
         <name>amiga</name>
         <path>$amigaPath</path>
         <extension>.adf .ADF</extension>
-        <command>$retroarchExecutable -L $coresPath\puae_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\puae_libretro.dll %ROM%</command>
         <platform>amiga</platform>
         <theme>amiga</theme>
     </system>
@@ -928,7 +932,7 @@ $newConfig = "<systemList>
         <name>atari2600</name>
         <path>$atari2600Path</path>
         <extension>.a26 .bin .rom .A26 .BIN .ROM</extension>
-        <command>$retroarchExecutable -L $coresPath\stella_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\stella_libretro.dll %ROM%</command>
         <platform>atari2600</platform>
         <theme>atari2600</theme>
     </system>
@@ -937,7 +941,7 @@ $newConfig = "<systemList>
         <name>atari7800</name>
         <path>$atari7800Path</path>
         <extension>.a78 .bin .A78 .BIN</extension>
-        <command>$retroarchExecutable -L $coresPath\prosystem_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\prosystem_libretro.dll %ROM%</command>
         <platform>atari7800</platform>
         <theme>atari7800</theme>
     </system>
@@ -946,7 +950,7 @@ $newConfig = "<systemList>
         <name>c64</name>
         <path>$commodore64Path</path>
         <extension>.crt .d64 .g64 .t64 .tap .x64 .zip .CRT .D64 .G64 .T64 .TAP .X64 .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\vice_x64_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\vice_x64_libretro.dll %ROM%</command>
         <platform>c64</platform>
         <theme>c64</theme>
     </system>
@@ -955,7 +959,7 @@ $newConfig = "<systemList>
         <name>megadrive</name>
         <path>$mdPath</path>
         <extension>.smd .SMD .bin .BIN .gen .GEN .md .MD .zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
         <platform>genesis,megadrive</platform>
         <theme>megadrive</theme>
     </system>
@@ -964,7 +968,7 @@ $newConfig = "<systemList>
         <name>mastersystem</name>
         <path>$masterSystemPath</path>
         <extension>.bin .sms .zip .BIN .SMS .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\genesis_plus_gx_libretro.dll %ROM%</command>
         <platform>mastersystem</platform>
         <theme>mastersystem</theme>
     </system>
@@ -973,7 +977,7 @@ $newConfig = "<systemList>
         <name>msx</name>
         <path>$msxPath</path>
         <extension>.col .dsk .mx1 .mx2 .rom .COL .DSK .MX1 .MX2 .ROM</extension>
-        <command>$retroarchExecutable -L $coresPath\fmsx_libretro.dll %ROM%</command>
+        <command>$global:retroarchExecutable -L $coresPath\fmsx_libretro.dll %ROM%</command>
         <platform>msx</platform>
         <theme>msx</theme>
     </system>
@@ -982,7 +986,7 @@ $newConfig = "<systemList>
         <fullname>Neo Geo</fullname>
         <path>$neogeoPath</path>
         <extension>.zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>        
+        <command>$global:retroarchExecutable -L $coresPath\fbalpha2012_libretro.dll %ROM%</command>        
         <platform>neogeo</platform>
         <theme>neogeo</theme>
     </system>
@@ -991,7 +995,7 @@ $newConfig = "<systemList>
         <name>ngp</name>
         <path>$neogeoPocketPath</path>
         <extension>.ngp .ngc .zip .ZIP</extension>
-        <command>$retroarchExecutable -L $coresPath\race_libretro.dll %ROM%</command>        
+        <command>$global:retroarchExecutable -L $coresPath\race_libretro.dll %ROM%</command>        
         <platform>ngp</platform>
         <theme>ngp</theme>
     </system>
