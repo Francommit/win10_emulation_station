@@ -103,8 +103,10 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
 
     # & $WinRar_Application $WinRar_Arguments
     Write-Output "INFO: Attempting expansion"
-    & $WinRar_Application -help
+    # & $WinRar_Application -help
     & $WinRar_Application x $Path $Destination
+    Get-Process winrar | Wait-Process
+    
     if ($LASTEXITCODE -ne 0) {
         throw "WinRAR exited with code $LASTEXITCODE"
     } else {
