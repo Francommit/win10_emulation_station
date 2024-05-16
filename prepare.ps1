@@ -266,20 +266,6 @@ function Setup-EmulatorCore([string]$coreName, [string]$zipFileName) {
     }
 }
 
-
-# Main script
-Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
-Install-Chocolatey
-InstallScoop
-ConfigureScoop
-Install-AdditionalSoftware
-AcquireFiles
-Install-EmulationStation
-
-# Set up Retroarch and emulator cores
-Setup-EmulatorCores
-
-
 function Start-RetroarchAndGenerateConfig {
     # Start Retroarch and generate a config.
     $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
@@ -330,339 +316,319 @@ function Start-RetroarchAndGenerateConfig {
     (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 }
 
-# Call the function
-Start-RetroarchAndGenerateConfig
+function Setup-Roms {
+    # Add roms
+    $romPath = "$env:userprofile\.emulationstation\roms"
+    New-Item -ItemType Directory -Force -Path $romPath | Out-Null
 
+    # Path creation + Open-Source / Freeware Rom population
+    Write-Host "INFO: Setup NES"
+    $nesPath = "$romPath\nes"
+    $nesRom = "$global:requirementsFolder\assimilate_full.zip" 
+    if (Test-Path $nesRom) {
+        New-Item -ItemType Directory -Force -Path $nesPath | Out-Null
+        Expand-Archive -Path $nesRom -Destination $nesPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $nesRom not found."
+        exit -1
+    }
 
-# # Start Retroarch and generate a config.
-# $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
-# $global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
+    Write-Host "INFO: Setup N64"
+    $n64Path = "$romPath\n64"
+    $n64Rom = "$global:requirementsFolder\pom-twin.zip"
+    if (Test-Path $n64Rom) {
+        New-Item -ItemType Directory -Force -Path $n64Path | Out-Null
+        Expand-Archive -Path $n64Rom -Destination $n64Path | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $n64Rom not found."
+        exit -1
+    }
 
-# if (Test-Path $global:retroarchExecutable) {
-    
-#     Write-Host "INFO: Retroarch executable found, launching"
-#     Start-Process $global:retroarchExecutable
-    
-#     while (!(Test-Path $global:retroarchConfigPath)) { 
-#         Write-Host "INFO: Checking for retroarch config file"
-#         Start-Sleep 5
-#     }
+    Write-Host "INFO: Setup psp"
+    $pspPath = "$romPath\psp"
+    $pspRom = "$global:requirementsFolder\cube.elf"
+    if (Test-Path $pspRom) {
+        New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
+        Move-Item -Path $pspRom -Destination $pspPath -Force | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $pspRom not found."
+        exit -1
+    }
 
-#     $retroarchProcess = Get-Process retroarch.exe -ErrorAction SilentlyContinue
-#     if ($retroarchProcess) {
-#         $retroarchProcess.CloseMainWindow()
-#         Start-sleep 5
-#         if (!$retroarchProcess.HasExited) {
-#             $retroarchProcess | Stop-Process -Force
-#         }
-#     }
-#     Stop-Process -Name "retroarch" -ErrorAction SilentlyContinue
+    Write-Host "INFO: Setup Nintendo Switch"
+    $switchPath = "$romPath\switch"
+    $switchRom = "$global:requirementsFolder\tetriswitch.nro"
+    if (Test-Path $switchRom) {
+        New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
+        Move-Item -Path $switchRom -Destination $switchPath -Force | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $switchRom not found."
+        exit -1
+    }
 
-# } else {
-#     Write-Host "ERROR: Could not find retroarch.exe"
-#     exit -1
-# }
+    Write-Host "INFO: Setup PS3"
+    $ps3Path = "$romPath\ps3"
+    $ps3Rom = "$global:requirementsFolder\Avoidance_v1.3.pkg"
+    if (Test-Path $ps3Rom) {
+        New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
+        Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $ps3Rom not found."
+        exit -1
+    }
 
+    Write-Host "INFO: Setup PS Vita"
+    $vitaPath = "$romPath\vita"
+    $vitaRom = "$global:requirementsFolder\C4.vpk"
+    if (Test-Path $vitaRom) {
+        New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
+        Move-Item -Path $vitaRom -Destination $vitaPath -Force | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $vitaRom not found."
+        exit -1
+    }
 
-# # Tweak retroarch config!
-# Write-Host "INFO: Replacing retroarch config"
-# $settingToFind = 'video_fullscreen = "false"'
-# $settingToSet = 'video_fullscreen = "true"'
-# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+    Write-Host "INFO: Setup Vita3k"
+    $vita3kInstallFolder = "${env:ProgramFiles}\Vita3k"
+    if (-not(Test-Path $vita3kInstallFolder)) {
+        New-Item -ItemType Directory -Force -Path $vita3kInstallFolder | Out-Null
+    }
 
-# $settingToFind = 'savestate_auto_load = "false"'
-# $settingToSet = 'savestate_auto_load = "true"'
-# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+    $vita3kLatestBuild = "$global:requirementsFolder\windows-latest.zip"
+    if (Test-Path $vita3kLatestBuild) {
+        Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder -force | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $vita3kLatestBuild not found."
+        exit -1
+    }
 
-# $settingToFind = 'input_player1_analog_dpad_mode = "0"'
-# $settingToSet = 'input_player1_analog_dpad_mode = "1"'
-# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+    Write-Host "INFO: Setup 3DS"
+    $3dsPath = "$romPath\3ds"
+    $3dsRom = "$global:requirementsFolder\ccleste.3dsx"
+    if (Test-Path $3dsRom) {
+        New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
+        Move-Item -Path $3dsRom -Destination $3dsPath -Force | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $3dsRom not found."
+        exit -1
+    }
 
-# $settingToFind = 'input_player2_analog_dpad_mode = "0"'
-# $settingToSet = 'input_player2_analog_dpad_mode = "1"'
-# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+    Write-Host "INFO: Setup GBA"
+    $gbaPath = "$romPath\gba"
+    $gbaRom = "$global:requirementsFolder\uranus0ev_fix.gba"
+    if (Test-Path $gbaRom) {
+        New-Item -ItemType Directory -Force -Path $gbaPath | Out-Null
+        Copy-Item -Path $gbaRom -Destination $gbaPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $gbaRom not found."
+        exit -1
+    }
 
-# Add roms
-$romPath =  "$env:userprofile\.emulationstation\roms"
-New-Item -ItemType Directory -Force -Path $romPath | Out-Null
+    Write-Host "INFO: Setup Megadrive"
+    $mdPath = "$romPath\megadrive"
+    $mdRom = "$global:requirementsFolder\rickdangerous.gen"
+    if (Test-Path $mdRom) {
+        New-Item -ItemType Directory -Force -Path $mdPath | Out-Null
+        Copy-Item -Path $mdRom -Destination $mdPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $mdRom not found."
+        exit -1
+    }
 
-# Path creation + Open-Source / Freeware Rom population
-Write-Host "INFO: Setup NES"
-$nesPath =  "$romPath\nes"
-$nesRom = "$global:requirementsFolder\assimilate_full.zip" 
-if(Test-Path $nesRom){
-    New-Item -ItemType Directory -Force -Path $nesPath | Out-Null
-    Expand-Archive -Path $nesRom -Destination $nesPath | Out-Null
-} else {
-    Write-Host "ERROR: $nesRom not found."
-    exit -1
-}
+    Write-Host "INFO: Setup SNES"
+    $snesPath = "$romPath\snes"
+    $snesRom = "$global:requirementsFolder\N-Warp Daisakusen V1.1.smc"
+    if (Test-Path $snesRom) {
+        New-Item -ItemType Directory -Force -Path $snesPath | Out-Null
+        Copy-Item -Path $snesRom -Destination $snesPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $snesRom not found."
+        exit -1
+    }
 
-Write-Host "INFO: Setup N64"
-$n64Path =  "$romPath\n64"
-$n64Rom = "$global:requirementsFolder\pom-twin.zip"
-if(Test-Path $n64Rom){
-    New-Item -ItemType Directory -Force -Path $n64Path | Out-Null
-    Expand-Archive -Path $n64Rom -Destination $n64Path | Out-Null
-} else {
-    Write-Host "ERROR: $n64Rom not found."
-    exit -1
-}
+    Write-Host "INFO: Setup PSX"
+    $psxPath = "$romPath\psx"
+    $psxRom = "$global:requirementsFolder\Marilyn_In_the_Magic_World_(010a).7z"
+    if (Test-Path $psxRom) {
+        New-Item -ItemType Directory -Force -Path $psxPath | Out-Null
+        Expand-Archive -Path $psxRom -Destination $psxPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $psxRom not found."
+        exit -1
+    }
 
-Write-Host "INFO: Setup psp"
-$pspPath = "$romPath\psp"
-$pspRom = "$global:requirementsFolder\cube.elf"
-if (Test-Path $pspRom) {
-    New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
-    Move-Item -Path $pspRom -Destination $pspPath -Force | Out-Null
-}
-else {
-    Write-Host "ERROR: $pspRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup Nintendo Switch"
-$switchPath = "$romPath\switch"
-$switchRom = "$global:requirementsFolder\tetriswitch.nro"
-if (Test-Path $switchRom) {
-    New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
-    Move-Item -Path $switchRom -Destination $switchPath -Force | Out-Null
-}
-else {
-    Write-Host "ERROR: $switchRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup PS3"
-$ps3Path = "$romPath\ps3"
-$ps3Rom = "$global:requirementsFolder\Avoidance_v1.3.pkg"
-if (Test-Path $ps3Rom) {
-    New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
-    Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
-}
-else {
-    Write-Host "ERROR: $ps3Rom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup PS Vita"
-$vitaPath = "$romPath\vita"
-$vitaRom = "$global:requirementsFolder\C4.vpk"
-if (Test-Path $vitaRom) {
-    New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
-    Move-Item -Path $vitaRom -Destination $vitaPath -Force | Out-Null
-}
-else {
-    Write-Host "ERROR: $vitaRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup Vita3k"
-$vita3kInstallFolder = "${env:ProgramFiles}\Vita3k"
-if(-not(Test-Path $vita3kInstallFolder)){
-    New-Item -ItemType Directory -Force -Path $vita3kInstallFolder | Out-Null
-}
-
-$vita3kLatestBuild = "$global:requirementsFolder\windows-latest.zip"
-if(Test-Path $vita3kLatestBuild){
-    Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder -force | Out-Null
-} else {
-    Write-Host "ERROR: $vita3kLatestBuild not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup 3DS"
-$3dsPath = "$romPath\3ds"
-$3dsRom = "$global:requirementsFolder\ccleste.3dsx"
-if (Test-Path $3dsRom) {
-    New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
-    Move-Item -Path $3dsRom -Destination $3dsPath -Force | Out-Null
-}
-else {
-    Write-Host "ERROR: $3dsRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup GBA"
-$gbaPath =  "$romPath\gba"
-$gbaRom = "$global:requirementsFolder\uranus0ev_fix.gba"
-if(Test-Path $gbaRom){
-    New-Item -ItemType Directory -Force -Path $gbaPath | Out-Null
-    Copy-Item -Path $gbaRom -Destination $gbaPath | Out-Null
-} else {
-    Write-Host "ERROR: $gbaRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup Megadrive"
-$mdPath = "$romPath\megadrive"
-$mdRom = "$global:requirementsFolder\rickdangerous.gen"
-if(Test-Path $mdRom){
-    New-Item -ItemType Directory -Force -Path $mdPath | Out-Null
-    Copy-Item -Path $mdRom -Destination $mdPath | Out-Null
-} else {
-    Write-Host "ERROR: $mdRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup SNES"
-$snesPath = "$romPath\snes"
-$snesRom = "$global:requirementsFolder\N-Warp Daisakusen V1.1.smc"
-if(Test-Path $snesRom){
-    New-Item -ItemType Directory -Force -Path $snesPath | Out-Null
-    Copy-Item -Path $snesRom -Destination $snesPath | Out-Null
-} else {
-    Write-Host "ERROR: $snesRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup PSX"
-$psxPath = "$romPath\psx"
-$psxRom = "$global:requirementsFolder\Marilyn_In_the_Magic_World_(010a).7z"
-if(Test-Path $psxRom){
-    New-Item -ItemType Directory -Force -Path $psxPath | Out-Null
-    Expand-Archive -Path $psxRom -Destination $psxPath | Out-Null
-} else {
-    Write-Host "ERROR: $psxRom not found."
-    exit -1
-}
-
-# Write-Host "INFO: Setup PS2"
-# $ps2Path = "$romPath\ps2"
-# $ps2Rom = "$global:requirementsFolder\hermes-v.latest-ps2.zip"
-# if(Test-Path $ps2Rom){
+    # Write-Host "INFO: Setup PS2"
+    # $ps2Path = "$romPath\ps2"
+    # $ps2Rom = "$global:requirementsFolder\hermes-v.latest-ps2.zip"
+    # if(Test-Path $ps2Rom){
     # New-Item -ItemType Directory -Force -Path $ps2Path | Out-Null
     # Expand-Archive -Path $ps2Rom -Destination $ps2Path | Out-Null
     # } else {
     # Write-Host "ERROR: $ps2Rom not found."
     # exit -1
-# }
+    # }
 
-Write-Host "INFO: Setup Gameboy"
-$gbPath = "$romPath\gb"
-New-Item -ItemType Directory -Force -Path $gbPath | Out-Null
+    Write-Host "INFO: Setup Gameboy"
+    $gbPath = "$romPath\gb"
+    New-Item -ItemType Directory -Force -Path $gbPath | Out-Null
 
-Write-Host "INFO: Setup Gameboy Colour"
-$gbcPath = "$romPath\gbc"
-$gbcRom = "$global:requirementsFolder\star_heritage.zip" 
-if(Test-Path $gbcRom){
-    New-Item -ItemType Directory -Force -Path $gbcPath | Out-Null
-    Expand-Archive -Path $gbcRom -Destination $gbcPath | Out-Null
-} else {
-    Write-Host "ERROR: $gbcRom not found."
-    exit -1
+    Write-Host "INFO: Setup Gameboy Colour"
+    $gbcPath = "$romPath\gbc"
+    $gbcRom = "$global:requirementsFolder\star_heritage.zip" 
+    if (Test-Path $gbcRom) {
+        New-Item -ItemType Directory -Force -Path $gbcPath | Out-Null
+        Expand-Archive -Path $gbcRom -Destination $gbcPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $gbcRom not found."
+        exit -1
+    }
+
+    Write-Host "INFO: Setup Mastersystem"
+    $masterSystemPath = "$romPath\mastersystem"
+    $masterSystemRom = "$global:requirementsFolder\WahMunchers-SMS-R2.zip" 
+    if (Test-Path $masterSystemRom) {
+        New-Item -ItemType Directory -Force -Path $masterSystemPath | Out-Null
+        Expand-Archive -Path $masterSystemRom -Destination $masterSystemPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $masterSystemRom not found."
+        exit -1
+    }
+
+    Write-Host "INFO: Setup FBA"
+    $fbaPath = "$romPath\fba"
+    New-Item -ItemType Directory -Force -Path $fbaPath | Out-Null
+
+    Write-Host "INFO: Atari2600 Setup"
+    $atari2600Path = "$romPath\atari2600"
+    $atari2600Rom = "$global:requirementsFolder\ramless_pong.bin"
+    if (Test-Path $atari2600Rom) {
+        New-Item -ItemType Directory -Force -Path $atari2600Path | Out-Null
+        Copy-Item -Path $atari2600Rom -Destination $atari2600Path | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $atari2600Rom not found."
+        exit -1
+    }
+
+    Write-Host "INFO: MAME setup"
+    $mamePath = "$romPath\mame"
+    New-Item -ItemType Directory -Force -Path $mamePath | Out-Null
+
+    # WIP: Need to test and find freeware games for these emulators.
+    # Need to write a bat to boot these
+    Write-Host "INFO: ScummVm Setup"
+    $scummVmPath = "$romPath\scummvm"
+    New-Item -ItemType Directory -Force -Path $scummVmPath | Out-Null
+
+    $wiiuPath = "$romPath\wiiu"
+    New-Item -ItemType Directory -Force -Path $wiiuPath | Out-Null
+
+    Write-Host "INFO: NeogeoPocket Setup"
+    $neogeoPocketPath = "$romPath\ngp"
+    $ngpRom = "$global:requirementsFolder\neopocket.zip"
+    if (Test-Path $ngpRom) {
+        New-Item -ItemType Directory -Force -Path $neogeoPocketPath | Out-Null
+        Expand-Archive -Path $ngpRom -Destination $neogeoPocketPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $ngpRom not found."
+        exit -1
+    }
+
+    Write-Host "INFO: Neogeo Setup"
+    $neogeoPath = "$romPath\neogeo"
+    New-Item -ItemType Directory -Force -Path $neogeoPath | Out-Null
+
+    Write-Host "INFO: MSX Setup"
+    $msxPath = "$romPath\msx"
+    $msxCore = "$global:requirementsFolder\fmsx_libretro.dll.zip"
+    if (Test-Path $msxCore) {
+        Expand-Archive -Path $msxCore -Destination $global:coresPath | Out-Null
+        New-Item -ItemType Directory -Force -Path $msxPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $msxCore not found."
+        exit -1
+    }
+
+    Write-Host "INFO: Commodore 64 Setup"
+    $commodore64Path = "$romPath\c64"
+    $commodore64Core = "$global:requirementsFolder\vice_x64_libretro.dll.zip"
+    if (Test-Path $commodore64Core) {
+        Expand-Archive -Path $commodore64Core -Destination $global:coresPath | Out-Null
+        New-Item -ItemType Directory -Force -Path $commodore64Path | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $commodore64Core not found."
+        exit -1
+    }
+
+    Write-Host "INFO: Amiga Setup"
+    $amigaPath = "$romPath\amiga"
+    $amigaCore = "$global:requirementsFolder\puae_libretro.dll.zip"
+    if (Test-Path $amigaCore) {
+        Expand-Archive -Path $amigaCore -Destination $global:coresPath | Out-Null
+        New-Item -ItemType Directory -Force -Path $amigaPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $amigaCore not found."
+        exit -1
+    }
+
+    Write-Host "INFO: Setup Atari7800"
+    $atari7800Path = "$romPath\atari7800"
+    $atari7800Core = "$global:requirementsFolder\prosystem_libretro.dll.zip"
+    if (Test-Path $atari7800Core) {
+        Expand-Archive -Path $atari7800Core -Destination $global:coresPath | Out-Null
+        New-Item -ItemType Directory -Force -Path $atari7800Path | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $atari7800Core not found."
+        exit -1
+    }
+
+    Write-Host "INFO: Setup Wii/Gaemcube"
+    $gcPath = "$romPath\gc"
+    $wiiPath = "$romPath\wii"
+    $wiiRom = "$global:requirementsFolder\Homebrew.Channel.-.OHBC.wad"
+    New-Item -ItemType Directory -Force -Path $gcPath | Out-Null
+    New-Item -ItemType Directory -Force -Path $wiiPath | Out-Null
+    if (Test-Path $wiiRom) {
+        Copy-Item $wiiRom $wiiPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $wiiRom not found."
+        exit -1
+    }
+
 }
 
-Write-Host "INFO: Setup Mastersystem"
-$masterSystemPath =  "$romPath\mastersystem"
-$masterSystemRom = "$global:requirementsFolder\WahMunchers-SMS-R2.zip" 
-if(Test-Path $masterSystemRom){
-    New-Item -ItemType Directory -Force -Path $masterSystemPath | Out-Null
-    Expand-Archive -Path $masterSystemRom -Destination $masterSystemPath | Out-Null
-} else {
-    Write-Host "ERROR: $masterSystemRom not found."
-    exit -1
-}
+# Main script
+Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
+Install-Chocolatey
+InstallScoop
+ConfigureScoop
+Install-AdditionalSoftware
+AcquireFiles
+Install-EmulationStation
+Setup-EmulatorCores
+Start-RetroarchAndGenerateConfig
+Setup-Roms
 
-Write-Host "INFO: Setup FBA"
-$fbaPath =  "$romPath\fba"
-New-Item -ItemType Directory -Force -Path $fbaPath | Out-Null
-
-Write-Host "INFO: Atari2600 Setup"
-$atari2600Path =  "$romPath\atari2600"
-$atari2600Rom = "$global:requirementsFolder\ramless_pong.bin"
-if(Test-Path $atari2600Rom){
-    New-Item -ItemType Directory -Force -Path $atari2600Path | Out-Null
-    Copy-Item -Path $atari2600Rom -Destination $atari2600Path | Out-Null
-} else {
-    Write-Host "ERROR: $atari2600Rom not found."
-    exit -1
-}
-
-Write-Host "INFO: MAME setup"
-$mamePath =  "$romPath\mame"
-New-Item -ItemType Directory -Force -Path $mamePath | Out-Null
-
-# WIP: Need to test and find freeware games for these emulators.
-# Need to write a bat to boot these
-Write-Host "INFO: ScummVm Setup"
-$scummVmPath =  "$romPath\scummvm"
-New-Item -ItemType Directory -Force -Path $scummVmPath | Out-Null
-
-$wiiuPath =  "$romPath\wiiu"
-New-Item -ItemType Directory -Force -Path $wiiuPath | Out-Null
-
-Write-Host "INFO: NeogeoPocket Setup"
-$neogeoPocketPath =  "$romPath\ngp"
-$ngpRom = "$global:requirementsFolder\neopocket.zip"
-if(Test-Path $ngpRom){
-    New-Item -ItemType Directory -Force -Path $neogeoPocketPath | Out-Null
-    Expand-Archive -Path $ngpRom -Destination $neogeoPocketPath | Out-Null
-} else {
-    Write-Host "ERROR: $ngpRom not found."
-    exit -1
-}
-
-Write-Host "INFO: Neogeo Setup"
-$neogeoPath =  "$romPath\neogeo"
-New-Item -ItemType Directory -Force -Path $neogeoPath | Out-Null
-
-Write-Host "INFO: MSX Setup"
-$msxPath =  "$romPath\msx"
-$msxCore = "$global:requirementsFolder\fmsx_libretro.dll.zip"
-if(Test-Path $msxCore){
-    Expand-Archive -Path $msxCore -Destination $global:coresPath | Out-Null
-    New-Item -ItemType Directory -Force -Path $msxPath | Out-Null
-} else {
-    Write-Host "ERROR: $msxCore not found."
-    exit -1
-}
-
-Write-Host "INFO: Commodore 64 Setup"
-$commodore64Path =  "$romPath\c64"
-$commodore64Core = "$global:requirementsFolder\vice_x64_libretro.dll.zip"
-if(Test-Path $commodore64Core){
-    Expand-Archive -Path $commodore64Core -Destination $global:coresPath | Out-Null
-    New-Item -ItemType Directory -Force -Path $commodore64Path | Out-Null
-} else {
-    Write-Host "ERROR: $commodore64Core not found."
-    exit -1
-}
-
-Write-Host "INFO: Amiga Setup"
-$amigaPath =  "$romPath\amiga"
-$amigaCore = "$global:requirementsFolder\puae_libretro.dll.zip"
-if(Test-Path $amigaCore){
-    Expand-Archive -Path $amigaCore -Destination $global:coresPath | Out-Null
-    New-Item -ItemType Directory -Force -Path $amigaPath | Out-Null
-} else {
-    Write-Host "ERROR: $amigaCore not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup Atari7800"
-$atari7800Path =  "$romPath\atari7800"
-$atari7800Core = "$global:requirementsFolder\prosystem_libretro.dll.zip"
-if(Test-Path $atari7800Core){
-    Expand-Archive -Path $atari7800Core -Destination $global:coresPath | Out-Null
-    New-Item -ItemType Directory -Force -Path $atari7800Path | Out-Null
-} else {
-    Write-Host "ERROR: $atari7800Core not found."
-    exit -1
-}
-
-Write-Host "INFO: Setup Wii/Gaemcube"
-$gcPath =  "$romPath\gc"
-$wiiPath = "$romPath\wii"
-$wiiRom = "$global:requirementsFolder\Homebrew.Channel.-.OHBC.wad"
-New-Item -ItemType Directory -Force -Path $gcPath | Out-Null
-New-Item -ItemType Directory -Force -Path $wiiPath | Out-Null
-if(Test-Path $wiiRom){
-    Copy-Item $wiiRom $wiiPath | Out-Null
-} else{
-    Write-Host "ERROR: $wiiRom not found."
-    exit -1
-}
 
 Write-Host "INFO: Setting up Emulation Station Config"
 $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
