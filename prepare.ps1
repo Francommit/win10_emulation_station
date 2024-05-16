@@ -1213,22 +1213,40 @@ function Setup-DesktopShortcuts {
 }
 
 
-
-# Main script
-Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
-Install-Chocolatey
-InstallScoop
-ConfigureScoop
-Install-AdditionalSoftware
-AcquireFiles
-Install-EmulationStation
-Setup-EmulatorCores
-Start-RetroarchAndGenerateConfig
-Setup-Roms
-Setup-EmulationStationConfig
-Setup-DolphinConfig
-Setup-Scraper
-Setup-DesktopShortcuts
+switch ($args[0]) {
+    "-installDependencies" {
+        Install-Chocolatey
+        InstallScoop
+        ConfigureScoop
+        Install-AdditionalSoftware
+    }
+    "-acquireFiles" {
+        AcquireFiles
+    }
+    "-setupRoms" {
+        Setup-Roms
+        Setup-EmulationStationConfig
+        Setup-DolphinConfig
+        Setup-Scraper
+        Setup-DesktopShortcuts
+    }
+    default {
+        # If no parameter is provided, execute all functions
+        Install-Chocolatey
+        InstallScoop
+        ConfigureScoop
+        Install-AdditionalSoftware
+        AcquireFiles
+        Install-EmulationStation
+        Setup-EmulatorCores
+        Start-RetroarchAndGenerateConfig
+        Setup-Roms
+        Setup-EmulationStationConfig
+        Setup-DolphinConfig
+        Setup-Scraper
+        Setup-DesktopShortcuts
+    }
+}
 
 # TO-DO: Review if this is still needed or not
 # # https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
