@@ -11,6 +11,7 @@ $global:retroarchConfigPath = $null
 $global:retroArchPath = $null
 $global:coresPath = $null
 $global:retroArchBinary = $null
+$global:romPath = $null
 
 
 function DownloadFiles {
@@ -318,12 +319,12 @@ function Start-RetroarchAndGenerateConfig {
 
 function Setup-Roms {
     # Add roms
-    $romPath = "$env:userprofile\.emulationstation\roms"
-    New-Item -ItemType Directory -Force -Path $romPath | Out-Null
+    $global:romPath = "$env:userprofile\.emulationstation\roms"
+    New-Item -ItemType Directory -Force -Path $global:romPath | Out-Null
 
     # Path creation + Open-Source / Freeware Rom population
     Write-Host "INFO: Setup NES"
-    $nesPath = "$romPath\nes"
+    $nesPath = "$global:romPath\nes"
     $nesRom = "$global:requirementsFolder\assimilate_full.zip" 
     if (Test-Path $nesRom) {
         New-Item -ItemType Directory -Force -Path $nesPath | Out-Null
@@ -335,7 +336,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup N64"
-    $n64Path = "$romPath\n64"
+    $n64Path = "$global:romPath\n64"
     $n64Rom = "$global:requirementsFolder\pom-twin.zip"
     if (Test-Path $n64Rom) {
         New-Item -ItemType Directory -Force -Path $n64Path | Out-Null
@@ -347,7 +348,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup psp"
-    $pspPath = "$romPath\psp"
+    $pspPath = "$global:romPath\psp"
     $pspRom = "$global:requirementsFolder\cube.elf"
     if (Test-Path $pspRom) {
         New-Item -ItemType Directory -Force -Path $pspPath | Out-Null
@@ -359,7 +360,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup Nintendo Switch"
-    $switchPath = "$romPath\switch"
+    $switchPath = "$global:romPath\switch"
     $switchRom = "$global:requirementsFolder\tetriswitch.nro"
     if (Test-Path $switchRom) {
         New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
@@ -371,7 +372,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup PS3"
-    $ps3Path = "$romPath\ps3"
+    $ps3Path = "$global:romPath\ps3"
     $ps3Rom = "$global:requirementsFolder\Avoidance_v1.3.pkg"
     if (Test-Path $ps3Rom) {
         New-Item -ItemType Directory -Force -Path $ps3Path | Out-Null
@@ -383,7 +384,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup PS Vita"
-    $vitaPath = "$romPath\vita"
+    $vitaPath = "$global:romPath\vita"
     $vitaRom = "$global:requirementsFolder\C4.vpk"
     if (Test-Path $vitaRom) {
         New-Item -ItemType Directory -Force -Path $vitaPath | Out-Null
@@ -410,7 +411,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup 3DS"
-    $3dsPath = "$romPath\3ds"
+    $3dsPath = "$global:romPath\3ds"
     $3dsRom = "$global:requirementsFolder\ccleste.3dsx"
     if (Test-Path $3dsRom) {
         New-Item -ItemType Directory -Force -Path $3dsPath | Out-Null
@@ -422,7 +423,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup GBA"
-    $gbaPath = "$romPath\gba"
+    $gbaPath = "$global:romPath\gba"
     $gbaRom = "$global:requirementsFolder\uranus0ev_fix.gba"
     if (Test-Path $gbaRom) {
         New-Item -ItemType Directory -Force -Path $gbaPath | Out-Null
@@ -434,7 +435,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup Megadrive"
-    $mdPath = "$romPath\megadrive"
+    $mdPath = "$global:romPath\megadrive"
     $mdRom = "$global:requirementsFolder\rickdangerous.gen"
     if (Test-Path $mdRom) {
         New-Item -ItemType Directory -Force -Path $mdPath | Out-Null
@@ -446,7 +447,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup SNES"
-    $snesPath = "$romPath\snes"
+    $snesPath = "$global:romPath\snes"
     $snesRom = "$global:requirementsFolder\N-Warp Daisakusen V1.1.smc"
     if (Test-Path $snesRom) {
         New-Item -ItemType Directory -Force -Path $snesPath | Out-Null
@@ -458,7 +459,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup PSX"
-    $psxPath = "$romPath\psx"
+    $psxPath = "$global:romPath\psx"
     $psxRom = "$global:requirementsFolder\Marilyn_In_the_Magic_World_(010a).7z"
     if (Test-Path $psxRom) {
         New-Item -ItemType Directory -Force -Path $psxPath | Out-Null
@@ -470,7 +471,7 @@ function Setup-Roms {
     }
 
     # Write-Host "INFO: Setup PS2"
-    # $ps2Path = "$romPath\ps2"
+    # $ps2Path = "$global:romPath\ps2"
     # $ps2Rom = "$global:requirementsFolder\hermes-v.latest-ps2.zip"
     # if(Test-Path $ps2Rom){
     # New-Item -ItemType Directory -Force -Path $ps2Path | Out-Null
@@ -481,11 +482,11 @@ function Setup-Roms {
     # }
 
     Write-Host "INFO: Setup Gameboy"
-    $gbPath = "$romPath\gb"
+    $gbPath = "$global:romPath\gb"
     New-Item -ItemType Directory -Force -Path $gbPath | Out-Null
 
     Write-Host "INFO: Setup Gameboy Colour"
-    $gbcPath = "$romPath\gbc"
+    $gbcPath = "$global:romPath\gbc"
     $gbcRom = "$global:requirementsFolder\star_heritage.zip" 
     if (Test-Path $gbcRom) {
         New-Item -ItemType Directory -Force -Path $gbcPath | Out-Null
@@ -497,7 +498,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup Mastersystem"
-    $masterSystemPath = "$romPath\mastersystem"
+    $masterSystemPath = "$global:romPath\mastersystem"
     $masterSystemRom = "$global:requirementsFolder\WahMunchers-SMS-R2.zip" 
     if (Test-Path $masterSystemRom) {
         New-Item -ItemType Directory -Force -Path $masterSystemPath | Out-Null
@@ -509,11 +510,11 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup FBA"
-    $fbaPath = "$romPath\fba"
+    $fbaPath = "$global:romPath\fba"
     New-Item -ItemType Directory -Force -Path $fbaPath | Out-Null
 
     Write-Host "INFO: Atari2600 Setup"
-    $atari2600Path = "$romPath\atari2600"
+    $atari2600Path = "$global:romPath\atari2600"
     $atari2600Rom = "$global:requirementsFolder\ramless_pong.bin"
     if (Test-Path $atari2600Rom) {
         New-Item -ItemType Directory -Force -Path $atari2600Path | Out-Null
@@ -525,20 +526,20 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: MAME setup"
-    $mamePath = "$romPath\mame"
+    $mamePath = "$global:romPath\mame"
     New-Item -ItemType Directory -Force -Path $mamePath | Out-Null
 
     # WIP: Need to test and find freeware games for these emulators.
     # Need to write a bat to boot these
     Write-Host "INFO: ScummVm Setup"
-    $scummVmPath = "$romPath\scummvm"
+    $scummVmPath = "$global:romPath\scummvm"
     New-Item -ItemType Directory -Force -Path $scummVmPath | Out-Null
 
-    $wiiuPath = "$romPath\wiiu"
+    $wiiuPath = "$global:romPath\wiiu"
     New-Item -ItemType Directory -Force -Path $wiiuPath | Out-Null
 
     Write-Host "INFO: NeogeoPocket Setup"
-    $neogeoPocketPath = "$romPath\ngp"
+    $neogeoPocketPath = "$global:romPath\ngp"
     $ngpRom = "$global:requirementsFolder\neopocket.zip"
     if (Test-Path $ngpRom) {
         New-Item -ItemType Directory -Force -Path $neogeoPocketPath | Out-Null
@@ -550,11 +551,11 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Neogeo Setup"
-    $neogeoPath = "$romPath\neogeo"
+    $neogeoPath = "$global:romPath\neogeo"
     New-Item -ItemType Directory -Force -Path $neogeoPath | Out-Null
 
     Write-Host "INFO: MSX Setup"
-    $msxPath = "$romPath\msx"
+    $msxPath = "$global:romPath\msx"
     $msxCore = "$global:requirementsFolder\fmsx_libretro.dll.zip"
     if (Test-Path $msxCore) {
         Expand-Archive -Path $msxCore -Destination $global:coresPath | Out-Null
@@ -566,7 +567,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Commodore 64 Setup"
-    $commodore64Path = "$romPath\c64"
+    $commodore64Path = "$global:romPath\c64"
     $commodore64Core = "$global:requirementsFolder\vice_x64_libretro.dll.zip"
     if (Test-Path $commodore64Core) {
         Expand-Archive -Path $commodore64Core -Destination $global:coresPath | Out-Null
@@ -578,7 +579,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Amiga Setup"
-    $amigaPath = "$romPath\amiga"
+    $amigaPath = "$global:romPath\amiga"
     $amigaCore = "$global:requirementsFolder\puae_libretro.dll.zip"
     if (Test-Path $amigaCore) {
         Expand-Archive -Path $amigaCore -Destination $global:coresPath | Out-Null
@@ -590,7 +591,7 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup Atari7800"
-    $atari7800Path = "$romPath\atari7800"
+    $atari7800Path = "$global:romPath\atari7800"
     $atari7800Core = "$global:requirementsFolder\prosystem_libretro.dll.zip"
     if (Test-Path $atari7800Core) {
         Expand-Archive -Path $atari7800Core -Destination $global:coresPath | Out-Null
@@ -602,8 +603,8 @@ function Setup-Roms {
     }
 
     Write-Host "INFO: Setup Wii/Gaemcube"
-    $gcPath = "$romPath\gc"
-    $wiiPath = "$romPath\wii"
+    $gcPath = "$global:romPath\gc"
+    $wiiPath = "$global:romPath\wii"
     $wiiRom = "$global:requirementsFolder\Homebrew.Channel.-.OHBC.wad"
     New-Item -ItemType Directory -Force -Path $gcPath | Out-Null
     New-Item -ItemType Directory -Force -Path $wiiPath | Out-Null
@@ -1181,7 +1182,7 @@ Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 Write-Host "INFO: Adding scraper in"
 $scraperZip = "$global:requirementsFolder\scraper_windows_amd64.zip"
 if(Test-Path $scraperZip){
-    Expand-Archive -Path $scraperZip -Destination $romPath | Out-Null
+    Expand-Archive -Path $scraperZip -Destination $global:romPath | Out-Null
 } else {
     Write-Host "ERROR: $scraperZip not found."
     exit -1
