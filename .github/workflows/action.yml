@@ -16,5 +16,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Powershell script runner
-      run: .\prepare.ps1
+    # - name: Powershell script runner
+      # run: .\prepare.ps1
+
+    - name: Install Dependencies
+      run: .\prepare.ps1 -installDependencies
+
+    - name: Acquire Files
+      run: .\prepare.ps1 -acquireFiles
+
+    - name: Setup ROMs
+      run: .\prepare.ps1 -setupRoms
