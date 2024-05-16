@@ -618,28 +618,18 @@ function Setup-Roms {
 
 }
 
-# Main script
-Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
-Install-Chocolatey
-InstallScoop
-ConfigureScoop
-Install-AdditionalSoftware
-AcquireFiles
-Install-EmulationStation
-Setup-EmulatorCores
-Start-RetroarchAndGenerateConfig
-Setup-Roms
+
+function Setup-EmulationStationConfig {
+
+    Write-Host "INFO: Setting up Emulation Station Config"
+    $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
+
+    # TO-DO
+    # Vita Launching is a BIT hacky, works in powershell
+    #  .\Vita3K.exe --vpk-path "%ROM% | .\Vita3K.exe
 
 
-Write-Host "INFO: Setting up Emulation Station Config"
-$esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
-
-# TO-DO
-# Vita Launching is a BIT hacky, works in powershell
-#  .\Vita3K.exe --vpk-path "%ROM% | .\Vita3K.exe
-
-
-<#
+    <#
 ----------------------------------
 File extension supported by systems
 ----------------------------------
@@ -658,7 +648,7 @@ VBA Next: https://docs.libretro.com/library/vba_next/
 ePSXe: https://fantasyanime.com/emuhelp/epsxe#dumping-your-psx-games-to-iso (NOT OFFICIAL)
 PCSX2: https://fantasyanime.com/emuhelp/pcsx2#loading-a-ps2-iso (NOT OFFICIAL)
 #>
-$newConfig = "<systemList>
+    $newConfig = "<systemList>
     <system>
         <name>vita</name>
         <fullname>Vita</fullname>
@@ -913,33 +903,35 @@ $newConfig = "<systemList>
 </system>
 </systemList>
 "
-Set-Content $esConfigFile -Value $newConfig
+    Set-Content $esConfigFile -Value $newConfig
 
-Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
-$themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
-$themesFile = "$global:requirementsFolder\recalbox-backport-v2.2.zip"
-if(Test-Path $themesFile){
-    Expand-Archive -Path $themesFile -Destination $global:requirementsFolder -Force | Out-Null
-    $themesFolder = "$global:requirementsFolder\recalbox-backport\"
-    robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
-} else {
-    Write-Host "ERROR: $themesFile not found."
-    exit -1
-}
+    Write-Host "INFO: Setting up Emulation Station theme recalbox-backport"
+    $themesPath = "$env:userprofile\.emulationstation\themes\recalbox-backport\"
+    $themesFile = "$global:requirementsFolder\recalbox-backport-v2.2.zip"
+    if (Test-Path $themesFile) {
+        Expand-Archive -Path $themesFile -Destination $global:requirementsFolder -Force | Out-Null
+        $themesFolder = "$global:requirementsFolder\recalbox-backport\"
+        robocopy $themesFolder $themesPath /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $themesFile not found."
+        exit -1
+    }
 
-Write-Host "INFO: Update EmulationStation binaries"
-$emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
-$updatedEmulationStatonBinaries = "$global:requirementsFolder\EmulationStation-Win32.zip"
-if(Test-Path $updatedEmulationStatonBinaries){
-    Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder -Force | Out-Null
-} else {
-    Write-Host "ERROR: $updatedEmulationStatonBinaries not found."
-    exit -1
-}
+    Write-Host "INFO: Update EmulationStation binaries"
+    $emulationStationInstallFolder = "${env:ProgramFiles(x86)}\EmulationStation"
+    $updatedEmulationStatonBinaries = "$global:requirementsFolder\EmulationStation-Win32.zip"
+    if (Test-Path $updatedEmulationStatonBinaries) {
+        Expand-Archive -Path $updatedEmulationStatonBinaries -Destination $emulationStationInstallFolder -Force | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $updatedEmulationStatonBinaries not found."
+        exit -1
+    }
 
-Write-Host "INFO: Generate ES settings file with favorites enabled."
-$esConfigFile = "$env:userprofile\.emulationstation\es_settings.cfg"
-$newSettingsConfig = "<?xml version='1.0'?>
+    Write-Host "INFO: Generate ES settings file with favorites enabled."
+    $esConfigFile = "$env:userprofile\.emulationstation\es_settings.cfg"
+    $newSettingsConfig = "<?xml version='1.0'?>
 <bool name='BackgroundJoystickInput' value='false' />
 <bool name='CaptionsCompatibility' value='true' />
 <bool name='DrawFramerate' value='false' />
@@ -984,193 +976,259 @@ $newSettingsConfig = "<?xml version='1.0'?>
 
 "
 
-Set-Content $esConfigFile -Value $newSettingsConfig
-$requiredTmpFolder = "$env:userprofile\.emulationstation\tmp\"
-New-Item -ItemType Directory -Force -Path $requiredTmpFolder | Out-Null
+    Set-Content $esConfigFile -Value $newSettingsConfig
+    $requiredTmpFolder = "$env:userprofile\.emulationstation\tmp\"
+    New-Item -ItemType Directory -Force -Path $requiredTmpFolder | Out-Null
+}
 
-Write-Host "INFO: Genrating Dolphin Config"
-$dolphinConfigFile = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
-$dolphinConfigFolder = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\"
-$dolphinConfigFileContent = "[General]
-LastFilename = 
-ShowLag = False
-ShowFrameCount = False
-ISOPaths = 0
-RecursiveISOPaths = False
-NANDRootPath = 
-DumpPath = 
-WirelessMac = 
-WiiSDCardPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\Wii\sd.raw
-[Interface]
-ConfirmStop = True
-UsePanicHandlers = True
-OnScreenDisplayMessages = True
-HideCursor = False
-AutoHideCursor = False
-MainWindowPosX = -2147483648
-MainWindowPosY = -2147483648
-MainWindowWidth = -1
-MainWindowHeight = -1
-LanguageCode = 
-ShowToolbar = True
-ShowStatusbar = True
-ShowLogWindow = False
-ShowLogConfigWindow = False
-ExtendedFPSInfo = False
-ThemeName = Clean
-PauseOnFocusLost = False
-DisableTooltips = False
-[Display]
-FullscreenResolution = Auto
-Fullscreen = False
-RenderToMain = True
-RenderWindowXPos = -1
-RenderWindowYPos = -1
-RenderWindowWidth = 640
-RenderWindowHeight = 480
-RenderWindowAutoSize = False
-KeepWindowOnTop = False
-ProgressiveScan = False
-PAL60 = False
-DisableScreenSaver = False
-ForceNTSCJ = False
-[GameList]
-ListDrives = False
-ListWad = True
-ListElfDol = True
-ListWii = True
-ListGC = True
-ListJap = True
-ListPal = True
-ListUsa = True
-ListAustralia = True
-ListFrance = True
-ListGermany = True
-ListItaly = True
-ListKorea = True
-ListNetherlands = True
-ListRussia = True
-ListSpain = True
-ListTaiwan = True
-ListWorld = True
-ListUnknown = True
-ListSort = 3
-ListSortSecondary = 0
-ColumnPlatform = True
-ColumnBanner = True
-ColumnNotes = True
-ColumnFileName = False
-ColumnID = False
-ColumnRegion = True
-ColumnSize = True
-ColumnState = True
-[Core]
-HLE_BS2 = True
-TimingVariance = 40
-CPUCore = 1
-Fastmem = True
-CPUThread = True
-DSPHLE = True
-SyncOnSkipIdle = True
-SyncGPU = True
-SyncGpuMaxDistance = 200000
-SyncGpuMinDistance = -200000
-SyncGpuOverclock = 1.00000000
-FPRF = False
-AccurateNaNs = False
-DefaultISO = 
-DVDRoot = 
-Apploader = 
-EnableCheats = False
-SelectedLanguage = 0
-OverrideGCLang = False
-DPL2Decoder = False
-Latency = 2
-AudioStretch = False
-AudioStretchMaxLatency = 80
-MemcardAPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardA.USA.raw
-MemcardBPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardB.USA.raw
-AgpCartAPath = 
-AgpCartBPath = 
-SlotA = 1
-SlotB = 255
-SerialPort1 = 255
-BBA_MAC = 
-SIDevice0 = 6
-AdapterRumble0 = True
-SimulateKonga0 = False
-SIDevice1 = 0
-AdapterRumble1 = True
-SimulateKonga1 = False
-SIDevice2 = 0
-AdapterRumble2 = True
-SimulateKonga2 = False
-SIDevice3 = 0
-AdapterRumble3 = True
-SimulateKonga3 = False
-WiiSDCard = False
-WiiKeyboard = False
-WiimoteContinuousScanning = False
-WiimoteEnableSpeaker = False
-RunCompareServer = False
-RunCompareClient = False
-EmulationSpeed = 1.00000000
-FrameSkip = 0x00000000
-Overclock = 1.00000000
-OverclockEnable = False
-GFXBackend = OGL
-GPUDeterminismMode = auto
-PerfMapDir = 
-EnableCustomRTC = False
-CustomRTCValue = 0x386d4380
-[Movie]
-PauseMovie = False
-Author = 
-DumpFrames = False
-DumpFramesSilent = False
-ShowInputDisplay = False
-ShowRTC = False
-[DSP]
-EnableJIT = False
-DumpAudio = False
-DumpAudioSilent = False
-DumpUCode = False
-Backend = Libretro
-Volume = 100
-CaptureLog = False
-[Input]
-BackgroundInput = False
-[FifoPlayer]
-LoopReplay = False
-[Analytics]
-ID = 
-Enabled = False
-PermissionAsked = False
-[Network]
-SSLDumpRead = False
-SSLDumpWrite = False
-SSLVerifyCertificates = True
-SSLDumpRootCA = False
-SSLDumpPeerCert = False
-[BluetoothPassthrough]
-Enabled = False
-VID = -1
-PID = -1
-LinkKeys = 
-[USBPassthrough]
-Devices = 
-[Sysconf]
-SensorBarPosition = 1
-SensorBarSensitivity = 50331648
-SpeakerVolume = 88
-WiimoteMotor = True
-WiiLanguage = 1
-AspectRatio = 1
-Screensaver = 0
 
-"
-New-Item $dolphinConfigFolder -ItemType directory -Force | Out-Null
-Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
+function Setup-DolphinConfig {
+    
+    Write-Output "INFO: Genrating Dolphin Config"
+
+    $dolphinConfigFile = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\Dolphin.ini"
+    $dolphinConfigFolder = "$env:userprofile\.emulationstation\systems\retroarch\saves\User\Config\"
+    
+    $dolphinConfigFileContent = "[General]
+    LastFilename = 
+    ShowLag = False
+    ShowFrameCount = False
+    ISOPaths = 0
+    RecursiveISOPaths = False
+    NANDRootPath = 
+    DumpPath = 
+    WirelessMac = 
+    WiiSDCardPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\Wii\sd.raw
+    [Interface]
+    ConfirmStop = True
+    UsePanicHandlers = True
+    OnScreenDisplayMessages = True
+    HideCursor = False
+    AutoHideCursor = False
+    MainWindowPosX = -2147483648
+    MainWindowPosY = -2147483648
+    MainWindowWidth = -1
+    MainWindowHeight = -1
+    LanguageCode = 
+    ShowToolbar = True
+    ShowStatusbar = True
+    ShowLogWindow = False
+    ShowLogConfigWindow = False
+    ExtendedFPSInfo = False
+    ThemeName = Clean
+    PauseOnFocusLost = False
+    DisableTooltips = False
+    [Display]
+    FullscreenResolution = Auto
+    Fullscreen = False
+    RenderToMain = True
+    RenderWindowXPos = -1
+    RenderWindowYPos = -1
+    RenderWindowWidth = 640
+    RenderWindowHeight = 480
+    RenderWindowAutoSize = False
+    KeepWindowOnTop = False
+    ProgressiveScan = False
+    PAL60 = False
+    DisableScreenSaver = False
+    ForceNTSCJ = False
+    [GameList]
+    ListDrives = False
+    ListWad = True
+    ListElfDol = True
+    ListWii = True
+    ListGC = True
+    ListJap = True
+    ListPal = True
+    ListUsa = True
+    ListAustralia = True
+    ListFrance = True
+    ListGermany = True
+    ListItaly = True
+    ListKorea = True
+    ListNetherlands = True
+    ListRussia = True
+    ListSpain = True
+    ListTaiwan = True
+    ListWorld = True
+    ListUnknown = True
+    ListSort = 3
+    ListSortSecondary = 0
+    ColumnPlatform = True
+    ColumnBanner = True
+    ColumnNotes = True
+    ColumnFileName = False
+    ColumnID = False
+    ColumnRegion = True
+    ColumnSize = True
+    ColumnState = True
+    [Core]
+    HLE_BS2 = True
+    TimingVariance = 40
+    CPUCore = 1
+    Fastmem = True
+    CPUThread = True
+    DSPHLE = True
+    SyncOnSkipIdle = True
+    SyncGPU = True
+    SyncGpuMaxDistance = 200000
+    SyncGpuMinDistance = -200000
+    SyncGpuOverclock = 1.00000000
+    FPRF = False
+    AccurateNaNs = False
+    DefaultISO = 
+    DVDRoot = 
+    Apploader = 
+    EnableCheats = False
+    SelectedLanguage = 0
+    OverrideGCLang = False
+    DPL2Decoder = False
+    Latency = 2
+    AudioStretch = False
+    AudioStretchMaxLatency = 80
+    MemcardAPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardA.USA.raw
+    MemcardBPath = $env:userprofile\.emulationstation\systems\retroarch\saves\User\GC\MemoryCardB.USA.raw
+    AgpCartAPath = 
+    AgpCartBPath = 
+    SlotA = 1
+    SlotB = 255
+    SerialPort1 = 255
+    BBA_MAC = 
+    SIDevice0 = 6
+    AdapterRumble0 = True
+    SimulateKonga0 = False
+    SIDevice1 = 0
+    AdapterRumble1 = True
+    SimulateKonga1 = False
+    SIDevice2 = 0
+    AdapterRumble2 = True
+    SimulateKonga2 = False
+    SIDevice3 = 0
+    AdapterRumble3 = True
+    SimulateKonga3 = False
+    WiiSDCard = False
+    WiiKeyboard = False
+    WiimoteContinuousScanning = False
+    WiimoteEnableSpeaker = False
+    RunCompareServer = False
+    RunCompareClient = False
+    EmulationSpeed = 1.00000000
+    FrameSkip = 0x00000000
+    Overclock = 1.00000000
+    OverclockEnable = False
+    GFXBackend = OGL
+    GPUDeterminismMode = auto
+    PerfMapDir = 
+    EnableCustomRTC = False
+    CustomRTCValue = 0x386d4380
+    [Movie]
+    PauseMovie = False
+    Author = 
+    DumpFrames = False
+    DumpFramesSilent = False
+    ShowInputDisplay = False
+    ShowRTC = False
+    [DSP]
+    EnableJIT = False
+    DumpAudio = False
+    DumpAudioSilent = False
+    DumpUCode = False
+    Backend = Libretro
+    Volume = 100
+    CaptureLog = False
+    [Input]
+    BackgroundInput = False
+    [FifoPlayer]
+    LoopReplay = False
+    [Analytics]
+    ID = 
+    Enabled = False
+    PermissionAsked = False
+    [Network]
+    SSLDumpRead = False
+    SSLDumpWrite = False
+    SSLVerifyCertificates = True
+    SSLDumpRootCA = False
+    SSLDumpPeerCert = False
+    [BluetoothPassthrough]
+    Enabled = False
+    VID = -1
+    PID = -1
+    LinkKeys = 
+    [USBPassthrough]
+    Devices = 
+    [Sysconf]
+    SensorBarPosition = 1
+    SensorBarSensitivity = 50331648
+    SpeakerVolume = 88
+    WiimoteMotor = True
+    WiiLanguage = 1
+    AspectRatio = 1
+    Screensaver = 0
+
+    "
+    New-Item $dolphinConfigFolder -ItemType directory -Force | Out-Null
+    Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
+
+}
+
+
+function Setup-Scraper {
+    
+    Write-Host "INFO: Adding scraper in"
+    $scraperZip = "$global:requirementsFolder\scraper_windows_amd64.zip"
+    if (Test-Path $scraperZip) {
+        Expand-Archive -Path $scraperZip -Destination $global:romPath | Out-Null
+    }
+    else {
+        Write-Host "ERROR: $scraperZip not found."
+        exit -1
+    }
+
+}
+
+function Setup-DesktopShortcuts {
+    
+    Write-Host "INFO: Adding in useful desktop shortcuts"
+    $userProfileVariable = Get-ChildItem Env:UserProfile
+    $romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
+    $coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
+    $windowedEmulationStation = "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
+    
+    $wshshell = New-Object -ComObject WScript.Shell
+    $desktop = [System.Environment]::GetFolderPath('Desktop')
+    $lnkRoms = $wshshell.CreateShortcut("$desktop\Roms Location.lnk")
+    $lnkRoms.TargetPath = $romsShortcut
+    $lnkRoms.Save() 
+    
+    $lnkCores = $wshshell.CreateShortcut("$desktop\Cores Location.lnk")
+    $lnkCores.TargetPath = $coresShortcut
+    $lnkCores.Save() 
+    
+    $lnkWindowed = $wshshell.CreateShortcut("$desktop\Windowed EmulationStation.lnk")
+    $lnkWindowed.Arguments = "--resolution 1366 768 --windowed"
+    $lnkWindowed.TargetPath = $windowedEmulationStation
+    $lnkWindowed.Save() 
+
+}
+
+
+
+# Main script
+Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
+Install-Chocolatey
+InstallScoop
+ConfigureScoop
+Install-AdditionalSoftware
+AcquireFiles
+Install-EmulationStation
+Setup-EmulatorCores
+Start-RetroarchAndGenerateConfig
+Setup-Roms
+Setup-EmulationStationConfig
+Setup-DolphinConfig
+Setup-Scraper
+Setup-DesktopShortcuts
 
 # TO-DO: Review if this is still needed or not
 # # https://www.ngemu.com/threads/epsxe-2-0-5-startup-crash-black-screen-fix-here.199169/
@@ -1178,35 +1236,5 @@ Write-Output $dolphinConfigFileContent  > $dolphinConfigFile
 # $path = 'HKCU:\SOFTWARE\epsxe\config'
 # New-Item -Path $path -Force | Out-Null
 # Set-ItemProperty -Path $path -Name 'CPUOverclocking' -Value '10'
-
-Write-Host "INFO: Adding scraper in"
-$scraperZip = "$global:requirementsFolder\scraper_windows_amd64.zip"
-if(Test-Path $scraperZip){
-    Expand-Archive -Path $scraperZip -Destination $global:romPath | Out-Null
-} else {
-    Write-Host "ERROR: $scraperZip not found."
-    exit -1
-}
-
-Write-Host "INFO: Adding in useful desktop shortcuts"
-$userProfileVariable = Get-ChildItem Env:UserProfile
-$romsShortcut = $userProfileVariable.Value + "\.emulationstation\roms"
-$coresShortcut = $userProfileVariable.Value + "\.emulationstation\systems\retroarch\cores"
-$windowedEmulationStation = "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
-
-$wshshell = New-Object -ComObject WScript.Shell
-$desktop = [System.Environment]::GetFolderPath('Desktop')
-$lnkRoms = $wshshell.CreateShortcut("$desktop\Roms Location.lnk")
-$lnkRoms.TargetPath = $romsShortcut
-$lnkRoms.Save() 
-
-$lnkCores = $wshshell.CreateShortcut("$desktop\Cores Location.lnk")
-$lnkCores.TargetPath = $coresShortcut
-$lnkCores.Save() 
-
-$lnkWindowed = $wshshell.CreateShortcut("$desktop\Windowed EmulationStation.lnk")
-$lnkWindowed.Arguments = "--resolution 1366 768 --windowed"
-$lnkWindowed.TargetPath = $windowedEmulationStation
-$lnkWindowed.Save() 
 
 Write-Host "INFO: Setup completed"
