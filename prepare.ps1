@@ -4,14 +4,21 @@ $global:citraInstallDir = $null
 $global:ppssppInstallDir = $null
 $global:yuzuInstallDir = $null
 $global:rpcs3InstallDir = $null
-$global:requirementsFolder = $null
-$global:retroarchExecutable = $null
-$global:retroarchConfigPath = $null
+$global:requirementsFolder = "$PSScriptRoot\requirements"
+# $global:retroarchExecutable = $null
+# $global:retroarchConfigPath = $null
+$global:retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
+# $global:retroArchPath = $null
+$global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
+$global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
 
-$global:retroArchPath = $null
-$global:coresPath = $null
-$global:retroArchBinary = $null
-$global:romPath = $null
+$global:coresPath = "$global:retroArchPath\cores"
+$global:retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
+
+# $global:coresPath = $null
+# $global:retroArchBinary = $null
+# $global:romPath = $null
+$global:romPath = "$env:userprofile\.emulationstation\roms"
 
 
 function DownloadFiles {
@@ -151,10 +158,6 @@ function ConfigureScoop {
     scoop install yuzu
     scoop install rpcs3
 
-    $global:citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
-    $global:ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-    $global:yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
-    $global:rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 }
 
 function Install-AdditionalSoftware {
@@ -164,7 +167,6 @@ function Install-AdditionalSoftware {
 }
 
 function AcquireFiles {
-    $global:requirementsFolder = "$PSScriptRoot\requirements"
     New-Item -ItemType Directory -Force -Path $global:requirementsFolder
     DownloadFiles("downloads")
     DownloadFiles("other_downloads")
@@ -188,9 +190,7 @@ function Install-EmulationStation {
 
 function Setup-EmulatorCores {
     # Retroarch Setup
-    $global:retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
-    $global:coresPath = "$global:retroArchPath\cores"
-    $global:retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
+
   
     if(Test-Path $global:retroArchBinary){
         New-Item -ItemType Directory -Force -Path $global:retroArchPath 
@@ -269,8 +269,6 @@ function Setup-EmulatorCore([string]$coreName, [string]$zipFileName) {
 
 function Start-RetroarchAndGenerateConfig {
     # Start Retroarch and generate a config.
-    $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
-    $global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
 
     if (Test-Path $global:retroarchExecutable) {
 
@@ -319,7 +317,7 @@ function Start-RetroarchAndGenerateConfig {
 
 function Setup-Roms {
     # Add roms
-    $global:romPath = "$env:userprofile\.emulationstation\roms"
+    
     New-Item -ItemType Directory -Force -Path $global:romPath | Out-Null
 
     # Path creation + Open-Source / Freeware Rom population
@@ -620,6 +618,11 @@ function Setup-Roms {
 
 
 function Setup-EmulationStationConfig {
+
+    $global:citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
+    $global:ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+    $global:yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+    $global:rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
     Write-Host "INFO: Setting up Emulation Station Config"
     $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
