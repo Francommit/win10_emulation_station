@@ -1215,15 +1215,18 @@ function Setup-DesktopShortcuts {
 
 switch ($args[0]) {
     "-installDependencies" {
+        Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
         Install-Chocolatey
         InstallScoop
         ConfigureScoop
         Install-AdditionalSoftware
     }
     "-acquireFiles" {
+        Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
         AcquireFiles
     }
     "-setupRoms" {
+        Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
         Setup-Roms
         Setup-EmulationStationConfig
         Setup-DolphinConfig
@@ -1231,7 +1234,7 @@ switch ($args[0]) {
         Setup-DesktopShortcuts
     }
     default {
-        # If no parameter is provided, execute all functions
+        Get-ScriptPath -ScriptPath $MyInvocation.MyCommand.Path
         Install-Chocolatey
         InstallScoop
         ConfigureScoop
