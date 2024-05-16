@@ -279,183 +279,108 @@ Install-EmulationStation
 # Set up Retroarch and emulator cores
 Setup-EmulatorCores
 
-# #####
-# # Retroarch
-# #####
-# # Prepare Retroarch
-# if(Test-Path $global:retroArchBinary){
-#     New-Item -ItemType Directory -Force -Path $global:retroArchPath 
-#     Expand-Archive -Path $global:retroArchBinary -Destination $global:requirementsFolder -VerboseLogging $true
-#     Copy-Item -Path $global:requirementsFolder\RetroArch-Win64\* -Destination $global:retroArchPath -recurse -Force
-# global:
-# } else {
-#     Write-Host "ERROR: $global:retroArchBinary not found."
-#     exit -1
-# }
 
+function Start-RetroarchAndGenerateConfig {
+    # Start Retroarch and generate a config.
+    $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
+    $global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
 
-# # NES Setup
-# $nesCore = "$global:requirementsFolder\fceumm_libretro.dll.zip"
-# if(Test-Path $nesCore){
-#     Expand-Archive -Path $nesCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $nesCore not found."
-#     exit -1
-# }
+    if (Test-Path $global:retroarchExecutable) {
 
-# # N64 Setup
-# $n64Core = "$global:requirementsFolder\parallel_n64_libretro.dll.zip"
-# if(Test-Path $n64Core){
-#     Expand-Archive -Path $n64Core -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $n64Core not found."
-#     exit -1
-# }
+        Write-Host "INFO: Retroarch executable found, launching"
+        Start-Process $global:retroarchExecutable
 
-# # FBA Setup
-# $fbaCore = "$global:requirementsFolder\fbalpha2012_libretro.dll.zip"
-# if(Test-Path $fbaCore){
-#     Expand-Archive -Path $fbaCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $fbaCore not found."
-#     exit -1
-# }
-
-# # GBA Setup
-# $gbaCore = "$global:requirementsFolder\vba_next_libretro.dll.zip"
-# if(Test-Path $gbaCore){
-#     Expand-Archive -Path $gbaCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $gbaCore not found."
-#     exit -1
-# }
-
-# # SNES Setup
-# $snesCore = "$global:requirementsFolder\snes9x_libretro.dll.zip"
-# if(Test-Path $snesCore){
-#     Expand-Archive -Path $snesCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $snesCore not found."
-#     exit -1
-# }
-
-# # Genesis GX Setup
-# $mdCore = "$global:requirementsFolder\genesis_plus_gx_libretro.dll.zip"
-# if(Test-Path $mdCore){
-#     Expand-Archive -Path $mdCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $mdCore not found."
-#     exit -1
-# }
-
-# # Game boy Colour Setup
-# $gbcCore = "$global:requirementsFolder\gambatte_libretro.dll.zip"
-# if(Test-Path $gbcCore){
-#     Expand-Archive -Path $gbcCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $gbcCore not found."
-#     exit -1
-# }
-
-# # Atari2600 Setup
-# $atari2600Core = "$global:requirementsFolder\stella_libretro.dll.zip"
-# if(Test-Path $atari2600Core){
-#     Expand-Archive -Path $atari2600Core -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $atari2600Core not found."
-#     exit -1
-# }
-
-# # MAME Setup
-# $mameCore = "$global:requirementsFolder\mame2010_libretro.dll.zip"
-# if(Test-Path $mameCore){
-#     Expand-Archive -Path $mameCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $mameCore not found."
-#     exit -1
-# }
-
-# # PSX Setup
-# $psxEmulator = "$global:requirementsFolder\ePSXe205.zip"
-# if(Test-Path $psxEmulator){
-#     $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
-#     $psxBiosPath = $psxEmulatorPath + "bios\"
-#     New-Item -ItemType Directory -Force -Path $psxEmulatorPath | Out-Null
-#     Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $psxEmulator not found."
-#     exit -1
-# }
-
-# # PS2 Setup
-# $ps2EmulatorMsi = "$global:requirementsFolder\pcsx2-1.6.0-setup.exe"
-# if(Test-Path $ps2EmulatorMsi){
-#     $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
-#     $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
-#     $ps2BiosPath = "$ps2EmulatorPath\bios\"
-#     Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath | Out-Null
-#     New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $ps2EmulatorMsi not found."
-#     exit -1
-# }
-
-# # NeoGeo Pocket Setup
-# $ngpCore = "$global:requirementsFolder\race_libretro.dll.zip"
-# if(Test-Path $ngpCore){
-#     Expand-Archive -Path $ngpCore -Destination $global:coresPath | Out-Null
-# } else {
-#     Write-Host "ERROR: $ngpCore not found."
-#     exit -1
-# }
-
-# Start Retroarch and generate a config.
-$global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
-$global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
-
-if (Test-Path $global:retroarchExecutable) {
-    
-    Write-Host "INFO: Retroarch executable found, launching"
-    Start-Process $global:retroarchExecutable
-    
-    while (!(Test-Path $global:retroarchConfigPath)) { 
-        Write-Host "INFO: Checking for retroarch config file"
-        Start-Sleep 5
-    }
-
-    $retroarchProcess = Get-Process retroarch.exe -ErrorAction SilentlyContinue
-    if ($retroarchProcess) {
-        $retroarchProcess.CloseMainWindow()
-        Start-sleep 5
-        if (!$retroarchProcess.HasExited) {
-            $retroarchProcess | Stop-Process -Force
+        while (!(Test-Path $global:retroarchConfigPath)) { 
+            Write-Host "INFO: Checking for retroarch config file"
+            Start-Sleep 5
         }
-    }
-    Stop-Process -Name "retroarch" -ErrorAction SilentlyContinue
 
-} else {
-    Write-Host "ERROR: Could not find retroarch.exe"
-    exit -1
+        $retroarchProcess = Get-Process retroarch.exe -ErrorAction SilentlyContinue
+        if ($retroarchProcess) {
+            $retroarchProcess.CloseMainWindow()
+            Start-sleep 5
+            if (!$retroarchProcess.HasExited) {
+                $retroarchProcess | Stop-Process -Force
+            }
+        }
+        Stop-Process -Name "retroarch" -ErrorAction SilentlyContinue
+
+    }
+    else {
+        Write-Host "ERROR: Could not find retroarch.exe"
+        exit -1
+    }
+
+    # Tweak retroarch config!
+    Write-Host "INFO: Replacing retroarch config"
+    $settingToFind = 'video_fullscreen = "false"'
+    $settingToSet = 'video_fullscreen = "true"'
+    (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+
+    $settingToFind = 'savestate_auto_load = "false"'
+    $settingToSet = 'savestate_auto_load = "true"'
+    (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+
+    $settingToFind = 'input_player1_analog_dpad_mode = "0"'
+    $settingToSet = 'input_player1_analog_dpad_mode = "1"'
+    (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+
+    $settingToFind = 'input_player2_analog_dpad_mode = "0"'
+    $settingToSet = 'input_player2_analog_dpad_mode = "1"'
+    (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 }
 
+# Call the function
+Start-RetroarchAndGenerateConfig
 
-# Tweak retroarch config!
-Write-Host "INFO: Replacing retroarch config"
-$settingToFind = 'video_fullscreen = "false"'
-$settingToSet = 'video_fullscreen = "true"'
-(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 
-$settingToFind = 'savestate_auto_load = "false"'
-$settingToSet = 'savestate_auto_load = "true"'
-(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+# # Start Retroarch and generate a config.
+# $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
+# $global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
 
-$settingToFind = 'input_player1_analog_dpad_mode = "0"'
-$settingToSet = 'input_player1_analog_dpad_mode = "1"'
-(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+# if (Test-Path $global:retroarchExecutable) {
+    
+#     Write-Host "INFO: Retroarch executable found, launching"
+#     Start-Process $global:retroarchExecutable
+    
+#     while (!(Test-Path $global:retroarchConfigPath)) { 
+#         Write-Host "INFO: Checking for retroarch config file"
+#         Start-Sleep 5
+#     }
 
-$settingToFind = 'input_player2_analog_dpad_mode = "0"'
-$settingToSet = 'input_player2_analog_dpad_mode = "1"'
-(Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+#     $retroarchProcess = Get-Process retroarch.exe -ErrorAction SilentlyContinue
+#     if ($retroarchProcess) {
+#         $retroarchProcess.CloseMainWindow()
+#         Start-sleep 5
+#         if (!$retroarchProcess.HasExited) {
+#             $retroarchProcess | Stop-Process -Force
+#         }
+#     }
+#     Stop-Process -Name "retroarch" -ErrorAction SilentlyContinue
+
+# } else {
+#     Write-Host "ERROR: Could not find retroarch.exe"
+#     exit -1
+# }
+
+
+# # Tweak retroarch config!
+# Write-Host "INFO: Replacing retroarch config"
+# $settingToFind = 'video_fullscreen = "false"'
+# $settingToSet = 'video_fullscreen = "true"'
+# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+
+# $settingToFind = 'savestate_auto_load = "false"'
+# $settingToSet = 'savestate_auto_load = "true"'
+# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+
+# $settingToFind = 'input_player1_analog_dpad_mode = "0"'
+# $settingToSet = 'input_player1_analog_dpad_mode = "1"'
+# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
+
+# $settingToFind = 'input_player2_analog_dpad_mode = "0"'
+# $settingToSet = 'input_player2_analog_dpad_mode = "1"'
+# (Get-Content $global:retroarchConfigPath) -replace $settingToFind, $settingToSet | Set-Content $global:retroarchConfigPath
 
 # Add roms
 $romPath =  "$env:userprofile\.emulationstation\roms"
