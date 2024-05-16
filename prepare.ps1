@@ -5,19 +5,11 @@ $global:ppssppInstallDir = $null
 $global:yuzuInstallDir = $null
 $global:rpcs3InstallDir = $null
 $global:requirementsFolder = "$PSScriptRoot\requirements"
-# $global:retroarchExecutable = $null
-# $global:retroarchConfigPath = $null
 $global:retroArchPath = "$env:userprofile\.emulationstation\systems\retroarch\"
-# $global:retroArchPath = $null
 $global:retroarchExecutable = "$global:retroArchPath\retroarch.exe"
 $global:retroarchConfigPath = "$global:retroArchPath\retroarch.cfg"
-
 $global:coresPath = "$global:retroArchPath\cores"
 $global:retroArchBinary = "$global:requirementsFolder\RetroArch.7z"
-
-# $global:coresPath = $null
-# $global:retroArchBinary = $null
-# $global:romPath = $null
 $global:romPath = "$env:userprofile\.emulationstation\roms"
 
 

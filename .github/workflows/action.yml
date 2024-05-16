@@ -1,4 +1,4 @@
-name: 'Build'
+name: 'Run EmulationStation Script'
 
 on:
   push:
@@ -15,9 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    # - name: Powershell script runner
-      # run: .\prepare.ps1
 
     - name: Install Dependencies
       run: .\prepare.ps1 -installDependencies
