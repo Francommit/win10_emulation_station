@@ -150,15 +150,6 @@ function ConfigureScoop {
     # if ($LASTEXITCODE -ne 0) {
     #     throw "Scoop install failed."
     # }
-
-    #scoop install ppsspp-dev
- 
-
-    scoop install rpcs3
-    if ($LASTEXITCODE -ne 0) {
-        throw "Scoop install failed."
-    }
-    # scoop bucket add emulators https://github.com/borger/scoop-emulators.git
     
     scoop install ryujinx.json
     if ($LASTEXITCODE -ne 0) {
@@ -166,9 +157,15 @@ function ConfigureScoop {
     }
 
     scoop bucket rm emulator
-scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+    scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+     
      scoop install ppsspp
        if ($LASTEXITCODE -ne 0) {
+        throw "Scoop install failed."
+    }
+
+    scoop install rpcs3
+    if ($LASTEXITCODE -ne 0) {
         throw "Scoop install failed."
     }
 
