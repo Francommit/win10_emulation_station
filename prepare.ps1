@@ -143,17 +143,27 @@ function ConfigureScoop {
     scoop bucket add main
 
     Write-Host "INFO: Adding scoop bucket"
-    # Write-Host "INFO: Installing Citra"
-    # scoop install citra-canary
-    
-    # scoop bucket add emulators https://github.com/borger/scoop-emulators.git
     scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
-    # scoop install ppsspp
-    scoop install rpcs3
     
-    scoop install yuzu
+    scoop install citra-canary
     if ($LASTEXITCODE -ne 0) {
-        throw "Installation of $yuzu failed."
+        throw "Scoop install failed."
+    }
+
+    scoop install ppsspp-dev
+    if ($LASTEXITCODE -ne 0) {
+        throw "Scoop install failed."
+    }
+
+    scoop install rpcs3
+    if ($LASTEXITCODE -ne 0) {
+        throw "Scoop install failed."
+    }
+    # scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+    
+    scoop install ryujinx.json
+    if ($LASTEXITCODE -ne 0) {
+        throw "Scoop install failed."
     }
 
 }
