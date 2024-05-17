@@ -156,6 +156,7 @@ function ConfigureScoop {
     }
     catch {
         Write-Output "ERROR: Failed to install yuzu"
+        throw "Failed to install yuzu"
     }
 
 }
