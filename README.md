@@ -27,7 +27,7 @@ Steps
 ------
 - Single one liner to install everything:
 ```
-if (-Not (Test-Path C:\temp\es-setup)) { mkdir C:\temp\es-setup }; Set-Location C:\temp\es-setup\;Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/1.4.0.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
+if (-Not (Test-Path C:\temp\es-setup)) { mkdir C:\temp\es-setup }; Set-Location C:\temp\es-setup\;Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/1.3.9.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
 ```
 - Script complete when powershell spits out:
 ```
