@@ -143,11 +143,11 @@ function ConfigureScoop {
     scoop bucket add main
 
     Write-Host "INFO: Adding scoop bucket"
-    # scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
     # Write-Host "INFO: Installing Citra"
     # scoop install citra-canary
     
-    scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+    # scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+    scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
     # scoop install ppsspp
     scoop install rpcs3
     
