@@ -151,12 +151,9 @@ function ConfigureScoop {
     # scoop install ppsspp
     scoop install rpcs3
     
-    try {
-        scoop install yuzu
-    }
-    catch {
-        Write-Output "ERROR: Failed to install yuzu"
-        throw "Failed to install yuzu"
+    scoop install yuzu
+    if ($LASTEXITCODE -ne 0) {
+        throw "Installation of $yuzu failed."
     }
 
 }
