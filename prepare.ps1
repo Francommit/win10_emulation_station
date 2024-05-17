@@ -148,7 +148,7 @@ function ConfigureScoop {
     # scoop install citra-canary
     
     scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
-    scoop install ppsspp
+    # scoop install ppsspp
     scoop install rpcs3
     
     try {
