@@ -143,12 +143,20 @@ function ConfigureScoop {
     scoop bucket add main
 
     Write-Host "INFO: Adding scoop bucket"
-    scoop bucket add emulators https://github.com/borger/scoop-emulators.git
-    Write-Host "INFO: Installing Citra"
-    scoop install citra
-    scoop install ppsspp-dev
-    scoop install yuzu
+    # scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
+    # Write-Host "INFO: Installing Citra"
+    # scoop install citra-canary
+    
+    scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
+    scoop install ppsspp
     scoop install rpcs3
+    
+    try {
+        scoop install yuzu
+    }
+    catch {
+        Write-Output "ERROR: Failed to install yuzu"
+    }
 
 }
 
