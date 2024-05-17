@@ -145,10 +145,11 @@ function ConfigureScoop {
     Write-Host "INFO: Adding scoop bucket"
     scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
     
-    scoop install citra-canary
-    if ($LASTEXITCODE -ne 0) {
-        throw "Scoop install failed."
-    }
+    # TO-DO: Find alternative 3DS emu
+    # scoop install citra-canary
+    # if ($LASTEXITCODE -ne 0) {
+    #     throw "Scoop install failed."
+    # }
 
     scoop install ppsspp-dev
     if ($LASTEXITCODE -ne 0) {
