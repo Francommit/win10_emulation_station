@@ -143,7 +143,7 @@ function ConfigureScoop {
     scoop bucket add main
 
     Write-Host "INFO: Adding scoop bucket"
-    scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
+   # scoop bucket add emulators https://github.com/hermanjustnu/scoop-emulators.git
     
     # TO-DO: Find alternative 3DS emu
     # scoop install citra-canary
@@ -151,12 +151,9 @@ function ConfigureScoop {
     #     throw "Scoop install failed."
     # }
     
-    scoop install ryujinx.json
-    if ($LASTEXITCODE -ne 0) {
-        throw "Scoop install failed."
-    }
+    
 
-    scoop bucket rm emulator
+  #  scoop bucket rm emulator
     scoop bucket add emulators https://github.com/borger/scoop-emulators.git
      
      scoop install ppsspp
@@ -165,6 +162,11 @@ function ConfigureScoop {
     }
 
     scoop install rpcs3
+    if ($LASTEXITCODE -ne 0) {
+        throw "Scoop install failed."
+    }
+
+    scoop install ryujinx.json
     if ($LASTEXITCODE -ne 0) {
         throw "Scoop install failed."
     }
