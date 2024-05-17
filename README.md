@@ -8,6 +8,11 @@ EmulationStation configured for Windows
 An auto-installer to set up Emulation Station correctly on a 64-bit version of Windows 10/11
 
 
+TO-DO: Test this once merged to master
+```
+if (-Not (Test-Path C:\temp\es-setup)) { mkdir C:\temp\es-setup }; Set-Location C:\temp\es-setup\;Set-ExecutionPolicy Bypass -Scope Process -Force;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;Invoke-WebRequest "https://github.com/Francommit/win10_emulation_station/archive/master.zip" -OutFile "emulationStation.zip";Expand-Archive .\emulationStation.zip;cd .\emulationStation; cd .\win*;.\prepare.ps1
+```
+
 Features
 ------
 - Uses an up to date version of Emulation Station from the Raspberry Pi branch

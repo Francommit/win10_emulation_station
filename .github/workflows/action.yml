@@ -1,10 +1,12 @@
-name: 'Build'
+name: 'Run Script'
 
 on:
   push:
-    branches: [master, dev, test]
-  # schedule:
-  #   - cron: "0 0 */2 * *"
+    branches:
+      - master
+      - dev
+  schedule:
+    - cron: "0 0 */2 * *"
 
     
 jobs:
@@ -12,9 +14,20 @@ jobs:
   build:
 
     runs-on: windows-latest
+    
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'schedule' && github.ref == 'refs/heads/master')
+
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Powershell script runner
-      run: .\prepare.ps1
+    - name: Install Dependencies
+      run: .\prepare.ps1 -installDependencies
+
+    - name: Acquire Files
+      run: .\prepare.ps1 -acquireFiles
+
+    - name: Setup ROMs
+      run: .\prepare.ps1 -setupRoms
