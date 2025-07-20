@@ -97,21 +97,29 @@ function GithubReleaseFiles {
         $repo = $_.repo
         $file = $_.file
         $releases = "https://api.github.com/repos/$repo/releases"
-        $tag = (Invoke-WebRequest $releases -usebasicparsing| ConvertFrom-Json)[0].tag_name
-    
-        $url = "https://github.com/$repo/releases/download/$tag/$file"
-        $output = "$requirementsFolder\$file"
+        
+        try {
+            $response = Invoke-WebRequest $releases -usebasicparsing
+            $releaseData = $response | ConvertFrom-Json
+            $tag = $releaseData[0].tag_name
+        
+            $url = "https://github.com/$repo/releases/download/$tag/$file"
+            $output = "$requirementsFolder\$file"
 
-        if(![System.IO.File]::Exists($output)) {
-    
-            Write-Host "INFO: Downloading $file"
-            Invoke-WebRequest $url -Out $output
-            Write-Host "INFO: Finished Downloading $file successfully to: $output"
-            Write-Host "INFO: Size of the downloaded file is $((Get-Item $output).Length / 1MB) MB"
-    
-        } else {
-    
-            Write-Host $file "INFO: Already exists...Skipping download."
+            if(![System.IO.File]::Exists($output)) {
+        
+                Write-Host "INFO: Downloading $file"
+                Invoke-WebRequest $url -Out $output
+                Write-Host "INFO: Finished Downloading $file successfully to: $output"
+                Write-Host "INFO: Size of the downloaded file is $((Get-Item $output).Length / 1MB) MB"
+        
+            } else {
+        
+                Write-Host $file "INFO: Already exists...Skipping download."
+            }
+        } catch {
+            Write-Host "WARNING: Failed to download $file from $repo - $_"
+            Write-Host "WARNING: Repository may be blocked or unavailable. Continuing with next download..."
         }
 
     }
@@ -167,15 +175,31 @@ scoop bucket add main
 Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing emulators via Scoop"
-Write-Host "WARNING: Yuzu emulator was shut down by Nintendo in 2024. Using Suyu as alternative."
-scoop install citra
-scoop install ppsspp-dev
-# yuzu is dead, will use Suyu from GitHub releases instead
-scoop install rpcs3
+Write-Host "WARNING: Nintendo Switch emulation unavailable - Yuzu shut down in 2024 and Suyu repository blocked by DMCA."
+Write-Host "WARNING: Citra is no longer available in Scoop buckets. Skipping Citra installation."
 
-$citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
-$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-$suyuInstallDir = "$env:userprofile\.emulationstation\systems\suyu"
+# Install PPSSPP with error handling
+try {
+    scoop install ppsspp-dev
+    Write-Host "INFO: PPSSPP installed successfully"
+} catch {
+    Write-Host "WARNING: PPSSPP installation failed: $_"
+}
+
+# Nintendo Switch emulation disabled - Yuzu shutdown and Suyu DMCA blocked
+
+# Install RPCS3 with error handling  
+try {
+    scoop install rpcs3
+    Write-Host "INFO: RPCS3 installed successfully"
+} catch {
+    Write-Host "WARNING: RPCS3 installation failed: $_"
+}
+
+# Citra is no longer available in Scoop buckets
+# $citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
+$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp-dev\current"
+# $suyuInstallDir = "$env:userprofile\.emulationstation\systems\suyu"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
 choco install 7zip --no-progress -y | Out-Null
@@ -189,25 +213,34 @@ DownloadFiles("downloads")
 DownloadFiles("other_downloads")
 GithubReleaseFiles
 
-# Install EmulationStation Desktop Edition (ES-DE)
+# Install EmulationStation Desktop Edition (ES-DE) or fallback
 Write-Host "INFO: Installing EmulationStation Desktop Edition (ES-DE)"
 $esdeInstaller = "$requirementsFolder\EmulationStation-DE-3.3.0-Windows.exe"
+$fallbackES = "$requirementsFolder\EmulationStation-Win32.zip"
+
 if(Test-Path $esdeInstaller){
     Start-Process $esdeInstaller -ArgumentList "/S" -Wait
     Write-Host "INFO: ES-DE installed successfully"
+} elseif(Test-Path $fallbackES) {
+    Write-Host "WARNING: ES-DE not available, using fallback EmulationStation"
+    Expand-Archive -Path $fallbackES -Destination "$env:userprofile\.emulationstation\systems" -Force | Out-Null
+    Write-Host "INFO: Fallback EmulationStation extracted successfully"
 } else {
-    Write-Host "ERROR: ES-DE installer not found at $esdeInstaller"
-    exit -1
+    Write-Host "WARNING: Neither ES-DE nor fallback EmulationStation found. Continuing without EmulationStation installation."
 }
 
-# Generate Emulation Station config file
-& "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
-while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
-    Write-Host "INFO: Checking for config file..."
-    Start-Sleep 10
+# Generate Emulation Station config file (if EmulationStation is available)
+if(Test-Path "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe") {
+    & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
+    while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
+        Write-Host "INFO: Checking for config file..."
+        Start-Sleep 10
+    }
+    Write-Host "INFO: Config file generated"
+    Stop-Process -Name "emulationstation"
+} else {
+    Write-Host "WARNING: EmulationStation not installed, will generate custom config file later"
 }
-Write-Host "INFO: Config file generated"
-Stop-Process -Name "emulationstation"
 
 #####
 # Retroarch
@@ -224,8 +257,7 @@ if(Test-Path $retroArchBinary){
         # New path - $retroArchPath\RetroArch-Win64
 
 } else {
-    Write-Host "ERROR: $retroArchBinary not found."
-    exit -1
+    Write-Host "WARNING: $retroArchBinary not found. RetroArch setup will be skipped."
 }
 
 
@@ -234,8 +266,7 @@ $nesCore = "$requirementsFolder\fceumm_libretro.dll.zip"
 if(Test-Path $nesCore){
     Expand-Archive -Path $nesCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $nesCore not found."
-    exit -1
+    Write-Host "WARNING: $nesCore not found. NES emulation will be skipped."
 }
 
 # N64 Setup
@@ -243,8 +274,7 @@ $n64Core = "$requirementsFolder\parallel_n64_libretro.dll.zip"
 if(Test-Path $n64Core){
     Expand-Archive -Path $n64Core -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $n64Core not found."
-    exit -1
+    Write-Host "WARNING: $n64Core not found. N64 emulation will be skipped."
 }
 
 # FBA Setup
@@ -252,8 +282,7 @@ $fbaCore = "$requirementsFolder\fbalpha2012_libretro.dll.zip"
 if(Test-Path $fbaCore){
     Expand-Archive -Path $fbaCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $fbaCore not found."
-    exit -1
+    Write-Host "WARNING: $fbaCore not found. FBA emulation will be skipped."
 }
 
 # GBA Setup
@@ -261,8 +290,7 @@ $gbaCore = "$requirementsFolder\vba_next_libretro.dll.zip"
 if(Test-Path $gbaCore){
     Expand-Archive -Path $gbaCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $gbaCore not found."
-    exit -1
+    Write-Host "WARNING: $gbaCore not found. GBA emulation will be skipped."
 }
 
 # SNES Setup
@@ -270,8 +298,7 @@ $snesCore = "$requirementsFolder\snes9x_libretro.dll.zip"
 if(Test-Path $snesCore){
     Expand-Archive -Path $snesCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $snesCore not found."
-    exit -1
+    Write-Host "WARNING: $snesCore not found. SNES emulation will be skipped."
 }
 
 # Genesis GX Setup
@@ -279,8 +306,7 @@ $mdCore = "$requirementsFolder\genesis_plus_gx_libretro.dll.zip"
 if(Test-Path $mdCore){
     Expand-Archive -Path $mdCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $mdCore not found."
-    exit -1
+    Write-Host "WARNING: $mdCore not found. Genesis emulation will be skipped."
 }
 
 # Game boy Colour Setup
@@ -288,8 +314,7 @@ $gbcCore = "$requirementsFolder\gambatte_libretro.dll.zip"
 if(Test-Path $gbcCore){
     Expand-Archive -Path $gbcCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $gbcCore not found."
-    exit -1
+    Write-Host "WARNING: $gbcCore not found. GBC emulation will be skipped."
 }
 
 # Atari2600 Setup
@@ -297,8 +322,7 @@ $atari2600Core = "$requirementsFolder\stella_libretro.dll.zip"
 if(Test-Path $atari2600Core){
     Expand-Archive -Path $atari2600Core -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $atari2600Core not found."
-    exit -1
+    Write-Host "WARNING: $atari2600Core not found. Atari 2600 emulation will be skipped."
 }
 
 # MAME Setup
@@ -306,8 +330,7 @@ $mameCore = "$requirementsFolder\mame2010_libretro.dll.zip"
 if(Test-Path $mameCore){
     Expand-Archive -Path $mameCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $mameCore not found."
-    exit -1
+    Write-Host "WARNING: $mameCore not found. MAME emulation will be skipped."
 }
 
 # PSX Setup - Keep ePSXe as fallback if DuckStation not available
@@ -332,8 +355,7 @@ if(Test-Path $ps2EmulatorExe){
     Start-Process $ps2EmulatorExe -ArgumentList "/S", "/D=$ps2EmulatorPath" -Wait
     New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
 } else {
-    Write-Host "ERROR: $ps2EmulatorExe not found."
-    exit -1
+    Write-Host "WARNING: $ps2EmulatorExe not found. PS2 emulation will be skipped."
 }
 
 # DuckStation Setup (Modern PlayStation 1 Emulator)
@@ -348,24 +370,23 @@ if(Test-Path $duckstationZip){
     Write-Host "WARNING: DuckStation not found, will use ePSXe as fallback"
 }
 
-# Suyu Setup (Nintendo Switch Emulator - Yuzu replacement)
-Write-Host "INFO: Setting up Suyu (Nintendo Switch Emulator)"
-$suyuZip = "$requirementsFolder\suyu-windows-msvc.zip"
-if(Test-Path $suyuZip){
-    New-Item -ItemType Directory -Force -Path $suyuInstallDir | Out-Null
-    Expand-Archive -Path $suyuZip -Destination $suyuInstallDir -Force | Out-Null
-    Write-Host "INFO: Suyu installed successfully"
-} else {
-    Write-Host "WARNING: Suyu not found, Nintendo Switch emulation will not be available"
-}
+# Nintendo Switch emulation disabled - Suyu repository blocked by DMCA
+# Write-Host "INFO: Setting up Suyu (Nintendo Switch Emulator)"
+# $suyuZip = "$requirementsFolder\suyu-windows-msvc.zip"
+# if(Test-Path $suyuZip){
+#     New-Item -ItemType Directory -Force -Path $suyuInstallDir | Out-Null
+#     Expand-Archive -Path $suyuZip -Destination $suyuInstallDir -Force | Out-Null
+#     Write-Host "INFO: Suyu installed successfully"
+# } else {
+#     Write-Host "WARNING: Suyu not found, Nintendo Switch emulation will not be available"
+# }
 
 # NeoGeo Pocket Setup
 $ngpCore = "$requirementsFolder\race_libretro.dll.zip"
 if(Test-Path $ngpCore){
     Expand-Archive -Path $ngpCore -Destination $coresPath | Out-Null
 } else {
-    Write-Host "ERROR: $ngpCore not found."
-    exit -1
+    Write-Host "WARNING: $ngpCore not found. Neo Geo Pocket emulation will be skipped."
 }
 
 # Start Retroarch and generate a config.
@@ -428,8 +449,7 @@ if(Test-Path $nesRom){
     New-Item -ItemType Directory -Force -Path $nesPath | Out-Null
     Expand-Archive -Path $nesRom -Destination $nesPath | Out-Null
 } else {
-    Write-Host "ERROR: $nesRom not found."
-    exit -1
+    Write-Host "WARNING: $nesRom not found. No NES ROM will be available."
 }
 
 Write-Host "INFO: Setup N64"
@@ -439,8 +459,7 @@ if(Test-Path $n64Rom){
     New-Item -ItemType Directory -Force -Path $n64Path | Out-Null
     Expand-Archive -Path $n64Rom -Destination $n64Path | Out-Null
 } else {
-    Write-Host "ERROR: $n64Rom not found."
-    exit -1
+    Write-Host "WARNING: $n64Rom not found. No N64 ROM will be available."
 }
 
 Write-Host "INFO: Setup psp"
@@ -451,21 +470,21 @@ if (Test-Path $pspRom) {
     Move-Item -Path $pspRom -Destination $pspPath -Force | Out-Null
 }
 else {
-    Write-Host "ERROR: $pspRom not found."
-    exit -1
+    Write-Host "WARNING: $pspRom not found. No PSP ROM will be available."
 }
 
-Write-Host "INFO: Setup Nintendo Switch"
-$switchPath = "$romPath\switch"
-$switchRom = "$requirementsFolder\tetriswitch.nro"
-if (Test-Path $switchRom) {
-    New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
-    Move-Item -Path $switchRom -Destination $switchPath -Force | Out-Null
-}
-else {
-    Write-Host "ERROR: $switchRom not found."
-    exit -1
-}
+# Nintendo Switch setup disabled - emulator unavailable due to DMCA
+# Write-Host "INFO: Setup Nintendo Switch"
+# $switchPath = "$romPath\switch"
+# $switchRom = "$requirementsFolder\tetriswitch.nro"
+# if (Test-Path $switchRom) {
+#     New-Item -ItemType Directory -Force -Path $switchPath | Out-Null
+#     Move-Item -Path $switchRom -Destination $switchPath -Force | Out-Null
+# }
+# else {
+#     Write-Host "ERROR: $switchRom not found."
+#     exit -1
+# }
 
 Write-Host "INFO: Setup PS3"
 $ps3Path = "$romPath\ps3"
@@ -475,8 +494,7 @@ if (Test-Path $ps3Rom) {
     Move-Item -Path $ps3Rom -Destination $ps3Path | Out-Null
 }
 else {
-    Write-Host "ERROR: $ps3Rom not found."
-    exit -1
+    Write-Host "WARNING: $ps3Rom not found. No PS3 content will be available."
 }
 
 Write-Host "INFO: Setup PS Vita"
@@ -487,8 +505,7 @@ if (Test-Path $vitaRom) {
     Move-Item -Path $vitaRom -Destination $vitaPath -Force | Out-Null
 }
 else {
-    Write-Host "ERROR: $vitaRom not found."
-    exit -1
+    Write-Host "WARNING: $vitaRom not found. No Vita content will be available."
 }
 
 Write-Host "INFO: Setup Vita3k"
@@ -501,8 +518,7 @@ $vita3kLatestBuild = "$requirementsFolder\windows-latest.zip"
 if(Test-Path $vita3kLatestBuild){
     Expand-Archive -Path $vita3kLatestBuild -Destination $vita3kInstallFolder -force | Out-Null
 } else {
-    Write-Host "ERROR: $vita3kLatestBuild not found."
-    exit -1
+    Write-Host "WARNING: $vita3kLatestBuild not found. Vita3K setup will be skipped."
 }
 
 Write-Host "INFO: Setup 3DS"
@@ -513,8 +529,7 @@ if (Test-Path $3dsRom) {
     Move-Item -Path $3dsRom -Destination $3dsPath -Force | Out-Null
 }
 else {
-    Write-Host "ERROR: $3dsRom not found."
-    exit -1
+    Write-Host "WARNING: $3dsRom not found. No 3DS ROM will be available."
 }
 
 Write-Host "INFO: Setup GBA"
@@ -733,6 +748,7 @@ $newConfig = "<systemList>
         <platform>vita</platform>
         <theme>vita</theme>
     </system>
+    <!-- Nintendo Switch system disabled - Suyu emulator blocked by DMCA
     <system>
         <name>switch</name>
         <fullname>Nintendo Switch (Suyu)</fullname>
@@ -742,6 +758,7 @@ $newConfig = "<systemList>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
+    -->
     <system>
         <name>ps3</name>
         <fullname>PS3</fullname>

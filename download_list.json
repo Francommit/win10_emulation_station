@@ -151,10 +151,6 @@
 			"repo": "Ryuzaki-MrL/tetriswitch"
 		},
 		{
-			"file": "suyu-windows-msvc.zip",
-			"repo": "suyu-emu/suyu"
-		},
-		{
 			"file": "windows-latest.zip",
 			"repo": "Vita3K/Vita3K"
 		},
