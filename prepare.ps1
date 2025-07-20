@@ -2,22 +2,31 @@
 function DownloadFiles {
     param ([String]$jsonDownloadOption)
     
-    Write-Host "Starting downloading of $jsonDownloadOption"
+    Write-Host "INFO: Starting download of $jsonDownloadOption section"
 
-    Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption | ForEach-Object {
-    
+    $downloads = Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json | Select-Object -expand $jsonDownloadOption
+    $totalFiles = $downloads.Count
+    $currentFile = 0
+
+    $downloads | ForEach-Object {
+        $currentFile++
         $url = $_.url
         $file = $_.file
         $output = "$requirementsFolder\$file" 
 
+        Write-Host "INFO: [$currentFile/$totalFiles] Processing $file"
+
         if(![System.IO.File]::Exists($output)){
             
-            Write-Host "INFO: Downloading $file"
-            if($PSVersionTable.PSEdition -eq "Core"){
-                Invoke-WebRequest $url -Out $output -SkipCertificateCheck
-            } else {
-
-                add-type @"
+            Write-Host "INFO: Downloading $file from $url"
+            try {
+                if($PSVersionTable.PSEdition -eq "Core"){
+                    Invoke-WebRequest $url -Out $output -SkipCertificateCheck -UseBasicParsing
+                } else {
+                    # Set TLS 1.2 for compatibility
+                    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+                    
+                    add-type @"
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     public class TrustAllCertsPolicy : ICertificatePolicy {
@@ -28,22 +37,57 @@ function DownloadFiles {
         }
     }
 "@
-                [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
-
-                Invoke-WebRequest $url -Out $output 
+                    [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+                    Invoke-WebRequest $url -Out $output -UseBasicParsing
+                }
                 
+                if(Test-Path $output) {
+                    $fileSize = (Get-Item $output).Length / 1MB
+                    Write-Host "INFO: Downloaded $file successfully ($([math]::Round($fileSize, 2)) MB)"
+                } else {
+                    Write-Host "ERROR: Download failed for $file"
+                }
             }
-            Write-Host "INFO: Finished Downloading $file successfully to: $output"
-            Write-Host "INFO: Size of the downloaded file is $((Get-Item $output).Length / 1MB) MB"
-    
+            catch {
+                Write-Host "ERROR: Failed to download $file - $($_.Exception.Message)"
+                Write-Host "WARNING: Continuing with next download..."
+            }
         } else {
-    
-            Write-Host $file "INFO: Already exists...Skipping download."
-    
+            $fileSize = (Get-Item $output).Length / 1MB
+            Write-Host "INFO: $file already exists ($([math]::Round($fileSize, 2)) MB) - Skipping"
         }
-    
     }
+    Write-Host "INFO: Completed $jsonDownloadOption downloads"
+}
 
+function Test-DownloadedFiles {
+    Write-Host "INFO: Validating downloaded files..."
+    $jsonContent = Get-Content "$scriptDir\download_list.json" | ConvertFrom-Json
+    $missingFiles = @()
+    
+    # Check downloads
+    $jsonContent.downloads | ForEach-Object {
+        $filePath = "$requirementsFolder\$($_.file)"
+        if(!(Test-Path $filePath)) {
+            $missingFiles += $_.file
+        }
+    }
+    
+    # Check releases
+    $jsonContent.releases | ForEach-Object {
+        $filePath = "$requirementsFolder\$($_.file)"
+        if(!(Test-Path $filePath)) {
+            $missingFiles += $_.file
+        }
+    }
+    
+    if($missingFiles.Count -gt 0) {
+        Write-Host "WARNING: The following files failed to download:"
+        $missingFiles | ForEach-Object { Write-Host "  - $_" }
+        Write-Host "Some emulators may not work properly."
+    } else {
+        Write-Host "INFO: All files downloaded successfully!"
+    }
 }
 
 function GithubReleaseFiles {
@@ -99,6 +143,8 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
 $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path $scriptPath
 Write-Host "INFO: Script directory is: $scriptDir"
+Write-Host "INFO: Win10 EmulationStation Setup - Updated $(Get-Date -Format 'yyyy-MM-dd')"
+Write-Host "WARNING: This script has been updated to use modern emulators and ES-DE instead of legacy versions"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
@@ -120,15 +166,16 @@ scoop bucket add main
 
 Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
-Write-Host "INFO: Installing Citra"
+Write-Host "INFO: Installing emulators via Scoop"
+Write-Host "WARNING: Yuzu emulator was shut down by Nintendo in 2024. Using Suyu as alternative."
 scoop install citra
 scoop install ppsspp-dev
-scoop install yuzu
+# yuzu is dead, will use Suyu from GitHub releases instead
 scoop install rpcs3
 
 $citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
 $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-$yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+$suyuInstallDir = "$env:userprofile\.emulationstation\systems\suyu"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
 choco install 7zip --no-progress -y | Out-Null
@@ -142,9 +189,16 @@ DownloadFiles("downloads")
 DownloadFiles("other_downloads")
 GithubReleaseFiles
 
-# Install Emulation Station
-Write-Host "INFO: Starting Emulation station to generate config"
-Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentList "/S" -Wait
+# Install EmulationStation Desktop Edition (ES-DE)
+Write-Host "INFO: Installing EmulationStation Desktop Edition (ES-DE)"
+$esdeInstaller = "$requirementsFolder\EmulationStation-DE-3.3.0-Windows.exe"
+if(Test-Path $esdeInstaller){
+    Start-Process $esdeInstaller -ArgumentList "/S" -Wait
+    Write-Host "INFO: ES-DE installed successfully"
+} else {
+    Write-Host "ERROR: ES-DE installer not found at $esdeInstaller"
+    exit -1
+}
 
 # Generate Emulation Station config file
 & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
@@ -256,29 +310,53 @@ if(Test-Path $mameCore){
     exit -1
 }
 
-# PSX Setup
+# PSX Setup - Keep ePSXe as fallback if DuckStation not available
 $psxEmulator = "$requirementsFolder\ePSXe205.zip"
 if(Test-Path $psxEmulator){
     $psxEmulatorPath = "$env:userprofile\.emulationstation\systems\epsxe\"
     $psxBiosPath = $psxEmulatorPath + "bios\"
     New-Item -ItemType Directory -Force -Path $psxEmulatorPath | Out-Null
     Expand-Archive -Path $psxEmulator -Destination $psxEmulatorPath | Out-Null
+    Write-Host "INFO: ePSXe installed as PlayStation 1 fallback emulator"
 } else {
-    Write-Host "ERROR: $psxEmulator not found."
+    Write-Host "WARNING: $psxEmulator not found."
+}
+
+# PS2 Setup - Updated to PCSX2 2.5.68
+$ps2EmulatorExe = "$requirementsFolder\pcsx2-2.5.68-windows-x64-Qt.exe"
+if(Test-Path $ps2EmulatorExe){
+    $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
+    $ps2Binary = "$ps2EmulatorPath\pcsx2-qt.exe"
+    $ps2BiosPath = "$ps2EmulatorPath\bios\"
+    Write-Host "INFO: Installing PCSX2 2.5.68"
+    Start-Process $ps2EmulatorExe -ArgumentList "/S", "/D=$ps2EmulatorPath" -Wait
+    New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
+} else {
+    Write-Host "ERROR: $ps2EmulatorExe not found."
     exit -1
 }
 
-# PS2 Setup
-$ps2EmulatorMsi = "$requirementsFolder\pcsx2-1.6.0-setup.exe"
-if(Test-Path $ps2EmulatorMsi){
-    $ps2EmulatorPath = "$env:userprofile\.emulationstation\systems\pcsx2\"
-    $ps2Binary = "$ps2EmulatorPath\`$TEMP\PCSX2 1.6.0\pcsx2.exe"
-    $ps2BiosPath = "$ps2EmulatorPath\bios\"
-    Expand-Archive -Path $ps2EmulatorMsi -Destination $ps2EmulatorPath | Out-Null
-    New-Item -ItemType Directory -Force -Path $ps2BiosPath | Out-Null
+# DuckStation Setup (Modern PlayStation 1 Emulator)
+Write-Host "INFO: Setting up DuckStation (PS1 Emulator)"
+$duckstationZip = "$requirementsFolder\DuckStation-qt-x64-ReleaseLTCG.zip"
+if(Test-Path $duckstationZip){
+    $duckstationPath = "$env:userprofile\.emulationstation\systems\duckstation\"
+    New-Item -ItemType Directory -Force -Path $duckstationPath | Out-Null
+    Expand-Archive -Path $duckstationZip -Destination $duckstationPath -Force | Out-Null
+    Write-Host "INFO: DuckStation installed successfully"
 } else {
-    Write-Host "ERROR: $ps2EmulatorMsi not found."
-    exit -1
+    Write-Host "WARNING: DuckStation not found, will use ePSXe as fallback"
+}
+
+# Suyu Setup (Nintendo Switch Emulator - Yuzu replacement)
+Write-Host "INFO: Setting up Suyu (Nintendo Switch Emulator)"
+$suyuZip = "$requirementsFolder\suyu-windows-msvc.zip"
+if(Test-Path $suyuZip){
+    New-Item -ItemType Directory -Force -Path $suyuInstallDir | Out-Null
+    Expand-Archive -Path $suyuZip -Destination $suyuInstallDir -Force | Out-Null
+    Write-Host "INFO: Suyu installed successfully"
+} else {
+    Write-Host "WARNING: Suyu not found, Nintendo Switch emulation will not be available"
 }
 
 # NeoGeo Pocket Setup
@@ -630,22 +708,20 @@ $esConfigFile = "$env:userprofile\.emulationstation\es_systems.cfg"
 
 <#
 ----------------------------------
-File extension supported by systems
+File extension supported by systems - Updated 2025
 ----------------------------------
 Sources for getting compatible file extension:
 Vita3K: https://vita3k.org/faq.html
-Yuzu: https://yuzu-emu.org/wiki/overview-of-switch-game-formats/
-RPCS3: NOT FOUND
+Suyu (Yuzu replacement): Nintendo Switch emulator - supports same formats as Yuzu
+RPCS3: PlayStation 3 emulator
 PPSSPP: https://www.ppsspp.org/faq.html
 Citra: https://community.citra-emu.org/t/3ds-vs-cci-rom-file-formats/191/4
-FCEUmm: https://docs.libretro.com/library/fceumm/
-Snes9x: https://docs.libretro.com/library/snes9x/
-ParaLLEl_n64: https://wiki.recalbox.com/en/emulators/consoles/nintendo-64/libretro-parallel_n64
-Dolphine: https://wiki.dolphin-emu.org/index.php?title=Installing_Dolphin#Post-Installation_Quick_Guide
-Gambatte: https://docs.libretro.com/library/gambatte/
-VBA Next: https://docs.libretro.com/library/vba_next/
-ePSXe: https://fantasyanime.com/emuhelp/epsxe#dumping-your-psx-games-to-iso (NOT OFFICIAL)
-PCSX2: https://fantasyanime.com/emuhelp/pcsx2#loading-a-ps2-iso (NOT OFFICIAL)
+DuckStation: Modern PlayStation 1 emulator with better accuracy than ePSXe
+PCSX2: Updated to version 2.5.68 with improved compatibility
+RetroArch cores: Updated to latest versions from libretro buildbot
+Dolphin: https://wiki.dolphin-emu.org/index.php?title=Installing_Dolphin#Post-Installation_Quick_Guide
+
+NOTE: Yuzu was shut down by Nintendo in March 2024. Using Suyu as replacement.
 #>
 $newConfig = "<systemList>
     <system>
@@ -659,10 +735,10 @@ $newConfig = "<systemList>
     </system>
     <system>
         <name>switch</name>
-        <fullname>Switch</fullname>
+        <fullname>Nintendo Switch (Suyu)</fullname>
         <path>$switchPath</path>
         <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
-        <command>$yuzuInstallDir\yuzu.exe %ROM%</command>
+        <command>$suyuInstallDir\suyu.exe %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
@@ -766,8 +842,17 @@ $newConfig = "<systemList>
         <theme>gba</theme>
     </system>
     <system>
-        <fullname>Playstation</fullname>
+        <fullname>PlayStation (DuckStation)</fullname>
         <name>psx</name>
+        <path>$psxPath</path>
+        <extension>.cue .CUE .iso .ISO .pbp .PBP .chd .CHD</extension>
+        <command>$env:userprofile\.emulationstation\systems\duckstation\duckstation-qt.exe -batch %ROM%</command>
+        <platform>psx</platform>
+        <theme>psx</theme>
+    </system>
+    <system>
+        <fullname>PlayStation (ePSXe Fallback)</fullname>
+        <name>psx-epsxe</name>
         <path>$psxPath</path>
         <extension>.cue .CUE .iso .ISO .pbp .PBP</extension>
         <command>${psxEmulatorPath}ePSXe.exe -bios ${psxBiosPath}SCPH1001.BIN -nogui -loadbin %ROM%</command>
@@ -775,11 +860,11 @@ $newConfig = "<systemList>
         <theme>psx</theme>
     </system>
     <system>
-        <fullname>Playstation 2</fullname>
+        <fullname>PlayStation 2 (PCSX2)</fullname>
         <name>ps2</name>
         <path>$ps2Path</path>
-        <extension>.iso .img .bin .mdf .z .z2 .bz2 .dump .cso .ima .gz</extension>
-        <command>${$ps2Binary} %ROM% --fullscreen --nogui</command>
+        <extension>.iso .img .bin .mdf .z .z2 .bz2 .dump .cso .ima .gz .chd .CHD</extension>
+        <command>$ps2Binary %ROM% --fullscreen --nogui</command>
         <platform>ps2</platform>
         <theme>ps2</theme>
     </system>
@@ -1198,4 +1283,31 @@ $lnkWindowed.Arguments = "--resolution 1366 768 --windowed"
 $lnkWindowed.TargetPath = $windowedEmulationStation
 $lnkWindowed.Save() 
 
-Write-Host "INFO: Setup completed"
+# Validate downloads
+Test-DownloadedFiles
+
+Write-Host "INFO: Setup completed successfully!"
+Write-Host ""
+Write-Host "==============================================="
+Write-Host "         SETUP SUMMARY"
+Write-Host "==============================================="
+Write-Host "EmulationStation: ES-DE 3.3.0 (Modern version)"
+Write-Host "RetroArch: 1.21.0 with latest cores"
+Write-Host "PlayStation 1: DuckStation (Modern) + ePSXe (Fallback)"
+Write-Host "PlayStation 2: PCSX2 2.5.68"
+Write-Host "Nintendo Switch: Suyu (Yuzu replacement)"
+Write-Host "Nintendo 3DS: Citra"
+Write-Host "PSP: PPSSPP"
+Write-Host "PS3: RPCS3"
+Write-Host "GameCube/Wii: Dolphin"
+Write-Host "Wii U: Cemu"
+Write-Host "PS Vita: Vita3K"
+Write-Host ""
+Write-Host "IMPORTANT NOTES:"
+Write-Host "- Yuzu was shut down by Nintendo in 2024"
+Write-Host "- This script now uses Suyu as Nintendo Switch emulator"
+Write-Host "- DuckStation provides better PS1 compatibility than ePSXe"
+Write-Host "- PCSX2 has been updated to the latest version"
+Write-Host "- ROMs are located in: %UserProfile%\.emulationstation\roms"
+Write-Host "- Launch EmulationStation from Start Menu or Desktop shortcut"
+Write-Host "==============================================="

@@ -5,20 +5,20 @@
 			"url": "https://www.smspower.org/uploads/Homebrew/WahMunchers-SMS-R2.zip"
 		},
 		{
-			"file": "emulationstation_win32_latest.exe",
-			"url": "https://emulationstation.org/downloads/releases/emulationstation_win32_latest.exe"
+			"file": "EmulationStation-DE-3.3.0-Windows.exe",
+			"url": "https://es-de.org/downloads/EmulationStation-DE-3.3.0-Windows.exe"
 		},
 		{
 			"file": "ePSXe205.zip",
 			"url": "http://www.epsxe.com/files/ePSXe205.zip"
 		},
 		{
-			"file": "pcsx2-1.6.0-setup.exe",
-			"url": "https://delivery2.filecroco.com/kits_6/pcsx2-1.6.0-setup.exe"
+			"file": "pcsx2-2.5.68-windows-x64-Qt.exe",
+			"url": "https://github.com/PCSX2/pcsx2/releases/download/v2.5.68/pcsx2-2.5.68-windows-x64-Qt.exe"
 		},
 		{
 			"file": "RetroArch.7z",
-			"url": "https://buildbot.libretro.com/stable/1.17.0/windows/x86_64/RetroArch.7z"
+			"url": "https://buildbot.libretro.com/stable/1.21.0/windows/x86_64/RetroArch.7z"
 		},
 		{
 			"file": "assimilate_full.zip",
@@ -123,6 +123,10 @@
 		{
 			"file": "Avoidance_v1.3.pkg",
 			"url": "https://github.com/PublicDomainRoms/public-domain-roms/raw/master/ps3/Avoidance_v1.3.pkg"
+		},
+		{
+			"file": "DuckStation-qt-x64-ReleaseLTCG.zip",
+			"url": "https://github.com/stenzek/duckstation/releases/latest/download/duckstation-windows-x64-release.zip"
 		}
 	],
 	"releases": [
@@ -147,12 +151,20 @@
 			"repo": "Ryuzaki-MrL/tetriswitch"
 		},
 		{
+			"file": "suyu-windows-msvc.zip",
+			"repo": "suyu-emu/suyu"
+		},
+		{
 			"file": "windows-latest.zip",
 			"repo": "Vita3K/Vita3K"
 		},
 		{
 			"file": "xemu-win-release.zip",
 			"repo": "mborgerson/xemu"
+		},
+		{
+			"file": "pcsx2-windows-x64-Qt.exe",
+			"repo": "PCSX2/pcsx2"
 		}
 	],
 	"other_downloads": [
