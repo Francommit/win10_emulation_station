@@ -152,7 +152,7 @@
 		},
 		{
 			"file": "xemu-win-release.zip",
-			"repo": "mborgerson/xemu"
+			"repo": "xemu-project/xemu"
 		},
 		{
 			"file": "pcsx2-windows-x64-Qt.exe",
