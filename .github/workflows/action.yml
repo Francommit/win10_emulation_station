@@ -103,8 +103,13 @@ jobs:
         Write-Host ""
         Write-Host "SUMMARY: $successCount/$totalUrls URLs validated successfully"
         if($failedUrls.Count -gt 0) {
-          Write-Host "WARNING - $($failedUrls.Count) URLs failed validation"
-          Write-Host "Failed URLs may cause installation issues"
+          Write-Host "ERROR - $($failedUrls.Count) URLs failed validation"
+          Write-Host "Failed URLs will cause installation issues"
+          Write-Host "The following URLs need to be fixed:"
+          foreach($url in $failedUrls) {
+            Write-Host "  - $url"
+          }
+          exit 1
         } else {
           Write-Host "SUCCESS - All URLs are accessible"
         }
