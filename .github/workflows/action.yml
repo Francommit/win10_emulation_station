@@ -85,6 +85,21 @@ jobs:
           }
         }
         
+        # Test extra NES games
+        foreach($item in $json.extra_nes_games) {
+          $totalUrls++
+          $testCount++
+          Write-Host "Testing NES game $testCount - $($item.file)"
+          try {
+            $response = Invoke-WebRequest -Uri $item.url -Method Head -UseBasicParsing -TimeoutSec 15
+            Write-Host "SUCCESS $($item.file)"
+            $successCount++
+          } catch {
+            Write-Host "FAILED $($item.file) - $($_.Exception.Message)"
+            $failedUrls += $item.url
+          }
+        }
+        
         Write-Host ""
         Write-Host "SUMMARY: $successCount/$totalUrls URLs validated successfully"
         if($failedUrls.Count -gt 0) {
