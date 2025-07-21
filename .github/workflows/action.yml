@@ -40,20 +40,20 @@ jobs:
         # Test first 5 download URLs to avoid timeout
         $json.downloads | Select-Object -First 5 | ForEach-Object {
           $testCount++
-          Write-Host "Testing URL $testCount: $($_.url)"
+          Write-Host "Testing URL $testCount - $($_.url)"
           try {
             $response = Invoke-WebRequest -Uri $_.url -Method Head -UseBasicParsing -TimeoutSec 30
-            Write-Host "✓ $($_.file) - Status: $($response.StatusCode)"
+            Write-Host "✓ $($_.file) - Status $($response.StatusCode)"
           } catch {
-            Write-Host "✗ $($_.file) - Failed: $($_.Exception.Message)"
+            Write-Host "✗ $($_.file) - Failed - $($_.Exception.Message)"
             $failedUrls += $_.url
           }
         }
         
         if($failedUrls.Count -gt 0) {
-          Write-Host "WARNING: $($failedUrls.Count) URLs failed validation"
+          Write-Host "WARNING - $($failedUrls.Count) URLs failed validation"
         } else {
-          Write-Host "SUCCESS: All tested URLs are accessible"
+          Write-Host "SUCCESS - All tested URLs are accessible"
         }
       shell: powershell
     
