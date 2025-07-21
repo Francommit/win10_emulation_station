@@ -32,29 +32,66 @@ jobs:
     
     - name: Test download validation
       run: |
-        Write-Host "Testing download URLs from download_list.json..."
+        Write-Host "Testing all download URLs from download_list.json..."
         $json = Get-Content "download_list.json" | ConvertFrom-Json
         $testCount = 0
         $failedUrls = @()
+        $successCount = 0
+        $totalUrls = 0
         
-        # Test first 5 download URLs to avoid timeout
-        $firstFive = $json.downloads | Select-Object -First 5
-        foreach($item in $firstFive) {
+        # Test all downloads
+        foreach($item in $json.downloads) {
+          $totalUrls++
           $testCount++
-          Write-Host "Testing URL $testCount"
+          Write-Host "Testing downloads $testCount - $($item.file)"
           try {
-            $response = Invoke-WebRequest -Uri $item.url -Method Head -UseBasicParsing -TimeoutSec 30
-            Write-Host "Success $($item.file) - Status $($response.StatusCode)"
+            $response = Invoke-WebRequest -Uri $item.url -Method Head -UseBasicParsing -TimeoutSec 15
+            Write-Host "SUCCESS $($item.file)"
+            $successCount++
           } catch {
-            Write-Host "Failed $($item.file) - $($_.Exception.Message)"
+            Write-Host "FAILED $($item.file) - $($_.Exception.Message)"
             $failedUrls += $item.url
           }
         }
         
+        # Test releases (GitHub API based)
+        foreach($item in $json.releases) {
+          $totalUrls++
+          $testCount++
+          Write-Host "Testing releases $testCount - $($item.file)"
+          try {
+            $repoUrl = "https://api.github.com/repos/$($item.repo)/releases/latest"
+            $response = Invoke-WebRequest -Uri $repoUrl -Method Head -UseBasicParsing -TimeoutSec 15
+            Write-Host "SUCCESS $($item.file) - repo accessible"
+            $successCount++
+          } catch {
+            Write-Host "FAILED $($item.file) - $($_.Exception.Message)"
+            $failedUrls += "https://github.com/$($item.repo)"
+          }
+        }
+        
+        # Test other downloads
+        foreach($item in $json.other_downloads) {
+          $totalUrls++
+          $testCount++
+          Write-Host "Testing other $testCount - $($item.file)"
+          try {
+            $response = Invoke-WebRequest -Uri $item.url -Method Head -UseBasicParsing -TimeoutSec 15
+            Write-Host "SUCCESS $($item.file)"
+            $successCount++
+          } catch {
+            Write-Host "FAILED $($item.file) - $($_.Exception.Message)"
+            $failedUrls += $item.url
+          }
+        }
+        
+        Write-Host ""
+        Write-Host "SUMMARY: $successCount/$totalUrls URLs validated successfully"
         if($failedUrls.Count -gt 0) {
           Write-Host "WARNING - $($failedUrls.Count) URLs failed validation"
+          Write-Host "Failed URLs may cause installation issues"
         } else {
-          Write-Host "SUCCESS - All tested URLs are accessible"
+          Write-Host "SUCCESS - All URLs are accessible"
         }
       shell: powershell
     
