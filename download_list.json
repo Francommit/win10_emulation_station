@@ -1,20 +1,16 @@
 {
 	"downloads": [
 		{
-			"file": "WahMunchers-SMS-R2.zip",
-			"url": "https://www.smspower.org/uploads/Homebrew/WahMunchers-SMS-R2.zip"
-		},
-		{
 			"file": "EmulationStation-DE-3.3.0-Windows.exe",
-			"url": "https://es-de.org/downloads/EmulationStation-DE-3.3.0-Windows.exe"
+			"url": "https://github.com/RetroPie/EmulationStation/archive/refs/heads/master.zip"
 		},
 		{
 			"file": "ePSXe205.zip",
 			"url": "http://www.epsxe.com/files/ePSXe205.zip"
 		},
 		{
-			"file": "pcsx2-2.5.68-windows-x64-Qt.exe",
-			"url": "https://github.com/PCSX2/pcsx2/releases/download/v2.5.68/pcsx2-2.5.68-windows-x64-Qt.exe"
+			"file": "pcsx2-v2.4.0-windows-x64-installer.exe",
+			"url": "https://github.com/PCSX2/pcsx2/releases/download/v2.4.0/pcsx2-v2.4.0-windows-x64-installer.exe"
 		},
 		{
 			"file": "RetroArch.7z",
