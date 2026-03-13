@@ -122,10 +122,11 @@ scoop bucket add main
 Write-Host "INFO: Adding scoop bucket"
 scoop update
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
+scoop bucket add games
 Write-Host "INFO: Installing Azahar (3DS)"
 scoop install azahar
 Write-Host "INFO: Installing PPSSPP"
-scoop install ppsspp
+scoop install ppsspp-dev
 Write-Host "INFO: Installing Ryujinx (Switch)"
 scoop install ryujinx
 Write-Host "INFO: Installing xemu (Xbox)"
@@ -133,7 +134,7 @@ scoop install xemu
 scoop install rpcs3
 
 $azaharInstallDir = "$env:userprofile\scoop\apps\azahar\current"
-$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
+$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp-dev\current"
 $ryujinxInstallDir = "$env:userprofile\scoop\apps\ryujinx\current"
 $xemuInstallDir = "$env:userprofile\scoop\apps\xemu\current"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
@@ -182,7 +183,7 @@ if(Test-Path $retroArchBinary){
     New-Item -ItemType Directory -Force -Path $retroArchPath 
     Expand-Archive -Path $retroArchBinary -Destination $requirementsFolder -VerboseLogging $true
         # TO-DO - add an Out-Null when this has been tested
-    Copy-Item -Path RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
+    Copy-Item -Path $requirementsFolder\RetroArch-Win64\* -Destination $retroArchPath -recurse -Force
         # New path - $retroArchPath\RetroArch-Win64
 
 } else {
