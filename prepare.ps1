@@ -148,12 +148,21 @@ Start-Process "$requirementsFolder\emulationstation_win32_latest.exe" -ArgumentL
 
 # Generate Emulation Station config file
 & "${env:ProgramFiles(x86)}\EmulationStation\emulationstation.exe"
-while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg")) { 
-    Write-Host "INFO: Checking for config file..."
+$timeout = 60 # 60 seconds timeout
+$elapsed = 0
+while (!(Test-Path "$env:userprofile\.emulationstation\es_systems.cfg") -and $elapsed -lt $timeout) { 
+    Write-Host "INFO: Checking for config file... ($elapsed/$timeout)"
     Start-Sleep 10
+    $elapsed += 10
 }
-Write-Host "INFO: Config file generated"
-Stop-Process -Name "emulationstation"
+
+if (Test-Path "$env:userprofile\.emulationstation\es_systems.cfg") {
+    Write-Host "INFO: Config file generated"
+} else {
+    Write-Host "WARNING: Config file not generated within timeout. Creating directory anyway."
+    New-Item -ItemType Directory -Force -Path "$env:userprofile\.emulationstation\" | Out-Null
+}
+Stop-Process -Name "emulationstation" -ErrorAction SilentlyContinue
 
 #####
 # Retroarch
@@ -299,17 +308,31 @@ if (Test-Path $retroarchExecutable) {
     Write-Host "INFO: Retroarch executable found, launching"
     Start-Process $retroarchExecutable
     
-    while (!(Test-Path $retroarchConfigPath)) { 
-        Write-Host "INFO: Checking for retroarch config file"
+    $timeout = 60
+    $elapsed = 0
+    while (!(Test-Path $retroarchConfigPath) -and $elapsed -lt $timeout) { 
+        Write-Host "INFO: Checking for retroarch config file ($elapsed/$timeout)"
         Start-Sleep 5
+        $elapsed += 5
     }
 
-    $retroarchProcess = Get-Process retroarch.exe -ErrorAction SilentlyContinue
+    if (Test-Path $retroarchConfigPath) {
+        Write-Host "INFO: Retroarch config file generated"
+    } else {
+        Write-Host "WARNING: Retroarch config file not generated within timeout."
+        # Create a dummy config if it doesn't exist so the replace logic doesn't fail
+        'video_fullscreen = "false"' | Out-File $retroarchConfigPath
+        'savestate_auto_load = "false"' | Out-File $retroarchConfigPath -Append
+        'input_player1_analog_dpad_mode = "0"' | Out-File $retroarchConfigPath -Append
+        'input_player2_analog_dpad_mode = "0"' | Out-File $retroarchConfigPath -Append
+    }
+
+    $retroarchProcess = Get-Process retroarch -ErrorAction SilentlyContinue
     if ($retroarchProcess) {
-        $retroarchProcess.CloseMainWindow()
+        $retroarchProcess.CloseMainWindow() | Out-Null
         Start-sleep 5
         if (!$retroarchProcess.HasExited) {
-            $retroarchProcess | Stop-Process -Force
+            $retroarchProcess | Stop-Process -Force -ErrorAction SilentlyContinue
         }
     }
     Stop-Process -Name "retroarch" -ErrorAction SilentlyContinue

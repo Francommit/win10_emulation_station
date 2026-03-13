@@ -3,6 +3,7 @@ name: 'Build'
 on:
   push:
     branches: [master, dev, test]
+  workflow_dispatch:
   # schedule:
   #   - cron: "0 0 */2 * *"
 
@@ -12,9 +13,10 @@ jobs:
   build:
 
     runs-on: windows-latest
+    timeout-minutes: 30
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Powershell script runner
       run: .\prepare.ps1
