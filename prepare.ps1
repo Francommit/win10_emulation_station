@@ -80,8 +80,8 @@ function Expand-Archive([string]$Path, [string]$Destination, [bool]$VerboseLoggi
     $7z_Arguments = @(
         'x',                         # eXtract files with full paths
         '-y',                        # assume Yes on all queries
-        "`"-o$($Destination)`"",     # set Output directory
-        "`"$($Path)`""               # <archive_name>
+        "-o$Destination",            # set Output directory
+        $Path                        # <archive_name>
     )
 
     Write-Output "Extracting file: $Path to destination: $Destination"
@@ -120,11 +120,12 @@ scoop bucket rm main
 scoop bucket add main
 
 Write-Host "INFO: Adding scoop bucket"
+scoop update
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Azahar (3DS)"
 scoop install azahar
 Write-Host "INFO: Installing PPSSPP"
-scoop install ppsspp-portable
+scoop install ppsspp
 Write-Host "INFO: Installing Ryujinx (Switch)"
 scoop install ryujinx
 Write-Host "INFO: Installing xemu (Xbox)"
@@ -132,7 +133,7 @@ scoop install xemu
 scoop install rpcs3
 
 $azaharInstallDir = "$env:userprofile\scoop\apps\azahar\current"
-$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp-portable\current"
+$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
 $ryujinxInstallDir = "$env:userprofile\scoop\apps\ryujinx\current"
 $xemuInstallDir = "$env:userprofile\scoop\apps\xemu\current"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
