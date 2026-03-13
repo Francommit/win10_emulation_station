@@ -18,5 +18,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install VCRedist
+      run: choco install vcredist2010 -y
+
     - name: Powershell script runner
-      run: .\prepare.ps1
+      run: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        .\prepare.ps1
