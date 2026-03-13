@@ -124,14 +124,17 @@ scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Azahar (3DS)"
 scoop install azahar
 Write-Host "INFO: Installing PPSSPP"
-scoop install ppsspp --skip-hash
-Write-Host "INFO: Installing Sudachi (Switch)"
-scoop install sudachi
+scoop install ppsspp-portable
+Write-Host "INFO: Installing Ryujinx (Switch)"
+scoop install ryujinx
+Write-Host "INFO: Installing xemu (Xbox)"
+scoop install xemu
 scoop install rpcs3
 
 $azaharInstallDir = "$env:userprofile\scoop\apps\azahar\current"
-$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-$sudachiInstallDir = "$env:userprofile\scoop\apps\sudachi\current"
+$ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp-portable\current"
+$ryujinxInstallDir = "$env:userprofile\scoop\apps\ryujinx\current"
+$xemuInstallDir = "$env:userprofile\scoop\apps\xemu\current"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
 choco install 7zip --no-progress -y | Out-Null
@@ -688,9 +691,18 @@ $newConfig = "<systemList>
         <fullname>Switch</fullname>
         <path>$switchPath</path>
         <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
-        <command>$sudachiInstallDir\sudachi.exe %ROM%</command>
+        <command>$ryujinxInstallDir\Ryujinx.exe %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
+    </system>
+    <system>
+        <name>xbox</name>
+        <fullname>Xbox</fullname>
+        <path>$romPath\xbox</path>
+        <extension>.iso .ISO .zip .ZIP .7z</extension>
+        <command>$xemuInstallDir\xemu.exe -dvd_path %ROM%</command>
+        <platform>xbox</platform>
+        <theme>xbox</theme>
     </system>
     <system>
         <name>ps3</name>
