@@ -120,15 +120,17 @@ scoop bucket add main
 
 Write-Host "INFO: Adding scoop bucket"
 scoop bucket add emulators https://github.com/borger/scoop-emulators.git
-Write-Host "INFO: Installing Citra"
-scoop install citra
-scoop install ppsspp-dev
-scoop install yuzu
+Write-Host "INFO: Installing Azahar (3DS)"
+scoop install azahar
+Write-Host "INFO: Installing PPSSPP"
+scoop install ppsspp
+Write-Host "INFO: Installing Eden (Switch)"
+scoop install eden
 scoop install rpcs3
 
-$citraInstallDir = "$env:userprofile\scoop\apps\citra\current"
+$azaharInstallDir = "$env:userprofile\scoop\apps\azahar\current"
 $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-$yuzuInstallDir = "$env:userprofile\scoop\apps\yuzu\current"
+$edenInstallDir = "$env:userprofile\scoop\apps\eden\current"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
 choco install 7zip --no-progress -y | Out-Null
@@ -685,7 +687,7 @@ $newConfig = "<systemList>
         <fullname>Switch</fullname>
         <path>$switchPath</path>
         <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
-        <command>$yuzuInstallDir\yuzu.exe %ROM%</command>
+        <command>$edenInstallDir\eden.exe %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
@@ -703,7 +705,7 @@ $newConfig = "<systemList>
         <fullname>Playstation Portable</fullname>
         <path>$pspPath</path>
         <extension>.iso .ISO .cso .CSO .elf .ELF .pbp .PBP</extension>
-        <command>$ppssppInstallDir\PPSSPPWindows.exe %ROM%</command>
+        <command>$ppssppInstallDir\PPSSPPWindows64.exe %ROM%</command>
         <platform>psp</platform>
         <theme>psp</theme>
     </system>
@@ -712,7 +714,7 @@ $newConfig = "<systemList>
         <fullname>Nintendo 3DS</fullname>
         <path>$3dsPath</path>
         <extension>.3ds .3DS .3dsx .3DSX .cci .CCI .cxi .CXI .elf .ELF</extension>
-        <command>$citraInstallDir\citra.exe %ROM%</command>
+        <command>$azaharInstallDir\azahar.exe %ROM%</command>
         <platform>n3ds</platform>
         <theme>3ds</theme>
     </system>
