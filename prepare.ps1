@@ -10,11 +10,12 @@ function DownloadFiles {
         $file = $_.file
         $output = "$requirementsFolder\$file" 
 
+        $userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         if(![System.IO.File]::Exists($output)){
             
             Write-Host "INFO: Downloading $file"
             if($PSVersionTable.PSEdition -eq "Core"){
-                Invoke-WebRequest $url -Out $output -SkipCertificateCheck
+                Invoke-WebRequest $url -Out $output -SkipCertificateCheck -UserAgent $userAgent
             } else {
 
                 add-type @"
@@ -30,7 +31,7 @@ function DownloadFiles {
 "@
                 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
-                Invoke-WebRequest $url -Out $output 
+                Invoke-WebRequest $url -Out $output -UserAgent $userAgent
                 
             }
             Write-Host "INFO: Finished Downloading $file successfully to: $output"
@@ -123,14 +124,14 @@ scoop bucket add emulators https://github.com/borger/scoop-emulators.git
 Write-Host "INFO: Installing Azahar (3DS)"
 scoop install azahar
 Write-Host "INFO: Installing PPSSPP"
-scoop install ppsspp
-Write-Host "INFO: Installing Eden (Switch)"
-scoop install eden
+scoop install ppsspp --skip-hash
+Write-Host "INFO: Installing Sudachi (Switch)"
+scoop install sudachi
 scoop install rpcs3
 
 $azaharInstallDir = "$env:userprofile\scoop\apps\azahar\current"
 $ppssppInstallDir = "$env:userprofile\scoop\apps\ppsspp\current"
-$edenInstallDir = "$env:userprofile\scoop\apps\eden\current"
+$sudachiInstallDir = "$env:userprofile\scoop\apps\sudachi\current"
 $rpcs3InstallDir = "$env:userprofile\scoop\apps\rpcs3\current"
 
 choco install 7zip --no-progress -y | Out-Null
@@ -687,7 +688,7 @@ $newConfig = "<systemList>
         <fullname>Switch</fullname>
         <path>$switchPath</path>
         <extension>.nsp .NSP .zip .ZIP .7z .nso .NSO .nro .NRO .nca .NCA .xci .XCI</extension>
-        <command>$edenInstallDir\eden.exe %ROM%</command>
+        <command>$sudachiInstallDir\sudachi.exe %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
